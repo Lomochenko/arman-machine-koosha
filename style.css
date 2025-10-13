@@ -239,12 +239,12 @@ body {
     color: var(--mainColor);
 }
 
-body.dark {
+/* body.dark {
     --mainColor: #ebebeb;
     --mainBackground: #191919;
     --secondaryBackground: #151515;
 
-}
+} */
 
 body.light {
     --mainColor: #191919;
@@ -260,12 +260,12 @@ body.light {
     color: var(--mainColor);
 }
 
-.site-header.dark {
+/* .site-header.dark {
     --mainColor: #191919;
     --mainBackground: #ebebeb;
     --secondaryBackground: #d7d7d7;
     color: var(--mainColor)
-}
+} */
 
 .site-header.light {
     --mainColor: #ebebeb;
@@ -980,11 +980,11 @@ p {
 }
 
 .big-title {
-    font-size: 200px;
+    font-size: 130px;
     line-height: 1.15;
     margin-bottom: 0;
     letter-spacing: -0.06em;
-    --mobileFontSize: 50px;
+    --mobileFontSize: 40px;
 }
 
 .md-title {
