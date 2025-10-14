@@ -2948,7 +2948,7 @@ span.page-over-ovs::before {
     height: 100vh;
     z-index: 999999;
     --bg: var(
-    --secondaryBackground);
+    --mainColor);
     display: block;
     background: var(--bg);
 }
@@ -3030,7 +3030,7 @@ span.page-over-ovs::before {
     flex-wrap: nowrap;
     height: 1em;
     overflow: hidden;
-    color: var(--mainColor);
+    color: var(--mainBackground);
     z-index: 99;
     line-height: 1em;
 }
@@ -9839,6 +9839,10 @@ content: attr(data-md-icon);
     color: var(--mainColor);
 }
 
+.info-box-content .text-wrapper .text-h5{
+    color: #ebebeb;
+}
+
 .site-header .text-wrapper *,
 .site-header .text-wrapper {
     margin-bottom: 0
@@ -11032,7 +11036,7 @@ ul.menu.social-menu li a::after {
     -webkit-transform: rotate(var(--rotate));
     -ms-transform: rotate(var(--rotate));
     transform: rotate(var(--rotate));
-    color: var(--color)
+    color: var(--mainBackground)
 }
 
 
