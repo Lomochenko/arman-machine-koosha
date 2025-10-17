@@ -256,8 +256,8 @@ body.light {
 }
 
 .light:not(body) {
-    --mainColor: #34495E;
-    --mainBackground: #ebebeb;
+    --mainColor: #ebebeb;
+    --mainBackground: #043561;
     color: var(--mainColor);
 }
 
@@ -1374,6 +1374,17 @@ section:after {
     .sm-12 {
         width: 100%;
     }
+    
+    .sm-align-left{
+        text-align: left !important;
+    }
+
+    .sm-p-0{
+        padding: 0 !important;
+    }
+    .sm-w-100{
+        width: 100% !important;
+    }
 
     .fit-col {
         margin: 0;
@@ -1854,7 +1865,7 @@ img.light-logo {
 
 .align-right .menu-toggle {
     float: right;
-    margin-left: 40px;
+    margin-right: 20px;
 }
 
 .toggle-line {
@@ -2550,8 +2561,8 @@ div[data-elementor-type="sub-menu-type"] {
 .wrapper-full.footer-bottom-wrapper,
 .wrapper.footer-bottom-wrapper {
     margin-bottom: 0;
-    -webkit-box-align: end;
-    -ms-flex-align: end;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: flex-end;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -2575,7 +2586,7 @@ div[data-elementor-type="sub-menu-type"] {
     -o-transition: background .4s ease;
     transition: background .4s ease;
     visibility: hidden;
-    --backG: var(--secondaryBackground);
+    --backG: var(--mainColor);
     display: block;
 }
 
@@ -2723,7 +2734,7 @@ span.trans-color-overlay {
     z-index: 1;
     overflow: hidden;
     height: 1em;
-    color: var(--mainColor);
+    color: var(--mainBackground);
     white-space: nowrap;
     z-index: 22
 }
@@ -3086,7 +3097,7 @@ span.page-over-ovs::before {
     -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    color: var(--mainColor);
+    color: var(--mainBackground);
     text-align: center;
     overflow: hidden;
     height: 1.1em;
@@ -3181,7 +3192,7 @@ div#mouseCursor.temp_hidden.dot {
 
 div#mouseCursor.light .mouse-cursor-icon,
 div#mouseCursor.light .mouse-cursor-text {
-    color: #ebebeb
+    color: var(--mainColor)
 }
 
 div#mouseCursor.dot {
@@ -3201,7 +3212,7 @@ div#mouseCursor .main-circle {
 }
 
 div#mouseCursor.circle .main-circle {
-    stroke: #ebebeb;
+    stroke: var(--mainColor);
     stroke-width: 1;
     fill: transparent
 }
@@ -3209,7 +3220,7 @@ div#mouseCursor.circle .main-circle {
 div#mouseCursor.dot .main-circle {
     stroke: none;
     stroke-width: none;
-    fill: #ebebeb;
+    fill: var(--mainColor);
 }
 
 .mouse-cursor-icon,
@@ -4303,7 +4314,7 @@ input#quantity:focus {
 }
 
 .grid-controls > div:last-child {
-    float: right;
+    float: left;
 }
 
 .portfolio-grid hr {
@@ -4797,7 +4808,7 @@ span.g-list-arrow {
 
 /***  Arrow Hover  */
 
-.hover-arrow .grid-project::after {
+/* .hover-arrow .grid-project::after {
     content: 'arrow_outward';
     font-family: 'Material Icons';
     position: absolute;
@@ -4825,7 +4836,7 @@ span.g-list-arrow {
 
 .hover-arrow.details-above .grid-project:hover::after {
     top: 30px
-}
+} */
 
 
 
@@ -9940,6 +9951,12 @@ body.dark span.inline-img img {
     width: 100%
 }
 
+.text-center{
+    text-align: center;
+}
+.w-100{
+    width: 100% !important;
+}
 .text-wrapper > :not(.has-anim-text) a:hover::after,
 .text-wrapper .has-anim-text a:hover > div::after {
     -webkit-animation-name: toggleLine;
@@ -10686,7 +10703,7 @@ span.lightbox-close.temp_hidden {
   ------------------------------ */
 
 ul.menu {
-    padding: 0;
+    /* padding: 0; */
     margin-bottom: 1em;
 }
 
@@ -11036,7 +11053,7 @@ ul.menu.social-menu li a::after {
     -webkit-transform: rotate(var(--rotate));
     -ms-transform: rotate(var(--rotate));
     transform: rotate(var(--rotate));
-    color: var(--mainBackground)
+    color: var(--mainColor)
 }
 
 
@@ -11224,7 +11241,7 @@ ul.menu.social-menu li a::after {
 
 .nayla-button.fill a,
 .nayla-button.outline a {
-    padding: 1em 1.5em;
+    /* padding: 1em 1.5em; */
     border: 1px solid;
     border-color: var(--color);
     border-radius: 2em;
@@ -11234,7 +11251,7 @@ ul.menu.social-menu li a::after {
     border: none;
     background: var(--color);
     color: var(--mainBackground);
-    padding: 1em 1.75em;
+    padding: 1em 1em;
 }
 
 .nayla-button.outline a::after {
@@ -12250,7 +12267,7 @@ span.test-prev::after {
 }
 
 .ct-number-char {
-    margin-left: -0.1em;
+    margin-right: -0.1em;
 }
 
 .nayla-number-counter .count-start,
