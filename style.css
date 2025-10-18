@@ -9428,17 +9428,17 @@ span.active-hold {
     opacity: .5
 }
 
-ul.nayla-awards-list li a span:first-child,
+ul.nayla-awards-list li span:first-child,
 .nayla-awards-head .nah-col:first-child {
     width: 35%;
 }
 
-ul.nayla-awards-list li a span:nth-child(2),
+ul.nayla-awards-list li span:nth-child(2),
 .nayla-awards-head .nah-col:nth-child(2) {
     width: 55%;
 }
 
-ul.nayla-awards-list li a span:last-child,
+ul.nayla-awards-list li span:last-child,
 .nayla-awards-head .nah-col:last-child {
     width: 10%;
     text-align: right;
@@ -9463,7 +9463,7 @@ ul.nayla-awards-list li {
     position: relative;
 }
 
-ul.nayla-awards-list li a {
+ul.nayla-awards-list li {
     text-decoration: none;
     color: var(--mainColor);
     display: -webkit-box;
@@ -9483,7 +9483,7 @@ ul.nayla-awards-list li a {
     z-index: 1;
 }
 
-ul.nayla-awards-list li a span {
+ul.nayla-awards-list li span {
     display: block;
     float: left;
 }
@@ -9559,11 +9559,11 @@ ul.nayla-awards-list li:hover::before {
     opacity: 1;
 }
 
-ul.nayla-awards-list li:hover a {
+ul.nayla-awards-list li:hover {
     color: var(--mainBackground);
 }
 
-ul.nayla-awards-list li a:hover {
+ul.nayla-awards-list li:hover {
     color: var(--mainBackground);
 }
 
@@ -9572,12 +9572,12 @@ ul.nayla-awards-list li a:hover {
 .light .nayla-awards-head::after,
 .light ul.nayla-awards-list li::after,
 .light ul.nayla-awards-list li::before {
-    background: #fff;
+    background: var(--secondaryBackground);
 }
 
-.light ul.nayla-awards-list li a:hover,
-.light ul.nayla-awards-list li:hover a {
-    color: #ebebeb
+.light ul.nayla-awards-list li:hover,
+.light ul.nayla-awards-list li:hover {
+    color: var(--mainColor)
 }
 
 ul.nayla-awards-list li a span:first-child,
@@ -9590,26 +9590,26 @@ ul.nayla-awards-list li a span:last-child {
 /***** Awards Simple
   ------------------------------ */
 
-.nayla-awards.simple ul.nayla-awards-list li a span:first-child {
+.nayla-awards.simple ul.nayla-awards-list li span:first-child {
     width: auto;
     float: left;
     margin-bottom: 0;
 }
 
-.nayla-awards.simple ul.nayla-awards-list li a span:last-child {
+.nayla-awards.simple ul.nayla-awards-list li span:last-child {
     width: auto;
     float: right;
     margin-bottom: 0;
 }
 
-.nayla-awards.simple ul.nayla-awards-list li a {
+.nayla-awards.simple ul.nayla-awards-list li {
     display: block;
     width: 100%;
     padding-top: 2rem;
     padding-bottom: 2rem;
 }
 
-.nayla-awards.simple ul.nayla-awards-list li:first-child a {
+.nayla-awards.simple ul.nayla-awards-list li:first-child {
     padding-top: 0;
 }
 
@@ -9635,7 +9635,7 @@ ul.nayla-awards-list li a span:last-child {
     width: 100%;
 }
 
-.nayla-awards.simple ul.nayla-awards-list li a:hover {
+.nayla-awards.simple ul.nayla-awards-list li:hover {
     color: #191b1d;
 }
 
