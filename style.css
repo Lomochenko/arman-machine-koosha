@@ -11623,7 +11623,7 @@ ul.menu.social-menu li a::after {
 
 .light .nayla-accordion .accordion-title::before,
 .light .nayla-accordion .accordion-title::after {
-    background: #fff
+    background: var(--mainColor)
 }
 
 .nayla-accordion .active .accordion-title::before {
