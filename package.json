@@ -1,0 +1,22 @@
+{
+  "name": "amk-nuxt",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev --host 0.0.0.0 --port 3016",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "vue": "^3.4.0",
+    "nuxt": "^3.9.0",
+    "gsap": "^3.12.0"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "^1.0.0"
+  }
+}
+

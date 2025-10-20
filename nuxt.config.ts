@@ -1,0 +1,80 @@
+export default defineNuxtConfig({
+  compatibilityDate: '2025-10-19',
+  ssr: false,
+
+  // Configure router
+  router: {
+    options: {
+      strict: false,
+      sensitive: false,
+    },
+  },
+
+  // Suppress Vue Router warnings in development
+  vue: {
+    config: {
+      warnHandler: (msg: string) => {
+        // Suppress warnings about static assets
+        if (msg.includes('No match found for location with path')) {
+          return;
+        }
+      },
+    },
+  },
+
+  // Configure Vite to serve static files
+  vite: {
+    server: {
+      middlewares: [],
+    },
+  },
+
+  app: {
+    head: {
+      charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1',
+      link: [
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' },
+        { rel: 'shortcut icon', href: '/img/site-favicon.png' },
+        { rel: 'apple-touch-icon', href: '/img/site-favicon.png' },
+      ],
+      meta: [
+        { name: 'author', content: 'Pe Themes' },
+        { name: 'description', content: 'Multi-Concept Creative Portfolio Template' },
+        { name: 'keywords', content: 'portfolio, agency, personal, creative' },
+        { name: 'theme-color', content: '#000000' },
+      ]
+    }
+  },
+  css: [
+    '~/css/plugins.css',
+    '~/css/style.css',
+  ],
+  modules: [],
+  plugins: [
+    '~/plugins/scripts.client.ts',
+  ],
+
+  // Serve static files from public folder
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      routes: ['/sitemap.xml', '/robots.txt'],
+    },
+  },
+  components: {
+    dirs: [
+      {
+        path: '~/components',
+        pathPrefix: false,
+      },
+    ],
+  },
+  devtools: {
+    enabled: false,
+  },
+})
+
