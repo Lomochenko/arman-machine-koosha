@@ -1003,7 +1003,7 @@ async function errorHandler(error, event) {
 
 const rootDir = "C:/Users/Asus/Desktop/arman-machine-koosha";
 
-const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"},{"name":"author","content":"Pe Themes"},{"name":"description","content":"Multi-Concept Creative Portfolio Template"},{"name":"keywords","content":"portfolio, agency, personal, creative"},{"name":"theme-color","content":"#000000"}],"link":[{"rel":"preconnect","href":"https://fonts.googleapis.com"},{"rel":"preconnect","href":"https://fonts.gstatic.com","crossorigin":"anonymous"},{"rel":"stylesheet","href":"https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap"},{"rel":"stylesheet","href":"https://fonts.googleapis.com/icon?family=Material+Icons"},{"rel":"shortcut icon","href":"/img/site-favicon.png"},{"rel":"apple-touch-icon","href":"/img/site-favicon.png"}],"style":[],"script":[],"noscript":[],"charset":"utf-8","viewport":"width=device-width, initial-scale=1"};
+const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[],"style":[],"script":[],"noscript":[]};
 
 const appRootTag = "div";
 

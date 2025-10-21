@@ -50,8 +50,8 @@ export default defineNuxtConfig({
     }
   },
   css: [
-    '~/css/plugins.css',
-    '~/css/style.css',
+    '~/public/css/plugins.css',
+    '~/public/css/style.css',
   ],
   modules: [],
   plugins: [
@@ -73,6 +73,12 @@ export default defineNuxtConfig({
       },
     ],
   },
+
+  // Page transitions
+  app: {
+    pageTransitionNameMode: 'out-in',
+  },
+
   devtools: {
     enabled: false,
   },

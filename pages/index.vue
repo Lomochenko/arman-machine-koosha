@@ -140,7 +140,7 @@
                     <div class="section" id="services">
 
                         <div class="wrapper">
-                            <a href="works-creative-dark.html">
+                            <router-link to="/services">
                                 <div class="c-col-4 sm-12 has-anim fadeUp">
 
                                     <!-- Text -->
@@ -160,7 +160,8 @@
 
 
                                 </div>
-
+</router-link>
+<a href="home.html">
                                 <div class="c-col-4 sm-12">
 
                                     <!-- Single Image -->

@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="light" data-barba="wrapper">
+  <div id="app" class="light" data-barba="wrapper" :class="{ light: true }">
     <!-- Page Loader -->
     <div class="page-loader columns">
       <div class="page-loader-percentage"></div>
