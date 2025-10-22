@@ -1,16 +1,14 @@
 <template>
-  <div id="app" class="light" data-barba="wrapper" :class="{ light: true }">
-    <!-- Page Loader -->
-    <div class="page-loader columns">
-      <div class="page-loader-percentage"></div>
-    </div>
-    <!--/ Page Loader -->
-
-    <!-- Page Transition -->
+  <div id="app" data-barba="wrapper">
+    <!-- Page Transitions -->
     <div class="nayla-page-transition columns up capt-bottom-left default">
-      <div class="page-transition-caption">LOADING PLEASE WAIT..</div>
+      <!-- Caption -->
+      <div class="page-transition-caption">
+        LOADING PLEASE WAIT..
+      </div>
+      <!--/ Caption -->
     </div>
-    <!--/ Page Transition -->
+    <!--/ Page Transitions -->
 
     <!-- Mouse Cursor -->
     <div id="mouseCursor" class="dot"></div>
@@ -43,10 +41,11 @@
 </template>
 
 <script setup lang="ts">
-// Main app layout
+// No script needed - Barba.js handles all page transitions
 </script>
 
 <style>
 /* Global styles are imported from CSS files in nuxt.config.ts */
+/* Barba.js handles all page transitions and animations */
 </style>
 

@@ -96,11 +96,11 @@
                         <div class="c-col-8 sm-12">
 
                             <!-- Single Image -->
-                            <a href="/about" class="single-image">
+                            <NuxtLink to="/about" class="single-image">
 
                                 <img alt="Single Image" src="/img/agency_mag.jpg">
 
-                            </a>
+                            </NuxtLink>
                             <!--/ Single Image -->
 
                         </div>
@@ -140,7 +140,7 @@
                     <div class="section" id="services">
 
                         <div class="wrapper">
-                            <router-link to="/services">
+                            <NuxtLink to="/services">
                                 <div class="c-col-4 sm-12 has-anim fadeUp">
 
                                     <!-- Text -->
@@ -160,8 +160,7 @@
 
 
                                 </div>
-</router-link>
-<a href="home.html">
+
                                 <div class="c-col-4 sm-12">
 
                                     <!-- Single Image -->
@@ -173,11 +172,11 @@
                                     <!--/ Single Image -->
 
                                 </div>
-                            </a>
+                            </NuxtLink>
                         </div>
 
                         <div class="wrapper">
-                            <a href="/services">
+                            <NuxtLink to="/services">
                                 <!-- Empty Column (For Spacing) -->
                                 <div class="c-col-4 hide-mobile"></div>
                                 <!--/ Empty Column (For Spacing) -->
@@ -212,11 +211,11 @@
                                     <!--/ Single Image -->
 
                                 </div>
-                            </a>
+                            </NuxtLink>
                         </div>
 
                         <div class="wrapper">
-                            <a href="/services">
+                            <NuxtLink to="/services">
                                 <div class="c-col-4 sm-12 has-anim fadeUp">
 
                                     <!-- Text -->
@@ -245,7 +244,7 @@
                                     <!--/ Single Image -->
 
                                 </div>
-                            </a>
+                            </NuxtLink>
                         </div>
 
 
