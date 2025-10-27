@@ -176,7 +176,7 @@
                         </div>
 
                         <div class="wrapper">
-                            <NuxtLink to="/services">
+                            <NuxtLink to="/works">
                                 <!-- Empty Column (For Spacing) -->
                                 <div class="c-col-4 hide-mobile"></div>
                                 <!--/ Empty Column (For Spacing) -->

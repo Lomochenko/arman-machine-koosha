@@ -1,5 +1,13 @@
 <template>
-  <div id="app" data-barba="wrapper">
+  <div id="app">
+    <!-- Page Loader -->
+    <div class="page-loader columns">
+      <!-- Percentage (Don't Touch) -->
+      <div class="page-loader-percentage"></div>
+      <!-- Percentage (Don't Touch) -->
+    </div>
+    <!--/ Page Loader -->
+
     <!-- Page Transitions -->
     <div class="nayla-page-transition columns up capt-bottom-left default">
       <!-- Caption -->
@@ -41,7 +49,14 @@
 </template>
 
 <script setup lang="ts">
-// No script needed - Barba.js handles all page transitions
+// Add the 'light' class to the body tag to match static version structure
+// This ensures CSS selectors like 'body.light' work correctly
+useHead({
+  bodyAttrs: {
+    class: 'light',
+    'data-barba': 'wrapper'
+  }
+})
 </script>
 
 <style>

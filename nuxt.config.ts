@@ -38,8 +38,8 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' },
-        { rel: 'shortcut icon', href: '/img/site-favicon.png' },
-        { rel: 'apple-touch-icon', href: '/img/site-favicon.png' },
+        { rel: 'shortcut icon', href: '/img/img/site-favicon.png' },
+        { rel: 'apple-touch-icon', href: '/img/img/site-favicon.png' },
       ],
       meta: [
         { name: 'author', content: 'Pe Themes' },
@@ -55,7 +55,7 @@ export default defineNuxtConfig({
   ],
   modules: [],
   plugins: [
-    '~/plugins/scripts.client.ts',
+    '~/plugins/libraries.client.ts',
   ],
 
   // Serve static files from public folder
@@ -72,11 +72,6 @@ export default defineNuxtConfig({
         pathPrefix: false,
       },
     ],
-  },
-
-  // Page transitions
-  app: {
-    pageTransitionNameMode: 'out-in',
   },
 
   devtools: {
