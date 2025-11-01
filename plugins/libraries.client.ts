@@ -103,10 +103,23 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     gsapScript.onload = () => {
       console.log('✅ [GSAP] /js/gsap.js loaded successfully (with premium plugins)');
-      console.log('🔧 [GSAP] Now calling loadScriptsJS()...');
 
-      // Now load scripts.js after GSAP is fully loaded
-      loadScriptsJS();
+      // CRITICAL: Wait for GSAP to be fully registered on window object
+      const checkGSAP = () => {
+        if (window.gsap && window.ScrollTrigger) {
+          console.log('✅ [GSAP] GSAP and ScrollTrigger confirmed available on window');
+          console.log('🔧 [GSAP] Now calling loadScriptsJS()...');
+          loadScriptsJS();
+        } else {
+          console.log('⚠️ [GSAP] Waiting for GSAP to be available on window...');
+          setTimeout(checkGSAP, 50);
+        }
+      };
+
+      // Use requestAnimationFrame to ensure DOM is ready
+      requestAnimationFrame(() => {
+        checkGSAP();
+      });
     };
 
     gsapScript.onerror = () => {
@@ -137,6 +150,35 @@ export default defineNuxtPlugin((nuxtApp) => {
         }
         scriptsLoaded = true;
 
+        // CRITICAL: Verify all dependencies are available before loading scripts.js
+        const verifyDependencies = () => {
+          const checks = {
+            jQuery: !!window.$,
+            gsap: !!window.gsap,
+            ScrollTrigger: !!window.ScrollTrigger,
+            Barba: !!window.barba,
+            Lenis: !!window.Lenis,
+            imagesLoaded: !!window.imagesLoaded
+          };
+
+          console.log('🔧 [PLUGIN] Dependency check:', checks);
+
+          const allReady = Object.values(checks).every(v => v);
+
+          if (!allReady) {
+            console.log('⚠️ [PLUGIN] Not all dependencies ready, waiting...');
+            setTimeout(verifyDependencies, 50);
+            return;
+          }
+
+          console.log('✅ [PLUGIN] All dependencies verified! Loading scripts.js...');
+          actuallyLoadScripts();
+        };
+
+        verifyDependencies();
+      }
+
+      function actuallyLoadScripts() {
         console.log('✅ [HOOK] DOM is ready! Now loading scripts.js...');
 
         const script = document.createElement('script');

@@ -1254,7 +1254,7 @@
                             <!-- Marquee -->
                             <div class="nayla-marquee right-to-left" data-duration="7" data-seperator="arrow_outward">
 
-                                <a href="#." class="md-title">Start a project</a>
+                                <NuxtLink to="/contact" class="md-title">Start a project</NuxtLink>
 
                             </div>
                             <!--/ Marquee -->

@@ -110,11 +110,11 @@
           <!-- Main Menu -->
           <ul class="menu main-menu">
 
-            <li><NuxtLink to="/">Home</NuxtLink></li>
-            <li><NuxtLink to="/services">Services</NuxtLink></li>
-            <li><NuxtLink to="/about">About</NuxtLink></li>
-            <li><a href="#">Team</a></li>
-            <li><NuxtLink to="/contact">Contact</NuxtLink></li>
+            <li><NuxtLink to="/" class="menu-link">Home</NuxtLink></li>
+            <li><NuxtLink to="/services" class="menu-link">Services</NuxtLink></li>
+            <li><NuxtLink to="/about" class="menu-link">About</NuxtLink></li>
+            <li><a href="#" class="menu-link">Team</a></li>
+            <li><NuxtLink to="/contact" class="menu-link">Contact</NuxtLink></li>
 
           </ul>
           <!--/ Main Menu -->

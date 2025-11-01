@@ -985,7 +985,7 @@
                             <!-- Nayla Button -->
                             <div class="nayla-button underline icon-right" data-icon="arrow_outward">
 
-                                <a href="#">START A PROJECT</a>
+                                <NuxtLink to="/contact">START A PROJECT</NuxtLink>
 
                             </div>
                             <!--/ Nayla Button -->

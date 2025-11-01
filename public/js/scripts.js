@@ -11751,6 +11751,12 @@
     }
 
 
+    // Check if Barba.js initialization should be disabled (for Nuxt SPA mode)
+    if (window.disableBarbaInit) {
+        console.log('⚠️ [BARBA] Barba.js initialization disabled - using Vue Router transitions instead');
+        return; // Skip Barba initialization
+    }
+
     barba.init({
         debug: true,
         timeout: 30000,
@@ -12553,6 +12559,12 @@
 
     })
 
+
+    // Skip Barba hooks if Barba is disabled
+    if (window.disableBarbaInit) {
+        console.log('⚠️ [BARBA] Barba.js hooks skipped - using Vue Router instead');
+        return; // Skip Barba hooks
+    }
 
     barba.hooks.before((data) => {
 

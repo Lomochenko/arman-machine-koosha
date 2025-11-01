@@ -29,7 +29,7 @@
                             <div class="nayla-button underline icon-right scroll-button" data-scroll-to="#sec1"
                                 data-icon="arrow_outward">
 
-                                <a href="#.">START A PROJECT</a>
+                                <NuxtLink to="/contact">START A PROJECT</NuxtLink>
 
                             </div>
                             <!--/ Button -->
@@ -41,7 +41,7 @@
                             <!-- Button -->
                             <div class="nayla-button underline icon-right" data-icon="arrow_downward">
 
-                                <a href="#.">Works</a>
+                                <NuxtLink to="/works">Works</NuxtLink>
 
                             </div>
                             <!--/ Button -->
