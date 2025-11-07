@@ -182,12 +182,53 @@ export default defineNuxtPlugin((nuxtApp) => {
         console.log('✅ [HOOK] DOM is ready! Now loading scripts.js...');
 
         const script = document.createElement('script');
-        script.src = '/js/scripts.js';
+        // Add cache-busting parameter to ensure fresh load
+        script.src = `/js/scripts.js?v=${Date.now()}`;
         script.async = false;
         script.defer = false;
 
         script.onload = () => {
           console.log('✅ [SCRIPT] scripts.js loaded successfully');
+
+          // CRITICAL: Verify that animation functions are exposed to window
+          setTimeout(() => {
+            console.log('🔧 [SCRIPT] Verifying animation functions are exposed to window...');
+            const functionCheck = {
+              enableScroll: typeof window.enableScroll,
+              disableScroll: typeof window.disableScroll,
+              startLoading: typeof window.startLoading,
+              naylaTextAnims: typeof window.naylaTextAnims,
+              naylaTextWrapper: typeof window.naylaTextWrapper,
+              naylaGeneralAnims: typeof window.naylaGeneralAnims,
+              naylaListAnimations: typeof window.naylaListAnimations,
+              naylaImageAnims: typeof window.naylaImageAnims,
+              naylaParallaxImages: typeof window.naylaParallaxImages,
+              initShowcases: typeof window.initShowcases,
+              initPageElements: typeof window.initPageElements,
+              naylaSections: typeof window.naylaSections,
+              initPages: typeof window.initPages,
+              naylaVideo: typeof window.naylaVideo,
+              naylaMouseCursor: typeof window.naylaMouseCursor,
+              naylaHeader: typeof window.naylaHeader
+            };
+
+            console.log('🔧 [SCRIPT] Function availability check:', functionCheck);
+
+            const allFunctionsAvailable = Object.values(functionCheck).every(v => v === 'function');
+            if (allFunctionsAvailable) {
+              console.log('✅ [SCRIPT] All animation functions are available on window!');
+            } else {
+              console.error('❌ [SCRIPT] Some animation functions are missing!');
+              console.error('❌ [SCRIPT] Missing functions:',
+                Object.entries(functionCheck)
+                  .filter(([_, type]) => type !== 'function')
+                  .map(([name]) => name)
+              );
+              console.error('❌ [SCRIPT] This means scripts.js did not expose functions to window.');
+              console.error('❌ [SCRIPT] Please check public/js/scripts.js lines 12738-12781');
+            }
+          }, 100);
+
           console.log('🔧 [SCRIPT] Checking for jQuery and imagesLoaded...');
 
           // Wait for all images and assets to load before triggering the load event

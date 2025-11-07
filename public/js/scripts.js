@@ -11751,10 +11751,56 @@
     }
 
 
+    // ============================================================================
+    // EXPOSE FUNCTIONS TO GLOBAL WINDOW OBJECT FOR NUXT.JS VUE ROUTER INTEGRATION
+    // ============================================================================
+    // CRITICAL: This MUST come BEFORE any early return statements!
+    // If we return early (e.g., when disableBarbaInit is true), these functions
+    // must already be exposed, otherwise Vue Router navigation will break.
+    // ============================================================================
+
+    window.enableScroll = enableScroll;
+    window.disableScroll = disableScroll;
+    window.startLoading = startLoading;
+    window.naylaTextAnims = naylaTextAnims;
+    window.naylaTextWrapper = naylaTextWrapper;
+    window.naylaGeneralAnims = naylaGeneralAnims;
+    window.naylaListAnimations = naylaListAnimations;
+    window.naylaImageAnims = naylaImageAnims;
+    window.naylaParallaxImages = naylaParallaxImages;
+    window.initShowcases = initShowcases;
+    window.initPageElements = initPageElements;
+    window.naylaSections = naylaSections;
+    window.initPages = initPages;
+    window.naylaVideo = naylaVideo;
+    window.naylaMouseCursor = naylaMouseCursor;
+    window.naylaHeader = naylaHeader;
+
+    console.log('✅ [SCRIPTS.JS] All animation functions exposed to window object');
+    console.log('🔧 [SCRIPTS.JS] Functions available:', {
+        enableScroll: typeof window.enableScroll,
+        disableScroll: typeof window.disableScroll,
+        startLoading: typeof window.startLoading,
+        naylaTextAnims: typeof window.naylaTextAnims,
+        naylaTextWrapper: typeof window.naylaTextWrapper,
+        naylaGeneralAnims: typeof window.naylaGeneralAnims,
+        naylaListAnimations: typeof window.naylaListAnimations,
+        naylaImageAnims: typeof window.naylaImageAnims,
+        naylaParallaxImages: typeof window.naylaParallaxImages,
+        initShowcases: typeof window.initShowcases,
+        initPageElements: typeof window.initPageElements,
+        naylaSections: typeof window.naylaSections,
+        initPages: typeof window.initPages,
+        naylaVideo: typeof window.naylaVideo,
+        naylaMouseCursor: typeof window.naylaMouseCursor,
+        naylaHeader: typeof window.naylaHeader
+    });
+
     // Check if Barba.js initialization should be disabled (for Nuxt SPA mode)
     if (window.disableBarbaInit) {
         console.log('⚠️ [BARBA] Barba.js initialization disabled - using Vue Router transitions instead');
-        return; // Skip Barba initialization
+        console.log('✅ [BARBA] Animation functions are still available for Vue Router to call');
+        return; // Skip Barba initialization, but functions are already exposed above
     }
 
     barba.init({
@@ -12559,12 +12605,8 @@
 
     })
 
-
-    // Skip Barba hooks if Barba is disabled
-    if (window.disableBarbaInit) {
-        console.log('⚠️ [BARBA] Barba.js hooks skipped - using Vue Router instead');
-        return; // Skip Barba hooks
-    }
+    // Note: Function exposure and Barba hooks are handled earlier in the file
+    // (around line 11753) to ensure they execute before any early returns.
 
     barba.hooks.before((data) => {
 
@@ -12735,6 +12777,8 @@
 
     });
 
-
+    // Note: Function exposure to window object is done earlier in the file
+    // (before the Barba hooks check) to ensure they're always available
+    // even when Barba is disabled for Vue Router integration.
 
 }(jQuery));
