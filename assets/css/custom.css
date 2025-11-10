@@ -1,0 +1,29 @@
+/**
+ * Custom CSS for Nuxt.js SPA
+ * Fixes content flash during page transitions
+ */
+
+/* Hide main content during loading/transitions to prevent content flash */
+html.loading #page {
+  opacity: 0;
+  visibility: hidden;
+  transition: none;
+}
+
+/* Ensure page loader is always on top */
+.page-loader {
+  z-index: 999999 !important;
+}
+
+/* Ensure page transitions are on top of content but below loader */
+.nayla-page-transition {
+  z-index: 999998 !important;
+}
+
+/* Smooth fade-in when loading completes */
+html:not(.loading) #page {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease-in;
+}
+

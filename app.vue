@@ -49,14 +49,22 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
+
 // Add the 'light' class to the body tag to match static version structure
 // This ensures CSS selectors like 'body.light' work correctly
 useHead({
   bodyAttrs: {
     class: 'light',
     'data-barba': 'wrapper'
+  },
+  htmlAttrs: {
+    class: 'loading' // Start with loading class to hide content until animations are ready
   }
 })
+
+// The loading class will be removed by scripts.js after page loader completes
+// This prevents content flash on initial load
 </script>
 
 <style>

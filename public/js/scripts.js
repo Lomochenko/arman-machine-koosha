@@ -477,10 +477,8 @@
                 id: 'pageLoaderAnimation',
                 onStart: () => {
                     $('html').addClass('loading');
-                    console.log('✓ Page loader started');
                 },
                 onComplete: () => {
-                    console.log('✓ Page loader timeline complete. winLoaded =', winLoaded);
 
                     if (winLoaded == true) {
 
@@ -899,7 +897,6 @@
 
                 }).done(function () {
                     // All images loaded - ensure we reach 100%
-                    console.log('✓ All images loaded - percentage should be at 100%');
 
                     // Add a final animation to ensure we reach 100% label
                     if (perc.length) {
@@ -10671,7 +10668,28 @@
 
 
     } else {
-        $('.page-loader').remove()
+        // Page loader is skipped (refresh/subsequent visits)
+        // Remove the loader element
+        $('.page-loader').remove();
+
+        // CRITICAL: Remove loading class to show content
+        $('html').removeClass('loading');
+
+        // Initialize animations immediately since pageLoader() won't run
+        // This ensures content is visible and animated on refresh
+        setTimeout(function() {
+            naylaVideo($('.nayla-video'));
+            naylaGeneralAnims($('.has-anim'));
+            naylaTextAnims();
+            naylaTextWrapper();
+            naylaListAnimations();
+            naylaImageAnims();
+            naylaParallaxImages();
+            initShowcases();
+            initPageElements();
+            naylaSections();
+            initPages();
+        }, 100);
     }
 
     naylaMouseCursor(true);
@@ -10682,7 +10700,6 @@
     $(window).on('load', function () {
 
         winLoaded = true;
-        console.log('✓ Window load event fired - all assets loaded. winLoaded =', winLoaded);
 
         window.scrollTo(0, 0);
 
@@ -10724,6 +10741,10 @@
 
             }, 3)
 
+        } else {
+            // If page loader was skipped (refresh case), ensure loading class is removed
+            // This is a safety fallback in case the else block above didn't execute
+            $('html').removeClass('loading');
         }
 
 
@@ -11776,30 +11797,8 @@
     window.naylaMouseCursor = naylaMouseCursor;
     window.naylaHeader = naylaHeader;
 
-    console.log('✅ [SCRIPTS.JS] All animation functions exposed to window object');
-    console.log('🔧 [SCRIPTS.JS] Functions available:', {
-        enableScroll: typeof window.enableScroll,
-        disableScroll: typeof window.disableScroll,
-        startLoading: typeof window.startLoading,
-        naylaTextAnims: typeof window.naylaTextAnims,
-        naylaTextWrapper: typeof window.naylaTextWrapper,
-        naylaGeneralAnims: typeof window.naylaGeneralAnims,
-        naylaListAnimations: typeof window.naylaListAnimations,
-        naylaImageAnims: typeof window.naylaImageAnims,
-        naylaParallaxImages: typeof window.naylaParallaxImages,
-        initShowcases: typeof window.initShowcases,
-        initPageElements: typeof window.initPageElements,
-        naylaSections: typeof window.naylaSections,
-        initPages: typeof window.initPages,
-        naylaVideo: typeof window.naylaVideo,
-        naylaMouseCursor: typeof window.naylaMouseCursor,
-        naylaHeader: typeof window.naylaHeader
-    });
-
     // Check if Barba.js initialization should be disabled (for Nuxt SPA mode)
     if (window.disableBarbaInit) {
-        console.log('⚠️ [BARBA] Barba.js initialization disabled - using Vue Router transitions instead');
-        console.log('✅ [BARBA] Animation functions are still available for Vue Router to call');
         return; // Skip Barba initialization, but functions are already exposed above
     }
 

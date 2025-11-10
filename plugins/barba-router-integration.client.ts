@@ -49,11 +49,8 @@ declare global {
 
 export default defineNuxtPlugin((nuxtApp) => {
   if (typeof window !== 'undefined') {
-    console.log('🔧 [BARBA-ROUTER] Starting comprehensive Vue Router + GSAP transition setup');
-
     // Disable Barba.js auto-initialization
     window.disableBarbaInit = true;
-    console.log('✅ [BARBA-ROUTER] Barba.js auto-initialization disabled');
 
     // Access router from nuxtApp to satisfy TS in this context
     const router = (nuxtApp as any).$router || (nuxtApp as any).vueApp?.config?.globalProperties?.$router;
@@ -73,7 +70,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 
       // Check if columns already exist
       if (transitions.querySelectorAll('.trans-col').length > 0) {
-        console.log('✅ [BARBA-ROUTER] Transition columns already initialized');
         return;
       }
 
@@ -83,8 +79,6 @@ export default defineNuxtPlugin((nuxtApp) => {
         col.className = 'trans-col';
         transitions.appendChild(col);
       }
-
-      console.log('✅ [BARBA-ROUTER] Transition columns initialized');
     }
 
     /**
@@ -188,7 +182,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     function transitionCaption(tl: any, intro: boolean, outro: boolean, transitions: Element) {
       const caption = transitions.querySelector('.page-transition-caption');
       if (!caption) {
-        console.warn('[BARBA-ROUTER] Caption element not found');
         return;
       }
 
@@ -213,11 +206,8 @@ export default defineNuxtPlugin((nuxtApp) => {
       const charEls = Array.from(chars) as HTMLElement[];
 
       if (!charEls.length) {
-        console.warn('[BARBA-ROUTER] No caption chars found after wrapping. Text was:', text);
         return;
       }
-
-      console.log(`[BARBA-ROUTER] Caption ready with ${charEls.length} characters`);
 
       if (transitions.classList.contains('default')) {
         if (intro) {
@@ -253,12 +243,10 @@ export default defineNuxtPlugin((nuxtApp) => {
       }
 
       if (isTransitioning) {
-        console.log('⚠️ [BARBA-ROUTER] Already transitioning, waiting...');
         setTimeout(() => next(), 500);
         return;
       }
 
-      console.log(`🔧 [BARBA-ROUTER] Route changing: ${from.path} → ${to.path}`);
       isTransitioning = true;
 
       // REPLICATE barba.hooks.before() - Start loading indicator
@@ -268,7 +256,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 
       // REPLICATE barba.hooks.beforeLeave() - Destroy Lenis smooth scroll
       if (window.lenis && typeof window.lenis.destroy === 'function') {
-        console.log('🔧 [BARBA-ROUTER] Destroying Lenis smooth scroll');
         window.lenis.destroy();
         window.lenis = null;
       }
@@ -276,7 +263,6 @@ export default defineNuxtPlugin((nuxtApp) => {
       // Kill ALL existing ScrollTrigger instances before navigation (matches static hooks near 12618)
       if (window.ScrollTrigger && typeof window.ScrollTrigger.getAll === 'function') {
         const all = window.ScrollTrigger.getAll();
-        console.log(`🔧 [BARBA-ROUTER] Killing ${all.length} ScrollTrigger instances`);
         all.forEach((st: any) => st.kill(true));
       }
 
@@ -284,12 +270,10 @@ export default defineNuxtPlugin((nuxtApp) => {
       const transitions = document.querySelector('.nayla-page-transition');
 
       if (!transitions || !window.gsap) {
-        console.log('⚠️ [BARBA-ROUTER] Missing transitions or GSAP, proceeding immediately');
         next();
         return;
       }
 
-      console.log('🔧 [BARBA-ROUTER] Starting transition OUT animation');
       transitions.classList.add('running');
 
       const tl = window.gsap.timeline({
@@ -297,7 +281,6 @@ export default defineNuxtPlugin((nuxtApp) => {
           window.gsap.set(transitions, { visibility: 'visible' });
         },
         onComplete: () => {
-          console.log('✅ [BARBA-ROUTER] Transition OUT complete');
           next();
         }
       });
@@ -314,8 +297,6 @@ export default defineNuxtPlugin((nuxtApp) => {
       if (!from.name || !isTransitioning) {
         return;
       }
-
-      console.log('🔧 [BARBA-ROUTER] Route changed, starting transition IN and reinitialization');
 
       nextTick(() => {
         const transitions = document.querySelector('.nayla-page-transition');
@@ -334,7 +315,6 @@ export default defineNuxtPlugin((nuxtApp) => {
             window.gsap.set(transitions, { clearProps: 'all' });
             const cols = transitions.querySelectorAll('.trans-col');
             if (cols.length) window.gsap.set(cols, { clearProps: 'all' });
-            console.log('✅ [BARBA-ROUTER] Transition IN complete');
 
             // REPLICATE barba.hooks.after() - Full reinitialization
             afterRouteComplete();
@@ -352,122 +332,74 @@ export default defineNuxtPlugin((nuxtApp) => {
      * Replicates barba.hooks.after() from static version
      */
     function afterRouteComplete() {
-      console.log('🔧 [BARBA-ROUTER] Starting complete reinitialization (barba.hooks.after)');
-
       // Remove loading class
       document.documentElement.classList.remove('loading');
 
       // Enable scroll
       if (typeof window.enableScroll === 'function') {
-        console.log('  ✓ Calling enableScroll()');
         window.enableScroll();
-      } else {
-        console.warn('  ✗ enableScroll() not found');
       }
 
       nextTick(() => {
-        console.log('🔧 [BARBA-ROUTER] Calling initialization functions...');
-
         // EXACT sequence from barba.hooks.after() in static version
         if (typeof window.naylaTextAnims === 'function') {
-          console.log('  ✓ Calling naylaTextAnims()');
           window.naylaTextAnims();
-        } else {
-          console.warn('  ✗ naylaTextAnims() not found');
         }
 
         if (typeof window.naylaTextWrapper === 'function') {
-          console.log('  ✓ Calling naylaTextWrapper()');
           window.naylaTextWrapper();
-        } else {
-          console.warn('  ✗ naylaTextWrapper() not found');
         }
 
         if (typeof window.naylaGeneralAnims === 'function' && window.$) {
           const hasAnimElements = document.querySelectorAll('main .has-anim');
-          console.log(`  ✓ Calling naylaGeneralAnims() with ${hasAnimElements.length} elements`);
           window.naylaGeneralAnims(window.$(hasAnimElements));
-        } else {
-          console.warn('  ✗ naylaGeneralAnims() not found or jQuery missing');
         }
 
         if (typeof window.naylaListAnimations === 'function') {
-          console.log('  ✓ Calling naylaListAnimations()');
           window.naylaListAnimations();
-        } else {
-          console.warn('  ✗ naylaListAnimations() not found');
         }
 
         if (typeof window.naylaImageAnims === 'function') {
-          console.log('  ✓ Calling naylaImageAnims()');
           window.naylaImageAnims();
-        } else {
-          console.warn('  ✗ naylaImageAnims() not found');
         }
 
         if (typeof window.naylaParallaxImages === 'function') {
-          console.log('  ✓ Calling naylaParallaxImages()');
           window.naylaParallaxImages();
-        } else {
-          console.warn('  ✗ naylaParallaxImages() not found');
         }
 
         if (typeof window.initShowcases === 'function') {
-          console.log('  ✓ Calling initShowcases()');
           window.initShowcases();
-        } else {
-          console.warn('  ✗ initShowcases() not found');
         }
 
         if (typeof window.initPageElements === 'function') {
-          console.log('  ✓ Calling initPageElements()');
           window.initPageElements();
-        } else {
-          console.warn('  ✗ initPageElements() not found');
         }
 
         if (typeof window.naylaSections === 'function') {
-          console.log('  ✓ Calling naylaSections()');
           window.naylaSections();
-        } else {
-          console.warn('  ✗ naylaSections() not found');
         }
 
         if (typeof window.initPages === 'function') {
-          console.log('  ✓ Calling initPages()');
           window.initPages();
-        } else {
-          console.warn('  ✗ initPages() not found');
         }
 
         if (typeof window.naylaVideo === 'function' && window.$) {
           const videos = document.querySelectorAll('#primary .nayla-video');
-          console.log(`  ✓ Calling naylaVideo() with ${videos.length} videos`);
           window.naylaVideo(window.$(videos));
-        } else {
-          console.warn('  ✗ naylaVideo() not found or jQuery missing');
         }
 
         // Refresh ScrollTrigger
         if (window.ScrollTrigger) {
-          console.log('  ✓ Calling ScrollTrigger.refresh(true)');
           window.ScrollTrigger.refresh(true);
-        } else {
-          console.warn('  ✗ ScrollTrigger not found');
         }
 
         // Reinitialize mouse cursor
         if (typeof window.naylaMouseCursor === 'function') {
-          console.log('  ✓ Calling naylaMouseCursor(false)');
           window.naylaMouseCursor(false);
-        } else {
-          console.warn('  ✗ naylaMouseCursor() not found');
         }
 
         // Additional header cleanup and refresh after delay (from static version lines 12654-12677)
         setTimeout(() => {
-          console.log('🔧 [BARBA-ROUTER] Running delayed header cleanup and refresh...');
-
           if (window.$ && window.gsap && window.ScrollTrigger) {
             const siteHeader = window.$('.site-header');
             let stickyTargets;
@@ -492,22 +424,15 @@ export default defineNuxtPlugin((nuxtApp) => {
 
             // Reinitialize header (CRITICAL - missing from previous implementation)
             if (typeof (window as any).naylaHeader === 'function') {
-              console.log('  ✓ Calling naylaHeader()');
               (window as any).naylaHeader();
-            } else {
-              console.warn('  ✗ naylaHeader() not found');
             }
 
             window.ScrollTrigger.refresh(true);
-            console.log('  ✓ Header cleanup and refresh complete');
           }
 
-          console.log('✅ [BARBA-ROUTER] Complete reinitialization finished');
           isTransitioning = false;
         }, 200);
       });
     }
-
-    console.log('✅ [BARBA-ROUTER] Vue Router transitions configured with full Barba.js lifecycle');
   }
 });

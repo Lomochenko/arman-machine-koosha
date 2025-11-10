@@ -52,6 +52,7 @@ export default defineNuxtConfig({
   css: [
     '~/public/css/plugins.css',
     '~/public/css/style.css',
+    '~/assets/css/custom.css',
   ],
   modules: [],
   plugins: [
