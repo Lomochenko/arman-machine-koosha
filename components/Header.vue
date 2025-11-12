@@ -13,8 +13,8 @@
           <!--  Site Logo -->
           <div class="site-logo">
 
-            <img alt="Site Logo (Dark)" class="dark-logo" src="/img/site-logo.png">
-            <img alt="Site Logo (Light)" class="light-logo" src="/img/site-logo-light.png">
+            <NuxtImg alt="Site Logo (Dark)" class="dark-logo" src="/img/site-logo.png" loading="eager" format="webp" />
+            <NuxtImg alt="Site Logo (Light)" class="light-logo" src="/img/site-logo-light.png" loading="eager" format="webp" />
 
           </div>
           <!--/  Site Logo -->
@@ -22,8 +22,8 @@
           <!--  Sticky Logo -->
           <div class="sticky-logo">
 
-            <img alt="Sticky Logo (Dark)" class="sticky-dark-logo" src="/img/sticky_logo.png">
-            <img alt="Sticky Logo (Light)" class="sticky-light-logo" src="/img/sticky_logo_light.png">
+            <NuxtImg alt="Sticky Logo (Dark)" class="sticky-dark-logo" src="/img/sticky_logo.png" width="150" height="40" loading="eager" format="webp" />
+            <NuxtImg alt="Sticky Logo (Light)" class="sticky-light-logo" src="/img/sticky_logo_light.png" width="150" height="40" loading="eager" format="webp" />
 
           </div>
           <!--/  Sticky Logo -->
@@ -47,13 +47,13 @@
 
       <div class="c-col-4 sm-6 align-right">
 
-        <!-- Button -->
+        <!-- Language Switcher Button -->
         <div class="nayla-button fill button-sm">
 
-          <a href="-gray">EN/FA</a>
+          <a href="#" @click.prevent="switchLanguage" class="-gray">{{ getCurrentLanguage() }}</a>
 
         </div>
-        <!--/ Button -->
+        <!--/ Language Switcher Button -->
         <!--  Menu Toggle -->
         <div class="menu-toggle">
 
@@ -153,7 +153,15 @@
 </template>
 
 <script setup lang="ts">
-// Header component
+import { onMounted } from 'vue'
+
+// Language switching composable
+const { switchLanguage, initializeDirection, getCurrentLanguage } = useLanguage()
+
+// Initialize direction on mount
+onMounted(() => {
+  initializeDirection()
+})
 </script>
 
 <style scoped>

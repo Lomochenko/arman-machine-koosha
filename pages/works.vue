@@ -1270,7 +1270,13 @@
 </template>
 
 <script setup lang="ts">
-// Page functionality will be added here
+// SEO Configuration
+useSEO({
+  title: 'Works',
+  description: 'Explore our latest projects and portfolio. Showcasing innovative design, web development, photography, and creative work.',
+  image: '/img/img/agency_mag.jpg',
+  keywords: 'portfolio, projects, works, design, web design, photography, branding, Arman Machine Koosha',
+});
 </script>
 
 <style scoped>

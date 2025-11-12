@@ -262,7 +262,13 @@
 </template>
 
 <script setup lang="ts">
-// Page functionality will be added here
+// SEO Configuration
+useSEO({
+  title: 'Services',
+  description: 'Discover our exceptional services including brand strategy, web design, development, and creative solutions to help you achieve your goals.',
+  image: '/img/ag_exp_vert_3.jpg',
+  keywords: 'services, brand strategy, web design, development, creative solutions, Arman Machine Koosha',
+});
 </script>
 
 <style scoped>

@@ -1,4 +1,7 @@
 
+/// <reference path="../image/providers.d.ts" />
+/// <reference path="../module/nuxt-site-config.d.ts" />
+/// <reference path="../module/nuxt-sitemap.d.ts" />
 /// <reference path="nitro-middleware.d.ts" />
 /// <reference path="./schema.d.ts" />
 

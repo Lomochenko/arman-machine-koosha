@@ -94,7 +94,13 @@
 </template>
 
 <script setup lang="ts">
-// Page functionality will be added here
+// SEO Configuration
+useSEO({
+  title: 'Contact',
+  description: 'Get in touch with Arman Machine Koosha. Start your project with us today. Contact us for creative design and development services.',
+  image: '/img/photog_contact.jpg',
+  keywords: 'contact, get in touch, start project, Arman Machine Koosha',
+});
 </script>
 
 <style scoped>

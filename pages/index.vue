@@ -1196,7 +1196,13 @@
 </template>
 
 <script setup lang="ts">
-// Page functionality will be added here
+// SEO Configuration
+useSEO({
+  title: 'Home',
+  description: 'Arman Machine Koosha - Creative Portfolio & Agency. #1 in our industry. Showcasing innovative design and development work.',
+  image: '/img/img/agency_mag.jpg',
+  keywords: 'portfolio, agency, creative, design, GSAP, animations, Arman Machine Koosha, home',
+});
 </script>
 
 <style scoped>

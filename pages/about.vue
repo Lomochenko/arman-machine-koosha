@@ -1001,7 +1001,13 @@
 </template>
 
 <script setup lang="ts">
-// Page functionality will be added here
+// SEO Configuration
+useSEO({
+  title: 'About',
+  description: 'Learn about Arman Machine Koosha - a creative agency driven by a deep-rooted desire to redefine what is possible in the realms of design.',
+  image: '/img/agency_2.jpg',
+  keywords: 'about, agency, creative team, design studio, Arman Machine Koosha',
+});
 </script>
 
 <style scoped>

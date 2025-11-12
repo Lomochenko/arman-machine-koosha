@@ -54,16 +54,78 @@ export default defineNuxtConfig({
     '~/public/css/style.css',
     '~/assets/css/custom.css',
   ],
-  modules: [],
+  modules: [
+    '@nuxt/image',
+    '@nuxtjs/sitemap',
+  ],
+
+  // Configure Nuxt Image for optimization
+  image: {
+    quality: 80,
+    format: ['webp', 'jpg', 'png'],
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536,
+    },
+    // Disable provider for local images
+    provider: 'none',
+    dir: 'public',
+  },
+
+  // Configure Sitemap
+  site: {
+    url: 'https://armanmachinekoosha.com',
+  },
+
+  sitemap: {
+    hostname: 'https://armanmachinekoosha.com',
+    gzip: true,
+    routes: [
+      '/',
+      '/works',
+      '/about',
+      '/services',
+      '/contact'
+    ],
+    defaults: {
+      changefreq: 'weekly',
+      priority: 0.8,
+      lastmod: new Date().toISOString(),
+    }
+  },
+
   plugins: [
     '~/plugins/libraries.client.ts',
+    '~/plugins/i18n.ts',
   ],
 
   // Serve static files from public folder
   nitro: {
+    // Enable compression for better performance
+    compressPublicAssets: true,
+
     prerender: {
       crawlLinks: true,
-      routes: ['/sitemap.xml', '/robots.txt'],
+      routes: ['/sitemap.xml', '/robots.txt', '/', '/works', '/about', '/services', '/contact'],
+    },
+
+    // Configure caching headers for optimal performance
+    routeRules: {
+      // Cache static assets for 1 year (immutable)
+      '/img/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+      '/js/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+      '/css/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+
+      // Cache pages for 1 hour with revalidation
+      '/': { headers: { 'cache-control': 'public, max-age=3600, must-revalidate' } },
+      '/works': { headers: { 'cache-control': 'public, max-age=3600, must-revalidate' } },
+      '/about': { headers: { 'cache-control': 'public, max-age=3600, must-revalidate' } },
+      '/services': { headers: { 'cache-control': 'public, max-age=3600, must-revalidate' } },
+      '/contact': { headers: { 'cache-control': 'public, max-age=3600, must-revalidate' } },
     },
   },
   components: {

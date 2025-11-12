@@ -27,3 +27,101 @@ html:not(.loading) #page {
   transition: opacity 0.3s ease-in;
 }
 
+/* ============================================
+   RTL (Right-to-Left) Support for Persian
+   ============================================ */
+
+/* RTL Text Direction */
+html[dir="rtl"] body {
+  direction: rtl;
+  text-align: right;
+}
+
+/* RTL Navigation */
+html[dir="rtl"] .site-navigation ul {
+  direction: rtl;
+}
+
+html[dir="rtl"] .site-navigation li {
+  float: right;
+}
+
+/* RTL Header */
+html[dir="rtl"] .site-header .c-col-4.align-right {
+  text-align: left;
+}
+
+html[dir="rtl"] .site-header .c-col-4:first-child {
+  text-align: right;
+}
+
+/* RTL Menu Toggle */
+html[dir="rtl"] .menu-toggle {
+  left: 0;
+  right: auto;
+}
+
+/* RTL Buttons */
+html[dir="rtl"] .nayla-button {
+  direction: rtl;
+}
+
+/* RTL Text Alignment */
+html[dir="rtl"] .text-wrapper,
+html[dir="rtl"] .text-h1,
+html[dir="rtl"] .text-h2,
+html[dir="rtl"] .text-h3,
+html[dir="rtl"] .text-h4,
+html[dir="rtl"] .text-h5,
+html[dir="rtl"] p {
+  text-align: right;
+}
+
+/* RTL Footer */
+html[dir="rtl"] .site-footer {
+  direction: rtl;
+}
+
+/* RTL Grid Columns */
+html[dir="rtl"] .wrapper > [class*="c-col-"] {
+  float: right;
+}
+
+/* RTL Margins and Paddings - Flip left/right */
+html[dir="rtl"] .align-right {
+  text-align: left !important;
+}
+
+html[dir="rtl"] .align-left {
+  text-align: right !important;
+}
+
+/* RTL Icons - Flip horizontal icons */
+html[dir="rtl"] .material-icons {
+  transform: scaleX(-1);
+}
+
+/* RTL Animations - Ensure GSAP animations work in RTL */
+html[dir="rtl"] .has-anim {
+  direction: rtl;
+}
+
+/* RTL Portfolio Grid */
+html[dir="rtl"] .portfolio-grid {
+  direction: rtl;
+}
+
+/* RTL Forms */
+html[dir="rtl"] input,
+html[dir="rtl"] textarea,
+html[dir="rtl"] select {
+  text-align: right;
+  direction: rtl;
+}
+
+/* RTL Language Switcher - Keep EN/FA in LTR */
+html[dir="rtl"] .nayla-button a {
+  direction: ltr;
+  display: inline-block;
+}
+
