@@ -63,8 +63,27 @@ useHead({
   }
 })
 
-// The loading class will be removed by scripts.js after page loader completes
-// This prevents content flash on initial load
+// Safety fallback: if for any reason the legacy page loader never completes
+// (slow network, blocked asset, or scripts.js timing issues),
+// force-remove the "loading" class after a timeout so the app is usable.
+onMounted(() => {
+  window.setTimeout(() => {
+    const htmlEl = document.documentElement;
+    if (htmlEl && htmlEl.classList.contains('loading')) {
+      htmlEl.classList.remove('loading');
+
+      const loaderEl = document.querySelector('.page-loader') as HTMLElement | null;
+      if (loaderEl) {
+        loaderEl.style.visibility = 'hidden';
+        loaderEl.style.height = '0';
+        loaderEl.style.opacity = '0';
+      }
+    }
+  }, 4000); // 8s max wait; adjust if you want shorter/longer
+});
+
+// The loading class will normally be removed by scripts.js after the page loader completes
+// This fallback just prevents a permanent loader on slow/failed first loads
 </script>
 
 <style>
