@@ -177,57 +177,36 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
 
     /**
-     * Animate transition caption (replicate transitionCaption() from static version)
+     * Animate transition caption
+     * Simpler and more robust than the original SplitText-based implementation.
+     * We just fade the whole caption in/out so it is always visible.
      */
     function transitionCaption(tl: any, intro: boolean, outro: boolean, transitions: Element) {
-      const caption = transitions.querySelector('.page-transition-caption');
-      if (!caption) {
-        return;
-      }
-
-      // ALWAYS reset and re-wrap characters to ensure clean state
-      // Get original text (either from textContent or from existing spans)
-      let text = caption.textContent || '';
-
-      // Reset caption to plain text first
-      if (caption.querySelector('span')) {
-        // Extract text from existing spans
-        text = Array.from(caption.querySelectorAll('span > span'))
-          .map((el: any) => el.textContent)
-          .join('');
-      }
-
-      // Re-wrap characters
-      caption.innerHTML = text.split('').map((char: string) =>
-        char === ' ' ? ' ' : `<span><span>${char}</span></span>`
-      ).join('');
-
-      const chars = caption.querySelectorAll('span > span');
-      const charEls = Array.from(chars) as HTMLElement[];
-
-      if (!charEls.length) {
-        return;
-      }
+      const caption = transitions.querySelector('.page-transition-caption') as HTMLElement | null;
+      if (!caption) return;
 
       if (transitions.classList.contains('default')) {
         if (intro) {
-          tl.fromTo(charEls, {
-            y: 100
+          // Caption fades in while columns are covering the screen
+          tl.fromTo(caption, {
+            opacity: 0,
+            y: 20
           }, {
+            opacity: 1,
             y: 0,
-            duration: 1,
-            ease: 'power3.out',
-            stagger: 0.01
-          }, 0.3);
+            duration: 0.6,
+            ease: 'power3.out'
+          }, 0.2);
         }
 
         if (outro) {
-          tl.to(charEls, {
-            y: -100,
-            duration: 0.6,
-            stagger: -0.01,
+          // Caption fades out as columns animate away
+          tl.to(caption, {
+            opacity: 0,
+            y: -20,
+            duration: 0.4,
             ease: 'power3.in'
-          }, 0.3);
+          }, 0.1);
         }
       }
     }
@@ -274,6 +253,12 @@ export default defineNuxtPlugin((nuxtApp) => {
         return;
       }
 
+      // Hide page content to prevent flash during transition
+      const pageElement = document.getElementById('page');
+      if (pageElement) {
+        window.gsap.set(pageElement, { opacity: 0, visibility: 'hidden' });
+      }
+
       transitions.classList.add('running');
 
       const tl = window.gsap.timeline({
@@ -281,6 +266,7 @@ export default defineNuxtPlugin((nuxtApp) => {
           window.gsap.set(transitions, { visibility: 'visible' });
         },
         onComplete: () => {
+          // Call next() to load new page content (but keep it hidden)
           next();
         }
       });
@@ -300,8 +286,13 @@ export default defineNuxtPlugin((nuxtApp) => {
 
       nextTick(() => {
         const transitions = document.querySelector('.nayla-page-transition');
+        const pageElement = document.getElementById('page');
 
         if (!transitions || !window.gsap) {
+          // Fallback: show content immediately if no transitions
+          if (pageElement) {
+            window.gsap.set(pageElement, { opacity: 1, visibility: 'visible' });
+          }
           afterRouteComplete();
           return;
         }
@@ -310,6 +301,17 @@ export default defineNuxtPlugin((nuxtApp) => {
         const tl = window.gsap.timeline({
           onStart: () => {
             transitions.classList.remove('running');
+
+            // Reveal page content as transition starts fading out
+            // This ensures users see content only after transition overlay is in place
+            if (pageElement) {
+              window.gsap.to(pageElement, {
+                opacity: 1,
+                visibility: 'visible',
+                duration: 0.3,
+                ease: 'power2.out'
+              });
+            }
           },
           onComplete: () => {
             window.gsap.set(transitions, { clearProps: 'all' });

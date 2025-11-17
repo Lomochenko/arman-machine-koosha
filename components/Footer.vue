@@ -12,7 +12,7 @@
           <!-- Footer Logo -->
           <div class="single-image" style="width: 50px">
 
-            <NuxtImg alt="Site Emblem" src="/img/site_emblem_dark.png" width="50" height="50" loading="lazy" format="webp" />
+            <NuxtImg alt="Site Emblem" src="/img/site_emblem_dark.png" loading="lazy" format="webp" />
 
           </div>
           <!--/ Footer Logo -->

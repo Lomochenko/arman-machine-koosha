@@ -8885,6 +8885,11 @@
         var video = $(vid),
             mouseCursor = $('#mouseCursor');
 
+        // Gracefully skip video initialization if Plyr is not available
+        if (typeof Plyr === 'undefined') {
+            return;
+        }
+
         if ((video.length) && (!video.hasClass('vid-ready'))) {
 
             video.each(function (i) {

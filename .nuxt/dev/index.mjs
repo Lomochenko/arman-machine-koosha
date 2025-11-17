@@ -685,7 +685,7 @@ const _inlineRuntimeConfig = {
         "headers": {
           "Content-Type": "text/xml; charset=UTF-8",
           "Cache-Control": "public, max-age=600, must-revalidate",
-          "X-Sitemap-Prerendered": "2025-11-12T10:25:25.530Z"
+          "X-Sitemap-Prerendered": "2025-11-17T08:42:22.972Z"
         }
       },
       "/_nuxt/builds/meta/**": {
@@ -743,14 +743,11 @@ const _inlineRuntimeConfig = {
         "defaults": {
           "changefreq": "weekly",
           "priority": 0.8,
-          "lastmod": "2025-11-12T10:25:25.328Z"
+          "lastmod": "2025-11-17T08:42:22.578Z"
         },
         "include": [],
         "exclude": [
           "/_**",
-          "/_nuxt/**",
-          "/_nuxt/**",
-          "/_nuxt/**",
           "/_nuxt/**"
         ],
         "includeAppSources": true

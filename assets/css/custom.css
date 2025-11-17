@@ -29,16 +29,17 @@ html:not(.loading) #page {
 
 /* ============================================
    RTL (Right-to-Left) Support for Persian
+   HOME PAGE ONLY - Surgical, section-specific rules
    ============================================ */
 
-/* RTL Text Direction */
+/* ===== GLOBAL RTL BASE ===== */
 html[dir="rtl"] body {
   direction: rtl;
-  text-align: right;
 }
 
-/* RTL Navigation */
-html[dir="rtl"] .site-navigation ul {
+/* ===== HEADER COMPONENT ===== */
+/* Header layout stays the same - no position changes */
+html[dir="rtl"] .site-header .site-navigation ul {
   direction: rtl;
 }
 
@@ -46,48 +47,151 @@ html[dir="rtl"] .site-navigation li {
   float: right;
 }
 
-/* RTL Header */
-html[dir="rtl"] .site-header .c-col-4.align-right {
-  text-align: left;
-}
-
-html[dir="rtl"] .site-header .c-col-4:first-child {
+/* ===== FULLSCREEN MENU (MOBILE NAVIGATION) ===== */
+html[dir="rtl"] .menu-overlay {
   text-align: right;
 }
 
-/* RTL Menu Toggle */
-html[dir="rtl"] .menu-toggle {
-  left: 0;
-  right: auto;
-}
-
-/* RTL Buttons */
-html[dir="rtl"] .nayla-button {
-  direction: rtl;
-}
-
-/* RTL Text Alignment */
-html[dir="rtl"] .text-wrapper,
-html[dir="rtl"] .text-h1,
-html[dir="rtl"] .text-h2,
-html[dir="rtl"] .text-h3,
-html[dir="rtl"] .text-h4,
-html[dir="rtl"] .text-h5,
-html[dir="rtl"] p {
+html[dir="rtl"] .fullscreen-menu {
   text-align: right;
 }
 
-/* RTL Footer */
+/* ===== HERO SECTION ===== */
+/* "ARMAN MACHINE KOOSHA" text - Keep centered (no changes) */
+html[dir="rtl"] .md-title.align-center {
+  text-align: center !important;
+}
+
+/* ===== WORKS/PROJECTS SECTION ===== */
+/* Swap positions (mirror horizontally) and right-align text */
+html[dir="rtl"] .portfolio-grid .grid-item {
+  float: right;
+}
+
+html[dir="rtl"] .portfolio-grid .item-details {
+  text-align: right;
+}
+
+html[dir="rtl"] .portfolio-grid .item-title,
+html[dir="rtl"] .portfolio-grid .item-category {
+  text-align: right;
+}
+
+/* ===== "SINCE 1999" SECTION ===== */
+/* Desktop: Keep centered (no changes) */
+/* Mobile: Right-align specific text */
+@media (max-width: 768px) {
+  html[dir="rtl"] .text-wrapper h6 {
+    text-align: right;
+  }
+}
+
+/* ===== "OUR SERVICES" SECTION ===== */
+/* Keep centered (no changes needed) */
+html[dir="rtl"] .services-section .align-center {
+  text-align: center !important;
+}
+
+/* ===== PARENT CATEGORIES SECTION ===== */
+/* Desktop: No changes */
+/* Mobile: Right-align text */
+@media (max-width: 768px) {
+  html[dir="rtl"] .parent-categories .text-wrapper {
+    text-align: right;
+  }
+}
+
+/* ===== "OUR COMMITMENTS" SECTION ===== */
+/* Swap text block positions and right-align */
+html[dir="rtl"] .commitments-section .text-wrapper {
+  text-align: right;
+}
+
+/* Mirror left/right margins */
+html[dir="rtl"] .commitments-section .c-col-6:first-child {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+html[dir="rtl"] .commitments-section .c-col-6:last-child {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* ===== CARDS SECTION ===== */
+/* Right-align text and move icons to right */
+html[dir="rtl"] .nayla-card {
+  text-align: right;
+}
+
+html[dir="rtl"] .nayla-card .card-icon {
+  float: right;
+  margin-left: 20px;
+  margin-right: 0;
+}
+
+html[dir="rtl"] .nayla-card .card-title,
+html[dir="rtl"] .nayla-card .card-description {
+  text-align: right;
+}
+
+/* ===== TESTIMONIALS SECTION ===== */
+/* Right-align text content */
+html[dir="rtl"] .testimonials-section .text-wrapper {
+  text-align: right;
+}
+
+html[dir="rtl"] .testimonial-item {
+  text-align: right;
+}
+
+html[dir="rtl"] .testimonial-author {
+  text-align: right;
+}
+
+/* ===== "OUR TEAM" SECTION ===== */
+/* Swap text and images (mirror horizontally) */
+html[dir="rtl"] .team-section .c-col-6 {
+  float: right;
+}
+
+html[dir="rtl"] .team-section .text-wrapper {
+  text-align: right;
+}
+
+/* Mirror left/right margins */
+html[dir="rtl"] .team-section .c-col-6:first-child {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+html[dir="rtl"] .team-section .c-col-6:last-child {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* ===== FOOTER ===== */
+/* Keep structure, right-align text */
 html[dir="rtl"] .site-footer {
   direction: rtl;
 }
 
-/* RTL Grid Columns */
-html[dir="rtl"] .wrapper > [class*="c-col-"] {
-  float: right;
+html[dir="rtl"] .site-footer .text-wrapper {
+  text-align: right;
 }
 
-/* RTL Margins and Paddings - Flip left/right */
+html[dir="rtl"] .site-footer .footer-links {
+  text-align: right;
+}
+
+html[dir="rtl"] .site-footer .footer-links li {
+  float: right;
+  margin-left: 20px;
+  margin-right: 0;
+}
+
+/* ===== UTILITY CLASSES ===== */
+/* Override align-right/align-left for RTL */
 html[dir="rtl"] .align-right {
   text-align: left !important;
 }
@@ -96,18 +200,23 @@ html[dir="rtl"] .align-left {
   text-align: right !important;
 }
 
+/* Keep centered elements centered */
+html[dir="rtl"] .align-center {
+  text-align: center !important;
+}
+
+/* RTL Grid System - Float columns to the right */
+html[dir="rtl"] .wrapper > [class*="c-col-"] {
+  float: right;
+}
+
 /* RTL Icons - Flip horizontal icons */
 html[dir="rtl"] .material-icons {
   transform: scaleX(-1);
 }
 
-/* RTL Animations - Ensure GSAP animations work in RTL */
-html[dir="rtl"] .has-anim {
-  direction: rtl;
-}
-
-/* RTL Portfolio Grid */
-html[dir="rtl"] .portfolio-grid {
+/* RTL Buttons - Keep button text in correct direction */
+html[dir="rtl"] .nayla-button {
   direction: rtl;
 }
 
@@ -119,8 +228,16 @@ html[dir="rtl"] select {
   direction: rtl;
 }
 
-/* RTL Language Switcher - Keep EN/FA in LTR */
-html[dir="rtl"] .nayla-button a {
+/* ===== PRESERVE ANIMATIONS ===== */
+/* Ensure GSAP animations work correctly in RTL */
+html[dir="rtl"] .has-anim {
+  /* Don't force direction on animated elements */
+  /* Let GSAP handle the animation direction */
+}
+
+/* ===== LANGUAGE SWITCHER ===== */
+/* Keep language button text in LTR (EN/FA should not flip) */
+html[dir="rtl"] .nayla-button a[href="#"] {
   direction: ltr;
   display: inline-block;
 }
