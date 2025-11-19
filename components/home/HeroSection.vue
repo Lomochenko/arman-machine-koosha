@@ -46,7 +46,6 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import gsap from 'gsap'
 
 const { locale } = useI18n()
 const titleRef = ref<HTMLElement>()
@@ -54,6 +53,11 @@ const subtitleRef = ref<HTMLElement>()
 const buttonRef = ref<HTMLElement>()
 
 onMounted(() => {
+  const gsap = (window as any).gsap
+  if (!gsap) {
+    return
+  }
+
   // Animate title
   gsap.fromTo(
     titleRef.value,

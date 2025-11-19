@@ -8,7 +8,9 @@ import 'node:buffer';
 import 'node:fs';
 import 'node:path';
 import 'node:crypto';
+import 'vue';
 import 'node:url';
+import 'consola';
 
 const _____ = defineEventHandler(async (event) => {
   const filePath = getRouterParam(event, "_");

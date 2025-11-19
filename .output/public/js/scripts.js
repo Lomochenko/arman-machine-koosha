@@ -477,10 +477,8 @@
                 id: 'pageLoaderAnimation',
                 onStart: () => {
                     $('html').addClass('loading');
-                    console.log('✓ Page loader started');
                 },
                 onComplete: () => {
-                    console.log('✓ Page loader timeline complete. winLoaded =', winLoaded);
 
                     if (winLoaded == true) {
 
@@ -899,7 +897,6 @@
 
                 }).done(function () {
                     // All images loaded - ensure we reach 100%
-                    console.log('✓ All images loaded - percentage should be at 100%');
 
                     // Add a final animation to ensure we reach 100% label
                     if (perc.length) {
@@ -8888,6 +8885,11 @@
         var video = $(vid),
             mouseCursor = $('#mouseCursor');
 
+        // Gracefully skip video initialization if Plyr is not available
+        if (typeof Plyr === 'undefined') {
+            return;
+        }
+
         if ((video.length) && (!video.hasClass('vid-ready'))) {
 
             video.each(function (i) {
@@ -10671,7 +10673,28 @@
 
 
     } else {
-        $('.page-loader').remove()
+        // Page loader is skipped (refresh/subsequent visits)
+        // Remove the loader element
+        $('.page-loader').remove();
+
+        // CRITICAL: Remove loading class to show content
+        $('html').removeClass('loading');
+
+        // Initialize animations immediately since pageLoader() won't run
+        // This ensures content is visible and animated on refresh
+        setTimeout(function() {
+            naylaVideo($('.nayla-video'));
+            naylaGeneralAnims($('.has-anim'));
+            naylaTextAnims();
+            naylaTextWrapper();
+            naylaListAnimations();
+            naylaImageAnims();
+            naylaParallaxImages();
+            initShowcases();
+            initPageElements();
+            naylaSections();
+            initPages();
+        }, 100);
     }
 
     naylaMouseCursor(true);
@@ -10682,7 +10705,6 @@
     $(window).on('load', function () {
 
         winLoaded = true;
-        console.log('✓ Window load event fired - all assets loaded. winLoaded =', winLoaded);
 
         window.scrollTo(0, 0);
 
@@ -10724,6 +10746,10 @@
 
             }, 3)
 
+        } else {
+            // If page loader was skipped (refresh case), ensure loading class is removed
+            // This is a safety fallback in case the else block above didn't execute
+            $('html').removeClass('loading');
         }
 
 
@@ -11751,10 +11777,34 @@
     }
 
 
+    // ============================================================================
+    // EXPOSE FUNCTIONS TO GLOBAL WINDOW OBJECT FOR NUXT.JS VUE ROUTER INTEGRATION
+    // ============================================================================
+    // CRITICAL: This MUST come BEFORE any early return statements!
+    // If we return early (e.g., when disableBarbaInit is true), these functions
+    // must already be exposed, otherwise Vue Router navigation will break.
+    // ============================================================================
+
+    window.enableScroll = enableScroll;
+    window.disableScroll = disableScroll;
+    window.startLoading = startLoading;
+    window.naylaTextAnims = naylaTextAnims;
+    window.naylaTextWrapper = naylaTextWrapper;
+    window.naylaGeneralAnims = naylaGeneralAnims;
+    window.naylaListAnimations = naylaListAnimations;
+    window.naylaImageAnims = naylaImageAnims;
+    window.naylaParallaxImages = naylaParallaxImages;
+    window.initShowcases = initShowcases;
+    window.initPageElements = initPageElements;
+    window.naylaSections = naylaSections;
+    window.initPages = initPages;
+    window.naylaVideo = naylaVideo;
+    window.naylaMouseCursor = naylaMouseCursor;
+    window.naylaHeader = naylaHeader;
+
     // Check if Barba.js initialization should be disabled (for Nuxt SPA mode)
     if (window.disableBarbaInit) {
-        console.log('⚠️ [BARBA] Barba.js initialization disabled - using Vue Router transitions instead');
-        return; // Skip Barba initialization
+        return; // Skip Barba initialization, but functions are already exposed above
     }
 
     barba.init({
@@ -12559,12 +12609,8 @@
 
     })
 
-
-    // Skip Barba hooks if Barba is disabled
-    if (window.disableBarbaInit) {
-        console.log('⚠️ [BARBA] Barba.js hooks skipped - using Vue Router instead');
-        return; // Skip Barba hooks
-    }
+    // Note: Function exposure and Barba hooks are handled earlier in the file
+    // (around line 11753) to ensure they execute before any early returns.
 
     barba.hooks.before((data) => {
 
@@ -12735,6 +12781,8 @@
 
     });
 
-
+    // Note: Function exposure to window object is done earlier in the file
+    // (before the Barba hooks check) to ensure they're always available
+    // even when Barba is disabled for Vue Router integration.
 
 }(jQuery));

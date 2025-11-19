@@ -67,6 +67,9 @@ useHead({
 // (slow network, blocked asset, or scripts.js timing issues),
 // force-remove the "loading" class after a timeout so the app is usable.
 onMounted(() => {
+  // Last-resort safety: give the legacy GSAP loader plenty of time to run
+  // its percentage/count animation and complete normally. Only if something
+  // goes wrong (blocked script, very slow network, etc.) do we force-hide it.
   window.setTimeout(() => {
     const htmlEl = document.documentElement;
     if (htmlEl && htmlEl.classList.contains('loading')) {
@@ -79,7 +82,7 @@ onMounted(() => {
         loaderEl.style.opacity = '0';
       }
     }
-  }, 4000); // 8s max wait; adjust if you want shorter/longer
+  }, 12000); // 12s max wait so the loader counter can usually finish
 });
 
 // The loading class will normally be removed by scripts.js after the page loader completes

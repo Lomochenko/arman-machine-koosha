@@ -3,9 +3,11 @@ import https from 'node:https';
 import { EventEmitter } from 'node:events';
 import { Buffer as Buffer$1 } from 'node:buffer';
 import { promises, existsSync } from 'node:fs';
-import { resolve as resolve$1, dirname as dirname$1, join } from 'node:path';
+import { resolve as resolve$2, dirname as dirname$1, join } from 'node:path';
 import { createHash } from 'node:crypto';
+import { toValue } from 'vue';
 import { fileURLToPath } from 'node:url';
+import { createConsola } from 'consola';
 
 const suspectProtoRx = /"(?:_|\\u0{2}5[Ff]){2}(?:p|\\u0{2}70)(?:r|\\u0{2}72)(?:o|\\u0{2}6[Ff])(?:t|\\u0{2}74)(?:o|\\u0{2}6[Ff])(?:_|\\u0{2}5[Ff]){2}"\s*:/;
 const suspectConstructorRx = /"(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s|\\u0073)(?:t|\\u0074)(?:r|\\u0072)(?:u|\\u0075)(?:c|\\u0063)(?:t|\\u0074)(?:o|\\u006[Ff])(?:r|\\u0072)"\s*:/;
@@ -79,12 +81,14 @@ const HASH_RE = /#/g;
 const AMPERSAND_RE = /&/g;
 const SLASH_RE = /\//g;
 const EQUAL_RE = /=/g;
+const IM_RE = /\?/g;
 const PLUS_RE = /\+/g;
 const ENC_CARET_RE = /%5e/gi;
 const ENC_BACKTICK_RE = /%60/gi;
 const ENC_PIPE_RE = /%7c/gi;
 const ENC_SPACE_RE = /%20/gi;
 const ENC_SLASH_RE = /%2f/gi;
+const ENC_ENC_SLASH_RE = /%252f/gi;
 function encode(text) {
   return encodeURI("" + text).replace(ENC_PIPE_RE, "|");
 }
@@ -93,6 +97,9 @@ function encodeQueryValue(input) {
 }
 function encodeQueryKey(text) {
   return encodeQueryValue(text).replace(EQUAL_RE, "%3D");
+}
+function encodePath(text) {
+  return encode(text).replace(HASH_RE, "%23").replace(IM_RE, "%3F").replace(ENC_ENC_SLASH_RE, "%2F").replace(AMPERSAND_RE, "%26").replace(PLUS_RE, "%2B");
 }
 function decode(text = "") {
   try {
@@ -280,6 +287,19 @@ function joinRelativeURL(..._input) {
   }
   return url;
 }
+function withHttps(input) {
+  return withProtocol(input, "https://");
+}
+function withProtocol(input, protocol) {
+  let match = input.match(PROTOCOL_REGEX);
+  if (!match) {
+    match = input.match(/^\/{2,}/);
+  }
+  if (!match) {
+    return protocol + input;
+  }
+  return protocol + input.slice(match[0].length);
+}
 
 const protocolRelative = Symbol.for("ufo:protocolRelative");
 function parseURL(input = "", defaultProto) {
@@ -299,7 +319,7 @@ function parseURL(input = "", defaultProto) {
     };
   }
   if (!hasProtocol(input, { acceptRelative: true })) {
-    return parsePath(input);
+    return defaultProto ? parseURL(defaultProto + input) : parsePath(input);
   }
   const [, protocol = "", auth, hostAndPath = ""] = input.replace(/\\/g, "/").match(/^[\s\0]*([\w+.-]{2,}:)?\/\/([^/@]+@)?(.*)/) || [];
   let [, host = "", path = ""] = hostAndPath.match(/([^#/?]*)(.*)?/) || [];
@@ -2197,6 +2217,9 @@ function isJSONSerializable(value) {
   if (value.buffer) {
     return false;
   }
+  if (value instanceof FormData || value instanceof URLSearchParams) {
+    return false;
+  }
   return value.constructor && value.constructor.name === "Object" || typeof value.toJSON === "function";
 }
 const textTypes = /* @__PURE__ */ new Set([
@@ -2213,6 +2236,9 @@ function detectResponseType(_contentType = "") {
   const contentType = _contentType.split(";").shift() || "";
   if (JSON_RE.test(contentType)) {
     return "json";
+  }
+  if (contentType === "text/event-stream") {
+    return "stream";
   }
   if (textTypes.has(contentType) || contentType.startsWith("text/")) {
     return "text";
@@ -2335,6 +2361,12 @@ function createFetch(globalOptions = {}) {
     }
     if (context.options.onRequest) {
       await callHooks(context, context.options.onRequest);
+      if (!(context.options.headers instanceof Headers)) {
+        context.options.headers = new Headers(
+          context.options.headers || {}
+          /* compat */
+        );
+      }
     }
     if (typeof context.request === "string") {
       if (context.options.baseURL) {
@@ -2353,9 +2385,13 @@ function createFetch(globalOptions = {}) {
     }
     if (context.options.body && isPayloadMethod(context.options.method)) {
       if (isJSONSerializable(context.options.body)) {
-        context.options.body = typeof context.options.body === "string" ? context.options.body : JSON.stringify(context.options.body);
-        context.options.headers = new Headers(context.options.headers || {});
-        if (!context.options.headers.has("content-type")) {
+        const contentType = context.options.headers.get("content-type");
+        if (typeof context.options.body !== "string") {
+          context.options.body = contentType === "application/x-www-form-urlencoded" ? new URLSearchParams(
+            context.options.body
+          ).toString() : JSON.stringify(context.options.body);
+        }
+        if (!contentType) {
           context.options.headers.set("content-type", "application/json");
         }
         if (!context.options.headers.has("accept")) {
@@ -2479,8 +2515,8 @@ function createNodeFetch() {
 }
 const fetch = globalThis.fetch ? (...args) => globalThis.fetch(...args) : createNodeFetch();
 const Headers$1 = globalThis.Headers || s$1;
-const AbortController = globalThis.AbortController || i;
-createFetch({ fetch, Headers: Headers$1, AbortController });
+const AbortController$1 = globalThis.AbortController || i;
+createFetch({ fetch, Headers: Headers$1, AbortController: AbortController$1 });
 
 function wrapToPromise(value) {
   if (!value || typeof value.then !== "function") {
@@ -2495,7 +2531,7 @@ function asyncCall(function_, ...arguments_) {
     return Promise.reject(error);
   }
 }
-function isPrimitive(value) {
+function isPrimitive$1(value) {
   const type = typeof value;
   return value === null || type !== "object" && type !== "function";
 }
@@ -2504,7 +2540,7 @@ function isPureObject(value) {
   return !proto || proto.isPrototypeOf(Object);
 }
 function stringify(value) {
-  if (isPrimitive(value)) {
+  if (isPrimitive$1(value)) {
     return String(value);
   }
   if (isPureObject(value) || Array.isArray(value)) {
@@ -3157,7 +3193,7 @@ async function readdirRecursive(dir, ignore, maxDepth) {
   const files = [];
   await Promise.all(
     entries.map(async (entry) => {
-      const entryPath = resolve$1(dir, entry.name);
+      const entryPath = resolve$2(dir, entry.name);
       if (entry.isDirectory()) {
         if (maxDepth === void 0 || maxDepth > 0) {
           const dirFiles = await readdirRecursive(
@@ -3180,7 +3216,7 @@ async function rmRecursive(dir) {
   const entries = await readdir(dir);
   await Promise.all(
     entries.map((entry) => {
-      const entryPath = resolve$1(dir, entry.name);
+      const entryPath = resolve$2(dir, entry.name);
       if (entry.isDirectory()) {
         return rmRecursive(entryPath).then(() => promises.rmdir(entryPath));
       } else {
@@ -3196,7 +3232,7 @@ const unstorage_47drivers_47fs_45lite = defineDriver((opts = {}) => {
   if (!opts.base) {
     throw createRequiredError(DRIVER_NAME, "base");
   }
-  opts.base = resolve$1(opts.base);
+  opts.base = resolve$2(opts.base);
   const r = (key) => {
     if (PATH_TRAVERSE_RE.test(key)) {
       throw createError(
@@ -3972,7 +4008,7 @@ function _expandFromEnv(value) {
 const _inlineRuntimeConfig = {
   "app": {
     "baseURL": "/",
-    "buildId": "63d95a2c-2531-48ba-9b6a-2261af257b25",
+    "buildId": "47ac7853-b4e0-4377-991d-6c7b4460d889",
     "buildAssetsDir": "/_nuxt/",
     "cdnURL": ""
   },
@@ -3981,6 +4017,58 @@ const _inlineRuntimeConfig = {
     "routeRules": {
       "/__nuxt_error": {
         "cache": false
+      },
+      "/img/**": {
+        "headers": {
+          "cache-control": "public, max-age=31536000, immutable"
+        }
+      },
+      "/js/**": {
+        "headers": {
+          "cache-control": "public, max-age=31536000, immutable"
+        }
+      },
+      "/css/**": {
+        "headers": {
+          "cache-control": "public, max-age=31536000, immutable"
+        }
+      },
+      "/": {
+        "headers": {
+          "cache-control": "public, max-age=3600, must-revalidate"
+        }
+      },
+      "/works": {
+        "headers": {
+          "cache-control": "public, max-age=3600, must-revalidate"
+        }
+      },
+      "/about": {
+        "headers": {
+          "cache-control": "public, max-age=3600, must-revalidate"
+        }
+      },
+      "/services": {
+        "headers": {
+          "cache-control": "public, max-age=3600, must-revalidate"
+        }
+      },
+      "/contact": {
+        "headers": {
+          "cache-control": "public, max-age=3600, must-revalidate"
+        }
+      },
+      "/__sitemap__/style.xsl": {
+        "headers": {
+          "Content-Type": "application/xslt+xml"
+        }
+      },
+      "/sitemap.xml": {
+        "headers": {
+          "Content-Type": "text/xml; charset=UTF-8",
+          "Cache-Control": "public, max-age=600, must-revalidate",
+          "X-Sitemap-Prerendered": "2025-11-19T11:19:54.470Z"
+        }
       },
       "/_nuxt/builds/meta/**": {
         "headers": {
@@ -3999,7 +4087,83 @@ const _inlineRuntimeConfig = {
       }
     }
   },
-  "public": {}
+  "public": {},
+  "sitemap": {
+    "isI18nMapped": false,
+    "sitemapName": "sitemap.xml",
+    "isMultiSitemap": false,
+    "excludeAppSources": [],
+    "cacheMaxAgeSeconds": 600,
+    "autoLastmod": false,
+    "defaultSitemapsChunkSize": 1000,
+    "minify": false,
+    "sortEntries": true,
+    "debug": false,
+    "discoverImages": true,
+    "discoverVideos": true,
+    "sitemapsPathPrefix": "/__sitemap__/",
+    "isNuxtContentDocumentDriven": false,
+    "xsl": "/__sitemap__/style.xsl",
+    "xslTips": true,
+    "xslColumns": [
+      {
+        "label": "URL",
+        "width": "50%"
+      },
+      {
+        "label": "Images",
+        "width": "25%",
+        "select": "count(image:image)"
+      },
+      {
+        "label": "Last Updated",
+        "width": "25%",
+        "select": "concat(substring(sitemap:lastmod,0,11),concat(' ', substring(sitemap:lastmod,12,5)),concat(' ', substring(sitemap:lastmod,20,6)))"
+      }
+    ],
+    "credits": true,
+    "version": "7.4.7",
+    "sitemaps": {
+      "sitemap.xml": {
+        "sitemapName": "sitemap.xml",
+        "route": "sitemap.xml",
+        "defaults": {
+          "changefreq": "weekly",
+          "priority": 0.8,
+          "lastmod": "2025-11-19T11:19:54.119Z"
+        },
+        "include": [],
+        "exclude": [
+          "/_**",
+          "/_nuxt/**"
+        ],
+        "includeAppSources": true
+      }
+    }
+  },
+  "nuxt-site-config": {
+    "stack": [
+      {
+        "_context": "system",
+        "_priority": -15,
+        "name": "arman-machine-koosha",
+        "env": "production"
+      },
+      {
+        "_context": "package.json",
+        "_priority": -10,
+        "name": "amk-nuxt"
+      },
+      {
+        "_priority": -3,
+        "_context": "nuxt-site-config:config",
+        "url": "https://armanmachinekoosha.com"
+      }
+    ],
+    "version": "3.2.11",
+    "debug": false,
+    "multiTenancy": []
+  }
 };
 const envOptions = {
   prefix: "NITRO_",
@@ -4289,11 +4453,475 @@ async function errorHandler(error, event) {
   // H3 will handle fallback
 }
 
+const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_$";
+const unsafeChars = /[<>\b\f\n\r\t\0\u2028\u2029]/g;
+const reserved = /^(?:do|if|in|for|int|let|new|try|var|byte|case|char|else|enum|goto|long|this|void|with|await|break|catch|class|const|final|float|short|super|throw|while|yield|delete|double|export|import|native|return|switch|throws|typeof|boolean|default|extends|finally|package|private|abstract|continue|debugger|function|volatile|interface|protected|transient|implements|instanceof|synchronized)$/;
+const escaped = {
+  "<": "\\u003C",
+  ">": "\\u003E",
+  "/": "\\u002F",
+  "\\": "\\\\",
+  "\b": "\\b",
+  "\f": "\\f",
+  "\n": "\\n",
+  "\r": "\\r",
+  "	": "\\t",
+  "\0": "\\0",
+  "\u2028": "\\u2028",
+  "\u2029": "\\u2029"
+};
+const objectProtoOwnPropertyNames = Object.getOwnPropertyNames(Object.prototype).sort().join("\0");
+function devalue(value) {
+  const counts = /* @__PURE__ */ new Map();
+  let logNum = 0;
+  function log(message) {
+    if (logNum < 100) {
+      console.warn(message);
+      logNum += 1;
+    }
+  }
+  function walk(thing) {
+    if (typeof thing === "function") {
+      log(`Cannot stringify a function ${thing.name}`);
+      return;
+    }
+    if (counts.has(thing)) {
+      counts.set(thing, counts.get(thing) + 1);
+      return;
+    }
+    counts.set(thing, 1);
+    if (!isPrimitive(thing)) {
+      const type = getType(thing);
+      switch (type) {
+        case "Number":
+        case "String":
+        case "Boolean":
+        case "Date":
+        case "RegExp":
+          return;
+        case "Array":
+          thing.forEach(walk);
+          break;
+        case "Set":
+        case "Map":
+          Array.from(thing).forEach(walk);
+          break;
+        default:
+          const proto = Object.getPrototypeOf(thing);
+          if (proto !== Object.prototype && proto !== null && Object.getOwnPropertyNames(proto).sort().join("\0") !== objectProtoOwnPropertyNames) {
+            if (typeof thing.toJSON !== "function") {
+              log(`Cannot stringify arbitrary non-POJOs ${thing.constructor.name}`);
+            }
+          } else if (Object.getOwnPropertySymbols(thing).length > 0) {
+            log(`Cannot stringify POJOs with symbolic keys ${Object.getOwnPropertySymbols(thing).map((symbol) => symbol.toString())}`);
+          } else {
+            Object.keys(thing).forEach((key) => walk(thing[key]));
+          }
+      }
+    }
+  }
+  walk(value);
+  const names = /* @__PURE__ */ new Map();
+  Array.from(counts).filter((entry) => entry[1] > 1).sort((a, b) => b[1] - a[1]).forEach((entry, i) => {
+    names.set(entry[0], getName(i));
+  });
+  function stringify(thing) {
+    if (names.has(thing)) {
+      return names.get(thing);
+    }
+    if (isPrimitive(thing)) {
+      return stringifyPrimitive(thing);
+    }
+    const type = getType(thing);
+    switch (type) {
+      case "Number":
+      case "String":
+      case "Boolean":
+        return `Object(${stringify(thing.valueOf())})`;
+      case "RegExp":
+        return thing.toString();
+      case "Date":
+        return `new Date(${thing.getTime()})`;
+      case "Array":
+        const members = thing.map((v, i) => i in thing ? stringify(v) : "");
+        const tail = thing.length === 0 || thing.length - 1 in thing ? "" : ",";
+        return `[${members.join(",")}${tail}]`;
+      case "Set":
+      case "Map":
+        return `new ${type}([${Array.from(thing).map(stringify).join(",")}])`;
+      default:
+        if (thing.toJSON) {
+          let json = thing.toJSON();
+          if (getType(json) === "String") {
+            try {
+              json = JSON.parse(json);
+            } catch (e) {
+            }
+          }
+          return stringify(json);
+        }
+        if (Object.getPrototypeOf(thing) === null) {
+          if (Object.keys(thing).length === 0) {
+            return "Object.create(null)";
+          }
+          return `Object.create(null,{${Object.keys(thing).map((key) => `${safeKey(key)}:{writable:true,enumerable:true,value:${stringify(thing[key])}}`).join(",")}})`;
+        }
+        return `{${Object.keys(thing).map((key) => `${safeKey(key)}:${stringify(thing[key])}`).join(",")}}`;
+    }
+  }
+  const str = stringify(value);
+  if (names.size) {
+    const params = [];
+    const statements = [];
+    const values = [];
+    names.forEach((name, thing) => {
+      params.push(name);
+      if (isPrimitive(thing)) {
+        values.push(stringifyPrimitive(thing));
+        return;
+      }
+      const type = getType(thing);
+      switch (type) {
+        case "Number":
+        case "String":
+        case "Boolean":
+          values.push(`Object(${stringify(thing.valueOf())})`);
+          break;
+        case "RegExp":
+          values.push(thing.toString());
+          break;
+        case "Date":
+          values.push(`new Date(${thing.getTime()})`);
+          break;
+        case "Array":
+          values.push(`Array(${thing.length})`);
+          thing.forEach((v, i) => {
+            statements.push(`${name}[${i}]=${stringify(v)}`);
+          });
+          break;
+        case "Set":
+          values.push("new Set");
+          statements.push(`${name}.${Array.from(thing).map((v) => `add(${stringify(v)})`).join(".")}`);
+          break;
+        case "Map":
+          values.push("new Map");
+          statements.push(`${name}.${Array.from(thing).map(([k, v]) => `set(${stringify(k)}, ${stringify(v)})`).join(".")}`);
+          break;
+        default:
+          values.push(Object.getPrototypeOf(thing) === null ? "Object.create(null)" : "{}");
+          Object.keys(thing).forEach((key) => {
+            statements.push(`${name}${safeProp(key)}=${stringify(thing[key])}`);
+          });
+      }
+    });
+    statements.push(`return ${str}`);
+    return `(function(${params.join(",")}){${statements.join(";")}}(${values.join(",")}))`;
+  } else {
+    return str;
+  }
+}
+function getName(num) {
+  let name = "";
+  do {
+    name = chars[num % chars.length] + name;
+    num = ~~(num / chars.length) - 1;
+  } while (num >= 0);
+  return reserved.test(name) ? `${name}0` : name;
+}
+function isPrimitive(thing) {
+  return Object(thing) !== thing;
+}
+function stringifyPrimitive(thing) {
+  if (typeof thing === "string") {
+    return stringifyString(thing);
+  }
+  if (thing === void 0) {
+    return "void 0";
+  }
+  if (thing === 0 && 1 / thing < 0) {
+    return "-0";
+  }
+  const str = String(thing);
+  if (typeof thing === "number") {
+    return str.replace(/^(-)?0\./, "$1.");
+  }
+  return str;
+}
+function getType(thing) {
+  return Object.prototype.toString.call(thing).slice(8, -1);
+}
+function escapeUnsafeChar(c) {
+  return escaped[c] || c;
+}
+function escapeUnsafeChars(str) {
+  return str.replace(unsafeChars, escapeUnsafeChar);
+}
+function safeKey(key) {
+  return /^[_$a-zA-Z][_$a-zA-Z0-9]*$/.test(key) ? key : escapeUnsafeChars(JSON.stringify(key));
+}
+function safeProp(key) {
+  return /^[_$a-zA-Z][_$a-zA-Z0-9]*$/.test(key) ? `.${key}` : `[${escapeUnsafeChars(JSON.stringify(key))}]`;
+}
+function stringifyString(str) {
+  let result = '"';
+  for (let i = 0; i < str.length; i += 1) {
+    const char = str.charAt(i);
+    const code = char.charCodeAt(0);
+    if (char === '"') {
+      result += '\\"';
+    } else if (char in escaped) {
+      result += escaped[char];
+    } else if (code >= 55296 && code <= 57343) {
+      const next = str.charCodeAt(i + 1);
+      if (code <= 56319 && (next >= 56320 && next <= 57343)) {
+        result += char + str[++i];
+      } else {
+        result += `\\u${code.toString(16).toUpperCase()}`;
+      }
+    } else {
+      result += char;
+    }
+  }
+  result += '"';
+  return result;
+}
+
+function normalizeSiteConfig(config) {
+  if (typeof config.indexable !== "undefined")
+    config.indexable = String(config.indexable) !== "false";
+  if (typeof config.trailingSlash !== "undefined" && !config.trailingSlash)
+    config.trailingSlash = String(config.trailingSlash) !== "false";
+  if (config.url && !hasProtocol(String(config.url), { acceptRelative: true, strict: false }))
+    config.url = withHttps(String(config.url));
+  const keys = Object.keys(config).sort((a, b) => a.localeCompare(b));
+  const newConfig = {};
+  for (const k of keys)
+    newConfig[k] = config[k];
+  return newConfig;
+}
+function createSiteConfigStack(options) {
+  const debug = options?.debug || false;
+  const stack = [];
+  function push(input) {
+    if (!input || typeof input !== "object" || Object.keys(input).length === 0) {
+      return () => {
+      };
+    }
+    if (!input._context && debug) {
+      let lastFunctionName = new Error("tmp").stack?.split("\n")[2]?.split(" ")[5];
+      if (lastFunctionName?.includes("/"))
+        lastFunctionName = "anonymous";
+      input._context = lastFunctionName;
+    }
+    const entry = {};
+    for (const k in input) {
+      const val = input[k];
+      if (typeof val !== "undefined" && val !== "")
+        entry[k] = val;
+    }
+    let idx;
+    if (Object.keys(entry).filter((k) => !k.startsWith("_")).length > 0)
+      idx = stack.push(entry);
+    return () => {
+      if (typeof idx !== "undefined") {
+        stack.splice(idx - 1, 1);
+      }
+    };
+  }
+  function get(options2) {
+    const siteConfig = {};
+    if (options2?.debug)
+      siteConfig._context = {};
+    siteConfig._priority = {};
+    for (const o in stack.sort((a, b) => (a._priority || 0) - (b._priority || 0))) {
+      for (const k in stack[o]) {
+        const key = k;
+        const val = options2?.resolveRefs ? toValue(stack[o][k]) : stack[o][k];
+        if (!k.startsWith("_") && typeof val !== "undefined" && val !== "") {
+          siteConfig[k] = val;
+          if (typeof stack[o]._priority !== "undefined" && stack[o]._priority !== -1) {
+            siteConfig._priority[key] = stack[o]._priority;
+          }
+          if (options2?.debug)
+            siteConfig._context[key] = stack[o]._context?.[key] || stack[o]._context || "anonymous";
+        }
+      }
+    }
+    return options2?.skipNormalize ? siteConfig : normalizeSiteConfig(siteConfig);
+  }
+  return {
+    stack,
+    push,
+    get
+  };
+}
+
+function envSiteConfig(env) {
+  return Object.fromEntries(Object.entries(env).filter(([k]) => k.startsWith("NUXT_SITE_") || k.startsWith("NUXT_PUBLIC_SITE_")).map(([k, v]) => [
+    k.replace(/^NUXT_(PUBLIC_)?SITE_/, "").split("_").map((s, i) => i === 0 ? s.toLowerCase() : s[0]?.toUpperCase() + s.slice(1).toLowerCase()).join(""),
+    v
+  ]));
+}
+
+function getSiteConfig(e, _options) {
+  e.context.siteConfig = e.context.siteConfig || createSiteConfigStack();
+  const options = defu(_options, useRuntimeConfig(e)["nuxt-site-config"], { debug: false });
+  return e.context.siteConfig.get(options);
+}
+
+const _Yd3bSyXLhuvSPZc74YNt4TUmHlPFwVb3N5_7SHmwt0 = defineNitroPlugin(async (nitroApp) => {
+  nitroApp.hooks.hook("render:html", async (ctx, { event }) => {
+    getRouteRules(event);
+    process.env.NUXT_COMPONENT_ISLANDS && event.path.startsWith("/__nuxt_island");
+    event.path;
+    {
+      const siteConfig = Object.fromEntries(
+        Object.entries(getSiteConfig(event)).map(([k, v]) => [k, toValue(v)])
+      );
+      ctx.body.push(`<script>window.__NUXT_SITE_CONFIG__=${devalue(siteConfig)}<\/script>`);
+    }
+  });
+});
+
 const plugins = [
-  
+  _Yd3bSyXLhuvSPZc74YNt4TUmHlPFwVb3N5_7SHmwt0
 ];
 
 const assets = {
+  "/index.html": {
+    "type": "text/html;charset=utf-8",
+    "etag": "\"77d-cZfYmuC5EzX9OtqUWqTRobOPdqw\"",
+    "mtime": "2025-11-19T11:20:09.519Z",
+    "size": 1917,
+    "path": "../public/index.html"
+  },
+  "/index.html.br": {
+    "type": "text/html; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"286-EIYLjZm65lDBB9+ZmZ3wUKMhd5Y\"",
+    "mtime": "2025-11-19T11:20:11.753Z",
+    "size": 646,
+    "path": "../public/index.html.br"
+  },
+  "/index.html.gz": {
+    "type": "text/html; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"362-c8yYOWDd4QfUvpk/L9UNJdkTtLI\"",
+    "mtime": "2025-11-19T11:20:11.752Z",
+    "size": 866,
+    "path": "../public/index.html.gz"
+  },
+  "/robots.txt": {
+    "type": "text/plain; charset=utf-8",
+    "etag": "\"68-02PT1IwxN5UaWqEvAxdYWEfBD14\"",
+    "mtime": "2025-11-06T07:03:22.382Z",
+    "size": 104,
+    "path": "../public/robots.txt"
+  },
+  "/sitemap.xml": {
+    "type": "application/xml",
+    "etag": "\"6e4-MMotErvS/j/x0HKYdN3aAGqeNNo\"",
+    "mtime": "2025-11-19T11:20:11.716Z",
+    "size": 1764,
+    "path": "../public/sitemap.xml"
+  },
+  "/sitemap.xml.br": {
+    "type": "application/xml",
+    "encoding": "br",
+    "etag": "\"170-mvPeQJx7IyllBLgmdKCYOgqXlRA\"",
+    "mtime": "2025-11-19T11:20:11.753Z",
+    "size": 368,
+    "path": "../public/sitemap.xml.br"
+  },
+  "/sitemap.xml.gz": {
+    "type": "application/xml",
+    "encoding": "gzip",
+    "etag": "\"1cb-Yx5J3NweDmdZWRay7/i7kpVd2z4\"",
+    "mtime": "2025-11-19T11:20:11.752Z",
+    "size": 459,
+    "path": "../public/sitemap.xml.gz"
+  },
+  "/about/index.html": {
+    "type": "text/html;charset=utf-8",
+    "etag": "\"77d-NRm0F7AqNrbKmLwp+Wk4Nl9Rihw\"",
+    "mtime": "2025-11-19T11:20:09.519Z",
+    "size": 1917,
+    "path": "../public/about/index.html"
+  },
+  "/about/index.html.br": {
+    "type": "text/html; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"286-+JYdIFLCZK4mkMdp74VxpQ2PLbI\"",
+    "mtime": "2025-11-19T11:20:11.753Z",
+    "size": 646,
+    "path": "../public/about/index.html.br"
+  },
+  "/about/index.html.gz": {
+    "type": "text/html; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"362-mGpyYUCCwAvtjkjp63jLP8hIfGM\"",
+    "mtime": "2025-11-19T11:20:11.753Z",
+    "size": 866,
+    "path": "../public/about/index.html.gz"
+  },
+  "/img/site-logo-light.png": {
+    "type": "image/png",
+    "etag": "\"3d0-L7Foyg5rxEb6GNHDqkDFiXnQIks\"",
+    "mtime": "2023-10-27T18:00:28.000Z",
+    "size": 976,
+    "path": "../public/img/site-logo-light.png"
+  },
+  "/img/site-logo.png": {
+    "type": "image/png",
+    "etag": "\"3d9-tTCxwQWy/wpl7weXliUt/6uO1EU\"",
+    "mtime": "2023-10-27T18:00:46.000Z",
+    "size": 985,
+    "path": "../public/img/site-logo.png"
+  },
+  "/img/site_emblem_dark.png": {
+    "type": "image/png",
+    "etag": "\"138-1l0STZnbhWo395vqHrSjAyxX/xQ\"",
+    "mtime": "2023-10-27T18:01:24.000Z",
+    "size": 312,
+    "path": "../public/img/site_emblem_dark.png"
+  },
+  "/img/sticky_logo.png": {
+    "type": "image/png",
+    "etag": "\"1c9-VYPJf3i1faYtJofgBFzSuOUDefg\"",
+    "mtime": "2023-10-27T18:01:23.000Z",
+    "size": 457,
+    "path": "../public/img/sticky_logo.png"
+  },
+  "/img/sticky_logo_light.png": {
+    "type": "image/png",
+    "etag": "\"1c9-LmSaFQ/w8YT2ygfb6ddnRtdlP1s\"",
+    "mtime": "2023-10-27T18:01:18.000Z",
+    "size": 457,
+    "path": "../public/img/sticky_logo_light.png"
+  },
+  "/contact/index.html": {
+    "type": "text/html;charset=utf-8",
+    "etag": "\"77d-NRm0F7AqNrbKmLwp+Wk4Nl9Rihw\"",
+    "mtime": "2025-11-19T11:20:09.519Z",
+    "size": 1917,
+    "path": "../public/contact/index.html"
+  },
+  "/contact/index.html.br": {
+    "type": "text/html; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"286-+JYdIFLCZK4mkMdp74VxpQ2PLbI\"",
+    "mtime": "2025-11-19T11:20:11.754Z",
+    "size": 646,
+    "path": "../public/contact/index.html.br"
+  },
+  "/contact/index.html.gz": {
+    "type": "text/html; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"362-mGpyYUCCwAvtjkjp63jLP8hIfGM\"",
+    "mtime": "2025-11-19T11:20:11.753Z",
+    "size": 866,
+    "path": "../public/contact/index.html.gz"
+  },
   "/css/plugins.css": {
     "type": "text/css; charset=utf-8",
     "etag": "\"c4e7-6VkS089+Q87d7bhfpWmo4COziIQ\"",
@@ -4301,12 +4929,44 @@ const assets = {
     "size": 50407,
     "path": "../public/css/plugins.css"
   },
+  "/css/plugins.css.br": {
+    "type": "text/css; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"20a7-fDh0RliBsk1pePXcAjm2oWTG5u0\"",
+    "mtime": "2025-11-19T11:20:16.965Z",
+    "size": 8359,
+    "path": "../public/css/plugins.css.br"
+  },
+  "/css/plugins.css.gz": {
+    "type": "text/css; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"2575-rxHvHNrJNWgelZqVUicwc81YUDE\"",
+    "mtime": "2025-11-19T11:20:16.966Z",
+    "size": 9589,
+    "path": "../public/css/plugins.css.gz"
+  },
   "/css/style.css": {
     "type": "text/css; charset=utf-8",
     "etag": "\"4325e-JL5w/ZoCT4Sw0zIxutcSyr9feUU\"",
-    "mtime": "2025-10-23T13:51:26.845Z",
+    "mtime": "2025-11-09T10:08:28.152Z",
     "size": 275038,
     "path": "../public/css/style.css"
+  },
+  "/css/style.css.br": {
+    "type": "text/css; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"71a5-aQbMYQB3UH05wE86SrBbQKwm1YU\"",
+    "mtime": "2025-11-19T11:20:17.013Z",
+    "size": 29093,
+    "path": "../public/css/style.css.br"
+  },
+  "/css/style.css.gz": {
+    "type": "text/css; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"8e51-myq8IbgmJOi+ZWzaZy9lOdWpXpU\"",
+    "mtime": "2025-11-19T11:20:17.009Z",
+    "size": 36433,
+    "path": "../public/css/style.css.gz"
   },
   "/js/gsap.js": {
     "type": "text/javascript; charset=utf-8",
@@ -4315,439 +4975,711 @@ const assets = {
     "size": 788653,
     "path": "../public/js/gsap.js"
   },
+  "/js/gsap.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"23555-x0ck3Rtuuk3B0O5LmBoH5odi0bw\"",
+    "mtime": "2025-11-19T11:20:18.632Z",
+    "size": 144725,
+    "path": "../public/js/gsap.js.br"
+  },
+  "/js/gsap.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"2c4f3-vZGkpfr89Y40i3pzXlzCgmWO0+A\"",
+    "mtime": "2025-11-19T11:20:17.072Z",
+    "size": 181491,
+    "path": "../public/js/gsap.js.gz"
+  },
   "/js/scripts.js": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"5b68c-8p5fUCBE9Xwu+EjqLtYK0yKILGU\"",
-    "mtime": "2025-10-27T07:24:40.870Z",
-    "size": 374412,
+    "etag": "\"5f0ee-1fRRpdVBzio3k7xIdDaqw/fFIEs\"",
+    "mtime": "2025-11-17T08:21:24.968Z",
+    "size": 389358,
     "path": "../public/js/scripts.js"
   },
-  "/sitemap.xml/index.html": {
-    "type": "text/html;charset=utf-8",
-    "etag": "\"766-jQ1NDvtpLKiC2xyrVTiZWvpFVGM\"",
-    "mtime": "2025-10-31T05:29:50.413Z",
-    "size": 1894,
-    "path": "../public/sitemap.xml/index.html"
-  },
-  "/robots.txt/index.html": {
-    "type": "text/html;charset=utf-8",
-    "etag": "\"766-GX0dRQZZpswLVEkd8AJcM34iQQg\"",
-    "mtime": "2025-10-31T05:29:50.413Z",
-    "size": 1894,
-    "path": "../public/robots.txt/index.html"
-  },
-  "/_nuxt/-9zZKC7A.js": {
+  "/js/scripts.js.br": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"d3e-i0/C2JSgh8Dx0lvULL7MumcD7KI\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
-    "size": 3390,
-    "path": "../public/_nuxt/-9zZKC7A.js"
+    "encoding": "br",
+    "etag": "\"a396-0jkLYpEg7IWrtQg7xKmJ7XnMj0c\"",
+    "mtime": "2025-11-19T11:20:17.036Z",
+    "size": 41878,
+    "path": "../public/js/scripts.js.br"
+  },
+  "/js/scripts.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"ccbb-T1cYbLBEZvZpbKqVxzVOi0au2eU\"",
+    "mtime": "2025-11-19T11:20:17.017Z",
+    "size": 52411,
+    "path": "../public/js/scripts.js.gz"
+  },
+  "/works/index.html": {
+    "type": "text/html;charset=utf-8",
+    "etag": "\"77d-NRm0F7AqNrbKmLwp+Wk4Nl9Rihw\"",
+    "mtime": "2025-11-19T11:20:09.519Z",
+    "size": 1917,
+    "path": "../public/works/index.html"
+  },
+  "/works/index.html.br": {
+    "type": "text/html; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"286-+JYdIFLCZK4mkMdp74VxpQ2PLbI\"",
+    "mtime": "2025-11-19T11:20:11.755Z",
+    "size": 646,
+    "path": "../public/works/index.html.br"
+  },
+  "/works/index.html.gz": {
+    "type": "text/html; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"362-mGpyYUCCwAvtjkjp63jLP8hIfGM\"",
+    "mtime": "2025-11-19T11:20:11.753Z",
+    "size": 866,
+    "path": "../public/works/index.html.gz"
+  },
+  "/services/index.html": {
+    "type": "text/html;charset=utf-8",
+    "etag": "\"77d-NRm0F7AqNrbKmLwp+Wk4Nl9Rihw\"",
+    "mtime": "2025-11-19T11:20:09.519Z",
+    "size": 1917,
+    "path": "../public/services/index.html"
+  },
+  "/services/index.html.br": {
+    "type": "text/html; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"286-+JYdIFLCZK4mkMdp74VxpQ2PLbI\"",
+    "mtime": "2025-11-19T11:20:11.753Z",
+    "size": 646,
+    "path": "../public/services/index.html.br"
+  },
+  "/services/index.html.gz": {
+    "type": "text/html; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"362-mGpyYUCCwAvtjkjp63jLP8hIfGM\"",
+    "mtime": "2025-11-19T11:20:11.753Z",
+    "size": 866,
+    "path": "../public/services/index.html.gz"
+  },
+  "/_nuxt/1KBJjJFN.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"b0-nRLhmJNX16kn5TIh4Q2b680xYI8\"",
+    "mtime": "2025-11-19T11:20:05.780Z",
+    "size": 176,
+    "path": "../public/_nuxt/1KBJjJFN.js"
+  },
+  "/_nuxt/83haXju6.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"62bbd-utyKMApzMpFrM29N/6SyYknBmIM\"",
+    "mtime": "2025-11-19T11:20:05.780Z",
+    "size": 404413,
+    "path": "../public/_nuxt/83haXju6.js"
+  },
+  "/_nuxt/83haXju6.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"1e8b5-nDP8qwMitIpPeSJg1ZgN7lZloHk\"",
+    "mtime": "2025-11-19T11:20:17.386Z",
+    "size": 125109,
+    "path": "../public/_nuxt/83haXju6.js.br"
+  },
+  "/_nuxt/83haXju6.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"2297f-yOdEZLNPvEnnaVDcFmeBjvPNdNQ\"",
+    "mtime": "2025-11-19T11:20:17.038Z",
+    "size": 141695,
+    "path": "../public/_nuxt/83haXju6.js.gz"
   },
   "/_nuxt/agency_1.OWl4_xgw.jpg": {
     "type": "image/jpeg",
     "etag": "\"2d34ae-sVX62zR8RN0ImUcLdnyVuJsm/JU\"",
-    "mtime": "2025-10-31T05:29:46.167Z",
+    "mtime": "2025-11-19T11:20:05.802Z",
     "size": 2962606,
     "path": "../public/_nuxt/agency_1.OWl4_xgw.jpg"
   },
   "/_nuxt/agency_2.DBy_b6-z.jpg": {
     "type": "image/jpeg",
     "etag": "\"2191bf-KJXIiLG9lQvQmrr0Jt7Jlx3Wadg\"",
-    "mtime": "2025-10-31T05:29:46.163Z",
+    "mtime": "2025-11-19T11:20:05.799Z",
     "size": 2199999,
     "path": "../public/_nuxt/agency_2.DBy_b6-z.jpg"
   },
   "/_nuxt/agency_3.B8e2ujoB.jpg": {
     "type": "image/jpeg",
     "etag": "\"2770c4-sY8e+LsmJDe78stRqra9DAkYNkI\"",
-    "mtime": "2025-10-31T05:29:46.163Z",
+    "mtime": "2025-11-19T11:20:05.802Z",
     "size": 2584772,
     "path": "../public/_nuxt/agency_3.B8e2ujoB.jpg"
   },
   "/_nuxt/agency_4.CI7O5WXd.jpg": {
     "type": "image/jpeg",
     "etag": "\"2df542-MmOATe87vpNNNtinUIVKx6+du94\"",
-    "mtime": "2025-10-31T05:29:46.167Z",
+    "mtime": "2025-11-19T11:20:05.802Z",
     "size": 3011906,
     "path": "../public/_nuxt/agency_4.CI7O5WXd.jpg"
   },
   "/_nuxt/agency_5.CV5IJlTG.jpg": {
     "type": "image/jpeg",
     "etag": "\"2a1c68-WWqig9Mwcl9WfKubnp0+V4igvAA\"",
-    "mtime": "2025-10-31T05:29:46.167Z",
+    "mtime": "2025-11-19T11:20:05.802Z",
     "size": 2759784,
     "path": "../public/_nuxt/agency_5.CV5IJlTG.jpg"
   },
   "/_nuxt/agency_6.DIT4oPHC.jpg": {
     "type": "image/jpeg",
     "etag": "\"2d3275-G8/hZaalDucGzfrcXOoZ4NFyRrQ\"",
-    "mtime": "2025-10-31T05:29:46.167Z",
+    "mtime": "2025-11-19T11:20:05.802Z",
     "size": 2962037,
     "path": "../public/_nuxt/agency_6.DIT4oPHC.jpg"
   },
   "/_nuxt/agency_mag.Be7mGWBd.jpg": {
     "type": "image/jpeg",
     "etag": "\"cb9a8-aeTVtEVVpoyTnD0H7onbrVHf8gE\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
+    "mtime": "2025-11-19T11:20:05.782Z",
     "size": 833960,
     "path": "../public/_nuxt/agency_mag.Be7mGWBd.jpg"
   },
   "/_nuxt/ag_exp_vert_2.BCJp8lwr.jpg": {
     "type": "image/jpeg",
     "etag": "\"8adce-yOxgixnW9M7dtjxmMabebIm4rKE\"",
-    "mtime": "2025-10-31T05:29:46.149Z",
+    "mtime": "2025-11-19T11:20:05.782Z",
     "size": 568782,
     "path": "../public/_nuxt/ag_exp_vert_2.BCJp8lwr.jpg"
   },
   "/_nuxt/ag_exp_vert_3.Bro8O2nj.jpg": {
     "type": "image/jpeg",
     "etag": "\"12f7ed-yo2CTVp2SFQjzYOsvU4j5vMn6VM\"",
-    "mtime": "2025-10-31T05:29:46.149Z",
+    "mtime": "2025-11-19T11:20:05.789Z",
     "size": 1243117,
     "path": "../public/_nuxt/ag_exp_vert_3.Bro8O2nj.jpg"
   },
   "/_nuxt/ag_exp_vert_5.D54O1Hhh.jpg": {
     "type": "image/jpeg",
     "etag": "\"8eb1a-ED6XLNPIWgh+QLoPWmoqIKXwBIA\"",
-    "mtime": "2025-10-31T05:29:46.149Z",
+    "mtime": "2025-11-19T11:20:05.782Z",
     "size": 584474,
     "path": "../public/_nuxt/ag_exp_vert_5.D54O1Hhh.jpg"
   },
   "/_nuxt/architexture_1.BTZ_uu7v.jpg": {
     "type": "image/jpeg",
     "etag": "\"2b1960-D2TWq3ciAnlDwSXubh79i9YZ+QY\"",
-    "mtime": "2025-10-31T05:29:46.167Z",
+    "mtime": "2025-11-19T11:20:05.802Z",
     "size": 2824544,
     "path": "../public/_nuxt/architexture_1.BTZ_uu7v.jpg"
   },
   "/_nuxt/austeria_featured.ELuEf0WJ.jpg": {
     "type": "image/jpeg",
     "etag": "\"331dc0-T3RL3DisuB/kHJKKvvG6n8Vm/m0\"",
-    "mtime": "2025-10-31T05:29:46.167Z",
+    "mtime": "2025-11-19T11:20:05.802Z",
     "size": 3349952,
     "path": "../public/_nuxt/austeria_featured.ELuEf0WJ.jpg"
-  },
-  "/_nuxt/B86KadJz.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"4933-0LCzSRtTSLbFonc6gvmhARAwNFU\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
-    "size": 18739,
-    "path": "../public/_nuxt/B86KadJz.js"
   },
   "/_nuxt/beach-brown_8.CEdLJSfM.jpg": {
     "type": "image/jpeg",
     "etag": "\"c3c58-zCDGPD+tvp8mD0SGgO5kazS1N+A\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
+    "mtime": "2025-11-19T11:20:05.781Z",
     "size": 801880,
     "path": "../public/_nuxt/beach-brown_8.CEdLJSfM.jpg"
   },
-  "/_nuxt/BIXQtvVy.js": {
+  "/_nuxt/Bq7N_uoz.js": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"1df-zF4aq4JUh6wzMXpQ+3mbQm3KvHc\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
-    "size": 479,
-    "path": "../public/_nuxt/BIXQtvVy.js"
+    "etag": "\"da5b-jzYqS25tUAd6y26rCn7dNooOz8k\"",
+    "mtime": "2025-11-19T11:20:05.780Z",
+    "size": 55899,
+    "path": "../public/_nuxt/Bq7N_uoz.js"
   },
-  "/_nuxt/BNNds_jO.js": {
+  "/_nuxt/Bq7N_uoz.js.br": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"7954f-ieKVn740V0+aJMjVtikHNY1y9jM\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
-    "size": 496975,
-    "path": "../public/_nuxt/BNNds_jO.js"
+    "encoding": "br",
+    "etag": "\"72da-RaAd8YjnVDVPNOT5edUK21P1n90\"",
+    "mtime": "2025-11-19T11:20:16.980Z",
+    "size": 29402,
+    "path": "../public/_nuxt/Bq7N_uoz.js.br"
   },
-  "/_nuxt/BpbJe0-M.js": {
+  "/_nuxt/Bq7N_uoz.js.gz": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"e95-uXxpCr3j7zEPE5O1DMEPj2pUqwM\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
+    "encoding": "gzip",
+    "etag": "\"774b-8HnD/nNN58csDQPqp88DUj7XIow\"",
+    "mtime": "2025-11-19T11:20:16.980Z",
+    "size": 30539,
+    "path": "../public/_nuxt/Bq7N_uoz.js.gz"
+  },
+  "/_nuxt/BtyRYUN8.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"e95-+uU9H82mIGCYhjR+2Gt/qpBIWsA\"",
+    "mtime": "2025-11-19T11:20:05.780Z",
     "size": 3733,
-    "path": "../public/_nuxt/BpbJe0-M.js"
+    "path": "../public/_nuxt/BtyRYUN8.js"
   },
-  "/_nuxt/BUEARS_H.js": {
+  "/_nuxt/BtyRYUN8.js.br": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"49aa-+WWYzln+XLQhSZWgeaaTuWeQIh4\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
-    "size": 18858,
-    "path": "../public/_nuxt/BUEARS_H.js"
+    "encoding": "br",
+    "etag": "\"5b2-Wzwwi2dmdbZGX8C23+3zgRhbbiE\"",
+    "mtime": "2025-11-19T11:20:16.967Z",
+    "size": 1458,
+    "path": "../public/_nuxt/BtyRYUN8.js.br"
+  },
+  "/_nuxt/BtyRYUN8.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"698-psG42+w5VD+ceggcOCLOnZRQKyU\"",
+    "mtime": "2025-11-19T11:20:16.967Z",
+    "size": 1688,
+    "path": "../public/_nuxt/BtyRYUN8.js.gz"
+  },
+  "/_nuxt/BwMtOoo8.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"d3e-G9J1udAnQ9A4Yw+PIALHqdP50DQ\"",
+    "mtime": "2025-11-19T11:20:05.780Z",
+    "size": 3390,
+    "path": "../public/_nuxt/BwMtOoo8.js"
+  },
+  "/_nuxt/BwMtOoo8.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"514-fO+qoqdrxEoTmIwqEOdFj4oVsR8\"",
+    "mtime": "2025-11-19T11:20:16.967Z",
+    "size": 1300,
+    "path": "../public/_nuxt/BwMtOoo8.js.br"
+  },
+  "/_nuxt/BwMtOoo8.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"5fb-LcUeXI2srynxieHZMPU3SOop6NU\"",
+    "mtime": "2025-11-19T11:20:16.967Z",
+    "size": 1531,
+    "path": "../public/_nuxt/BwMtOoo8.js.gz"
+  },
+  "/_nuxt/Ciiosgxz.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"4a68-gwV1uroelFYBRvDhMbkKh5mhel4\"",
+    "mtime": "2025-11-19T11:20:05.780Z",
+    "size": 19048,
+    "path": "../public/_nuxt/Ciiosgxz.js"
+  },
+  "/_nuxt/Ciiosgxz.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"d85-ZMWyaArTsEX/OKghB6VGjNsXsQc\"",
+    "mtime": "2025-11-19T11:20:16.968Z",
+    "size": 3461,
+    "path": "../public/_nuxt/Ciiosgxz.js.br"
+  },
+  "/_nuxt/Ciiosgxz.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"1100-KdcJ/w13WBvbM4wxtjT0Q8OVxH4\"",
+    "mtime": "2025-11-19T11:20:16.968Z",
+    "size": 4352,
+    "path": "../public/_nuxt/Ciiosgxz.js.gz"
+  },
+  "/_nuxt/CLRGatgI.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"87b-9v2FrHd1/vhCcSV1uP0vK8D91Sg\"",
+    "mtime": "2025-11-19T11:20:05.780Z",
+    "size": 2171,
+    "path": "../public/_nuxt/CLRGatgI.js"
+  },
+  "/_nuxt/CLRGatgI.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"2a6-+uUPbaP0DPvALMMissFOCxaRBpQ\"",
+    "mtime": "2025-11-19T11:20:16.969Z",
+    "size": 678,
+    "path": "../public/_nuxt/CLRGatgI.js.br"
+  },
+  "/_nuxt/CLRGatgI.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"34d-pC4gJk7tOe/8cYQMxBDHnY2RHmw\"",
+    "mtime": "2025-11-19T11:20:16.969Z",
+    "size": 845,
+    "path": "../public/_nuxt/CLRGatgI.js.gz"
   },
   "/_nuxt/curology_featured.BPQnE4Rt.jpg": {
     "type": "image/jpeg",
     "etag": "\"c570c-7StRTXP4WdsSbIrxgEHcnCqoLeo\"",
-    "mtime": "2025-10-31T05:29:46.149Z",
+    "mtime": "2025-11-19T11:20:05.780Z",
     "size": 808716,
     "path": "../public/_nuxt/curology_featured.BPQnE4Rt.jpg"
   },
-  "/_nuxt/DaJ3b8qU.js": {
+  "/_nuxt/DaRVpj2z.js": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"332-X0ab8nSBYQEcKsU8NbXue/NGhwA\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
-    "size": 818,
-    "path": "../public/_nuxt/DaJ3b8qU.js"
+    "etag": "\"1df-YYP4F66ak3d0pgEaaVQAI2VJMAE\"",
+    "mtime": "2025-11-19T11:20:05.781Z",
+    "size": 479,
+    "path": "../public/_nuxt/DaRVpj2z.js"
   },
-  "/_nuxt/default.XsDKNeHo.css": {
-    "type": "text/css; charset=utf-8",
-    "etag": "\"18c-udQ8yJ3prlf/CdMQlt/ejA65X74\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
-    "size": 396,
-    "path": "../public/_nuxt/default.XsDKNeHo.css"
+  "/_nuxt/DU8LahJn.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"466-uAYOwqeDsVK3XmaFvq4M9xdbfIQ\"",
+    "mtime": "2025-11-19T11:20:05.780Z",
+    "size": 1126,
+    "path": "../public/_nuxt/DU8LahJn.js"
+  },
+  "/_nuxt/DU8LahJn.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"1c9-B/b2/pOSXkvYO5PbjAjGG2nIMhs\"",
+    "mtime": "2025-11-19T11:20:16.969Z",
+    "size": 457,
+    "path": "../public/_nuxt/DU8LahJn.js.br"
+  },
+  "/_nuxt/DU8LahJn.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"20c-NCc5Ssh6zvjOGq65/Oy0eN9hPLc\"",
+    "mtime": "2025-11-19T11:20:16.969Z",
+    "size": 524,
+    "path": "../public/_nuxt/DU8LahJn.js.gz"
+  },
+  "/_nuxt/DWndp8Xn.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"4aef-dqtuW9dBdFl1XWOTtedRCxHYZ7I\"",
+    "mtime": "2025-11-19T11:20:05.780Z",
+    "size": 19183,
+    "path": "../public/_nuxt/DWndp8Xn.js"
+  },
+  "/_nuxt/DWndp8Xn.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"7c5-aZSRtEw9xq7+hfuSiO0Pz26cLcU\"",
+    "mtime": "2025-11-19T11:20:16.969Z",
+    "size": 1989,
+    "path": "../public/_nuxt/DWndp8Xn.js.br"
+  },
+  "/_nuxt/DWndp8Xn.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"902-H4GpKoQ2IN0Sfuvt6jNWr6UAco4\"",
+    "mtime": "2025-11-19T11:20:16.969Z",
+    "size": 2306,
+    "path": "../public/_nuxt/DWndp8Xn.js.gz"
+  },
+  "/_nuxt/DzrQy2Kx.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"1463-vg8f98THkRtTYTBZgwuZJRY+ej8\"",
+    "mtime": "2025-11-19T11:20:05.780Z",
+    "size": 5219,
+    "path": "../public/_nuxt/DzrQy2Kx.js"
+  },
+  "/_nuxt/DzrQy2Kx.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"4d7-MmBNYARZUlK0psbKSXYQW3Gd39A\"",
+    "mtime": "2025-11-19T11:20:16.969Z",
+    "size": 1239,
+    "path": "../public/_nuxt/DzrQy2Kx.js.br"
+  },
+  "/_nuxt/DzrQy2Kx.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"63a-HV2r6ZKV4LxC3ABzbdFkdhs8YKg\"",
+    "mtime": "2025-11-19T11:20:16.969Z",
+    "size": 1594,
+    "path": "../public/_nuxt/DzrQy2Kx.js.gz"
   },
   "/_nuxt/en-vogue_fetured.DumKBMgy.jpg": {
     "type": "image/jpeg",
     "etag": "\"104e42-yT+W5gjLcxoRAdffub4zwlc5fcM\"",
-    "mtime": "2025-10-31T05:29:46.149Z",
+    "mtime": "2025-11-19T11:20:05.789Z",
     "size": 1068610,
     "path": "../public/_nuxt/en-vogue_fetured.DumKBMgy.jpg"
   },
-  "/_nuxt/entry.B6BHf5GY.css": {
+  "/_nuxt/entry.JPG1huq1.css": {
     "type": "text/css; charset=utf-8",
-    "etag": "\"33066-+LBBiM0UpPhrUkl/abCPKmtQda8\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
-    "size": 208998,
-    "path": "../public/_nuxt/entry.B6BHf5GY.css"
+    "etag": "\"33a21-dwCbWZfaW/jPq7vIKDWvEvw+jk0\"",
+    "mtime": "2025-11-19T11:20:05.780Z",
+    "size": 211489,
+    "path": "../public/_nuxt/entry.JPG1huq1.css"
+  },
+  "/_nuxt/entry.JPG1huq1.css.br": {
+    "type": "text/css; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"750b-Ry0Udq1PANkBIj/ml4TIilskgm4\"",
+    "mtime": "2025-11-19T11:20:17.016Z",
+    "size": 29963,
+    "path": "../public/_nuxt/entry.JPG1huq1.css.br"
+  },
+  "/_nuxt/entry.JPG1huq1.css.gz": {
+    "type": "text/css; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"8bab-zATt+r5XmkkQ51dZ7X9cXc4HJyM\"",
+    "mtime": "2025-11-19T11:20:17.013Z",
+    "size": 35755,
+    "path": "../public/_nuxt/entry.JPG1huq1.css.gz"
   },
   "/_nuxt/error-404.MksMKVWr.css": {
     "type": "text/css; charset=utf-8",
     "etag": "\"de0-LSCwt9IHC/XN7jyt2ge89hKLY3g\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
+    "mtime": "2025-11-19T11:20:05.780Z",
     "size": 3552,
     "path": "../public/_nuxt/error-404.MksMKVWr.css"
+  },
+  "/_nuxt/error-404.MksMKVWr.css.br": {
+    "type": "text/css; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"3aa-Y4K87xRWAR0VBO902R03OoxgJQ4\"",
+    "mtime": "2025-11-19T11:20:16.969Z",
+    "size": 938,
+    "path": "../public/_nuxt/error-404.MksMKVWr.css.br"
+  },
+  "/_nuxt/error-404.MksMKVWr.css.gz": {
+    "type": "text/css; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"445-SPhVA0dGfoGM9yImj7KAWh3jz48\"",
+    "mtime": "2025-11-19T11:20:16.969Z",
+    "size": 1093,
+    "path": "../public/_nuxt/error-404.MksMKVWr.css.gz"
   },
   "/_nuxt/error-500.DOWD7OuR.css": {
     "type": "text/css; charset=utf-8",
     "etag": "\"75a-E+EckUQEwkK5PkutZwCZNTJkHsY\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
+    "mtime": "2025-11-19T11:20:05.780Z",
     "size": 1882,
     "path": "../public/_nuxt/error-500.DOWD7OuR.css"
+  },
+  "/_nuxt/error-500.DOWD7OuR.css.br": {
+    "type": "text/css; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"26a-1NKovvvoBSZItZhZAnw+E7O8Tsg\"",
+    "mtime": "2025-11-19T11:20:16.969Z",
+    "size": 618,
+    "path": "../public/_nuxt/error-500.DOWD7OuR.css.br"
+  },
+  "/_nuxt/error-500.DOWD7OuR.css.gz": {
+    "type": "text/css; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"2d1-T6k+N2AopAfhaxTTKXqpB2qP0go\"",
+    "mtime": "2025-11-19T11:20:16.969Z",
+    "size": 721,
+    "path": "../public/_nuxt/error-500.DOWD7OuR.css.gz"
   },
   "/_nuxt/immersive_realities_featured.BsOhKcs6.jpg": {
     "type": "image/jpeg",
     "etag": "\"12b67d-0Z/g3ZMmuk2quBQ/UpSTVu5qv9Y\"",
-    "mtime": "2025-10-31T05:29:46.155Z",
+    "mtime": "2025-11-19T11:20:05.789Z",
     "size": 1226365,
     "path": "../public/_nuxt/immersive_realities_featured.BsOhKcs6.jpg"
   },
   "/_nuxt/ink-sense_featured.CDxfE6Eo.jpg": {
     "type": "image/jpeg",
     "etag": "\"5e64a-2HW5z4y5X7+bN86OmJhGCzfj8wc\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
+    "mtime": "2025-11-19T11:20:05.731Z",
     "size": 386634,
     "path": "../public/_nuxt/ink-sense_featured.CDxfE6Eo.jpg"
-  },
-  "/_nuxt/JJKFKqIb.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"130a-meyC0FWDpLcFo1xje9Wbfs7BmKQ\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
-    "size": 4874,
-    "path": "../public/_nuxt/JJKFKqIb.js"
   },
   "/_nuxt/lifes-stories_11.DeZnl8-X.jpg": {
     "type": "image/jpeg",
     "etag": "\"1292b5-eerVzWJWy5QTEIa57JmmgYceG4k\"",
-    "mtime": "2025-10-31T05:29:46.149Z",
+    "mtime": "2025-11-19T11:20:05.789Z",
     "size": 1217205,
     "path": "../public/_nuxt/lifes-stories_11.DeZnl8-X.jpg"
   },
   "/_nuxt/los-coyotes_featured.DJV4jpDc.jpg": {
     "type": "image/jpeg",
     "etag": "\"2105c8-IqXGZ+cqxxWZTWGAXYB7DyQcauA\"",
-    "mtime": "2025-10-31T05:29:46.164Z",
+    "mtime": "2025-11-19T11:20:05.799Z",
     "size": 2164168,
     "path": "../public/_nuxt/los-coyotes_featured.DJV4jpDc.jpg"
   },
   "/_nuxt/nyc_streetlife-7.CD9v3aEh.jpg": {
     "type": "image/jpeg",
     "etag": "\"1dad9a-3cLlbw7b9PkLGedQwCBxtqFDpQg\"",
-    "mtime": "2025-10-31T05:29:46.158Z",
+    "mtime": "2025-11-19T11:20:05.795Z",
     "size": 1944986,
     "path": "../public/_nuxt/nyc_streetlife-7.CD9v3aEh.jpg"
   },
   "/_nuxt/office_1.C6FJybv2.jpg": {
     "type": "image/jpeg",
     "etag": "\"d6a81-1HtpLpOF04+0y+1pecz+TmxCOPM\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
+    "mtime": "2025-11-19T11:20:05.782Z",
     "size": 879233,
     "path": "../public/_nuxt/office_1.C6FJybv2.jpg"
   },
   "/_nuxt/office_3.DkZDWyaG.jpg": {
     "type": "image/jpeg",
     "etag": "\"b139d-TPGFjtb3kMNi8xfiqqdzkRlUdHc\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
+    "mtime": "2025-11-19T11:20:05.782Z",
     "size": 725917,
     "path": "../public/_nuxt/office_3.DkZDWyaG.jpg"
   },
   "/_nuxt/pastel-ladies_7.BoINNLVA.jpg": {
     "type": "image/jpeg",
     "etag": "\"1df52c-GEoC9Gdt8gUyTHnBaHaqLTTNgik\"",
-    "mtime": "2025-10-31T05:29:46.160Z",
+    "mtime": "2025-11-19T11:20:05.795Z",
     "size": 1963308,
     "path": "../public/_nuxt/pastel-ladies_7.BoINNLVA.jpg"
   },
   "/_nuxt/percent_19.CzOyKk4T.jpg": {
     "type": "image/jpeg",
     "etag": "\"11a202-6mzWAvWB/9x9hDsapzrNi3afjXg\"",
-    "mtime": "2025-10-31T05:29:46.149Z",
+    "mtime": "2025-11-19T11:20:05.789Z",
     "size": 1155586,
     "path": "../public/_nuxt/percent_19.CzOyKk4T.jpg"
   },
   "/_nuxt/photog_contact.BmEuSYOE.jpg": {
     "type": "image/jpeg",
     "etag": "\"125bc1-CRy63MkP0z/QpBKyRfZZIjV2vhc\"",
-    "mtime": "2025-10-31T05:29:46.149Z",
+    "mtime": "2025-11-19T11:20:05.789Z",
     "size": 1203137,
     "path": "../public/_nuxt/photog_contact.BmEuSYOE.jpg"
   },
   "/_nuxt/primo_featured.129C5_eQ.jpg": {
     "type": "image/jpeg",
     "etag": "\"16293c-FudFeELQcXD7mJajfQ7EEHid52Q\"",
-    "mtime": "2025-10-31T05:29:46.155Z",
+    "mtime": "2025-11-19T11:20:05.789Z",
     "size": 1452348,
     "path": "../public/_nuxt/primo_featured.129C5_eQ.jpg"
   },
   "/_nuxt/sauz-hothoney_10.3gddB1pQ.jpg": {
     "type": "image/jpeg",
     "etag": "\"23224c-8s1FcAVJvAUQ4IJbV+yQIw402fQ\"",
-    "mtime": "2025-10-31T05:29:46.167Z",
+    "mtime": "2025-11-19T11:20:05.802Z",
     "size": 2302540,
     "path": "../public/_nuxt/sauz-hothoney_10.3gddB1pQ.jpg"
   },
   "/_nuxt/soul_of_structure_featured.DdlmILJ4.jpg": {
     "type": "image/jpeg",
     "etag": "\"29fb85-jltjMFQlsQU1mIIeHuZvDsB8nlY\"",
-    "mtime": "2025-10-31T05:29:46.167Z",
+    "mtime": "2025-11-19T11:20:05.802Z",
     "size": 2751365,
     "path": "../public/_nuxt/soul_of_structure_featured.DdlmILJ4.jpg"
   },
   "/_nuxt/spirits-of-illusion_featured.BaFZSFri.jpg": {
     "type": "image/jpeg",
     "etag": "\"2f0fe5-y3mQFD5UDLqfrOgZqPzKjqIOK/0\"",
-    "mtime": "2025-10-31T05:29:46.167Z",
+    "mtime": "2025-11-19T11:20:05.802Z",
     "size": 3084261,
     "path": "../public/_nuxt/spirits-of-illusion_featured.BaFZSFri.jpg"
   },
   "/_nuxt/taller_23.CVHFDagF.jpg": {
     "type": "image/jpeg",
     "etag": "\"1f7ff0-y08Rz54r733a18YhIokro03E6rM\"",
-    "mtime": "2025-10-31T05:29:46.158Z",
+    "mtime": "2025-11-19T11:20:05.795Z",
     "size": 2064368,
     "path": "../public/_nuxt/taller_23.CVHFDagF.jpg"
   },
   "/_nuxt/team_member_1.BaXunEMr.jpg": {
     "type": "image/jpeg",
     "etag": "\"9275b-bwvZXqGcBnpjGMRYR3jQJ6pd3fA\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
+    "mtime": "2025-11-19T11:20:05.782Z",
     "size": 599899,
     "path": "../public/_nuxt/team_member_1.BaXunEMr.jpg"
   },
   "/_nuxt/team_member_2.CgtOvwGZ.jpg": {
     "type": "image/jpeg",
     "etag": "\"5bac9-duAuHnpafdYlA3nqkBWLrSmdjvs\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
+    "mtime": "2025-11-19T11:20:05.773Z",
     "size": 375497,
     "path": "../public/_nuxt/team_member_2.CgtOvwGZ.jpg"
   },
   "/_nuxt/team_member_3.CD7bxNBg.jpg": {
     "type": "image/jpeg",
     "etag": "\"78390-i9T+U2/gc5i3pfB5x+nRNfddydU\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
+    "mtime": "2025-11-19T11:20:05.773Z",
     "size": 492432,
     "path": "../public/_nuxt/team_member_3.CD7bxNBg.jpg"
   },
   "/_nuxt/team_member_4.CWD0M4Px.jpg": {
     "type": "image/jpeg",
     "etag": "\"572b8-l5kpKDopoxwFNNL08fgfSrPUahw\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
+    "mtime": "2025-11-19T11:20:05.773Z",
     "size": 357048,
     "path": "../public/_nuxt/team_member_4.CWD0M4Px.jpg"
   },
   "/_nuxt/team_member_5.CPGUS7ou.jpg": {
     "type": "image/jpeg",
     "etag": "\"6e429-ilf6E8PQy0QNHLWuY5HZsJjnDHo\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
+    "mtime": "2025-11-19T11:20:05.773Z",
     "size": 451625,
     "path": "../public/_nuxt/team_member_5.CPGUS7ou.jpg"
   },
   "/_nuxt/team_member_6.AMzoPvoY.jpg": {
     "type": "image/jpeg",
     "etag": "\"82b1b-SsfoRw13xGwmEguAvc/1Pgfvp1E\"",
-    "mtime": "2025-10-31T05:29:46.149Z",
+    "mtime": "2025-11-19T11:20:05.782Z",
     "size": 535323,
     "path": "../public/_nuxt/team_member_6.AMzoPvoY.jpg"
   },
   "/_nuxt/team_member_7.CltOBSbm.jpg": {
     "type": "image/jpeg",
     "etag": "\"8b472-3S5fIFtWbFDTibDNmkEwDYOccAg\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
+    "mtime": "2025-11-19T11:20:05.782Z",
     "size": 570482,
     "path": "../public/_nuxt/team_member_7.CltOBSbm.jpg"
   },
   "/_nuxt/team_member_8.D1a1FS-Z.jpg": {
     "type": "image/jpeg",
     "etag": "\"5c376-IF25hufmjJ+tIJ9LPnlI8xuGJL4\"",
-    "mtime": "2025-10-31T05:29:46.082Z",
+    "mtime": "2025-11-19T11:20:05.774Z",
     "size": 377718,
     "path": "../public/_nuxt/team_member_8.D1a1FS-Z.jpg"
   },
   "/_nuxt/test_avatar_1.nCEldxaC.jpg": {
     "type": "image/jpeg",
     "etag": "\"2aa2-899rJ81ZVqMBnOxL0m7HCx8yk7A\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
+    "mtime": "2025-11-19T11:20:05.773Z",
     "size": 10914,
     "path": "../public/_nuxt/test_avatar_1.nCEldxaC.jpg"
   },
   "/_nuxt/test_avatar_2.B8e6uBrp.jpg": {
     "type": "image/jpeg",
     "etag": "\"27fd-U3kPu8E2cC3ZnrqD5RDhGJ7j6DI\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
+    "mtime": "2025-11-19T11:20:05.774Z",
     "size": 10237,
     "path": "../public/_nuxt/test_avatar_2.B8e6uBrp.jpg"
   },
   "/_nuxt/test_avatar_3.ClVH0Wfd.jpg": {
     "type": "image/jpeg",
     "etag": "\"259f-Yu1eJJBDn6qvELeyhNNWnVl70rk\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
+    "mtime": "2025-11-19T11:20:05.774Z",
     "size": 9631,
     "path": "../public/_nuxt/test_avatar_3.ClVH0Wfd.jpg"
-  },
-  "/_nuxt/uvV3ozur.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"74c-9qq9AfD1ZR9/WJ+ETSJJlvgVIBk\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
-    "size": 1868,
-    "path": "../public/_nuxt/uvV3ozur.js"
   },
   "/_nuxt/vibrant-horizons_featured.0IA1Xtky.jpg": {
     "type": "image/jpeg",
     "etag": "\"266dc5-Myx8JfUSmMcRDXUOYiXprl30Lhc\"",
-    "mtime": "2025-10-31T05:29:46.164Z",
+    "mtime": "2025-11-19T11:20:05.799Z",
     "size": 2518469,
     "path": "../public/_nuxt/vibrant-horizons_featured.0IA1Xtky.jpg"
   },
-  "/_nuxt/XJ-P_KSD.js": {
+  "/_nuxt/Vie57yRv.js": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"d91e-aE6+s3/UER3z3tCCKdqlgVroQNc\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
-    "size": 55582,
-    "path": "../public/_nuxt/XJ-P_KSD.js"
-  },
-  "/_nuxt/yrVi2BLM.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"30c-UX0qwUkU7jxD7vHuvyJsmm2Xmzw\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
-    "size": 780,
-    "path": "../public/_nuxt/yrVi2BLM.js"
-  },
-  "/_nuxt/yV_wVLtK.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"b0-6JpoBO8nqfrx7laEQ0zez/EGKDc\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
-    "size": 176,
-    "path": "../public/_nuxt/yV_wVLtK.js"
+    "etag": "\"332-fNif+CS/4+24GDJGRRHwFoE1UW8\"",
+    "mtime": "2025-11-19T11:20:05.780Z",
+    "size": 818,
+    "path": "../public/_nuxt/Vie57yRv.js"
   },
   "/_nuxt/_...C28P-SaS.css": {
     "type": "text/css; charset=utf-8",
     "etag": "\"8e-Zek/yeJRbUsjkT6+tce6FFjXxIY\"",
-    "mtime": "2025-10-31T05:29:46.134Z",
+    "mtime": "2025-11-19T11:20:05.780Z",
     "size": 142,
     "path": "../public/_nuxt/_...C28P-SaS.css"
+  },
+  "/__sitemap__/style.xsl": {
+    "type": "application/xslt+xml",
+    "etag": "\"1750-FhqS63mnnTCt6Hlh9Uw3/VJzR9A\"",
+    "mtime": "2025-11-19T11:20:09.472Z",
+    "size": 5968,
+    "path": "../public/__sitemap__/style.xsl"
+  },
+  "/__sitemap__/style.xsl.br": {
+    "type": "application/xml",
+    "encoding": "br",
+    "etag": "\"4b2-s+d9Lkd6mPR+g5hL3gTwiVShjcw\"",
+    "mtime": "2025-11-19T11:20:11.764Z",
+    "size": 1202,
+    "path": "../public/__sitemap__/style.xsl.br"
+  },
+  "/__sitemap__/style.xsl.gz": {
+    "type": "application/xml",
+    "encoding": "gzip",
+    "etag": "\"5dd-n6z4Fk0H1+awbkQF2boc1vkF3cE\"",
+    "mtime": "2025-11-19T11:20:11.754Z",
+    "size": 1501,
+    "path": "../public/__sitemap__/style.xsl.gz"
   },
   "/img/img/agency_1.jpg": {
     "type": "image/jpeg",
@@ -5696,8 +6628,8 @@ const assets = {
   },
   "/_nuxt/builds/latest.json": {
     "type": "application/json",
-    "etag": "\"47-X9x2WSbktE0VqWd40mudraRz4fk\"",
-    "mtime": "2025-10-31T05:29:50.477Z",
+    "etag": "\"47-iHDjgpDeoG1wvhYf2Wd5vHJ+V0A\"",
+    "mtime": "2025-11-19T11:20:11.779Z",
     "size": 71,
     "path": "../public/_nuxt/builds/latest.json"
   },
@@ -6779,12 +7711,12 @@ const assets = {
     "size": 2518469,
     "path": "../public/img/img/projects/vibrant-horizons_featured.jpg"
   },
-  "/_nuxt/builds/meta/63d95a2c-2531-48ba-9b6a-2261af257b25.json": {
+  "/_nuxt/builds/meta/47ac7853-b4e0-4377-991d-6c7b4460d889.json": {
     "type": "application/json",
-    "etag": "\"8b-perlY4PQprEBN2sgfuPalWM1K3U\"",
-    "mtime": "2025-10-31T05:29:50.477Z",
+    "etag": "\"8b-Eq3QMEBwna8C+a51oNolNyhXZ8g\"",
+    "mtime": "2025-11-19T11:20:11.780Z",
     "size": 139,
-    "path": "../public/_nuxt/builds/meta/63d95a2c-2531-48ba-9b6a-2261af257b25.json"
+    "path": "../public/_nuxt/builds/meta/47ac7853-b4e0-4377-991d-6c7b4460d889.json"
   }
 };
 
@@ -6803,7 +7735,7 @@ function cwd() {
   }
   return "/";
 }
-const resolve = function(...arguments_) {
+const resolve$1 = function(...arguments_) {
   arguments_ = arguments_.map((argument) => normalizeWindowsPath(argument));
   let resolvedPath = "";
   let resolvedAbsolute = false;
@@ -6893,7 +7825,7 @@ const dirname = function(p) {
 
 function readAsset (id) {
   const serverDir = dirname(fileURLToPath(globalThis._importMeta_.url));
-  return promises.readFile(resolve(serverDir, assets[id].path))
+  return promises.readFile(resolve$1(serverDir, assets[id].path))
 }
 
 const publicAssetBases = {"/_nuxt/builds/meta/":{"maxAge":31536000},"/_nuxt/builds/":{"maxAge":1},"/_nuxt/":{"maxAge":31536000}};
@@ -6985,6 +7917,1840 @@ const _25I_kU = defineEventHandler((event) => {
   }
 });
 
+function getNitroOrigin(e) {
+  process.env.NITRO_SSL_CERT;
+  process.env.NITRO_SSL_KEY;
+  let host = process.env.NITRO_HOST || process.env.HOST || false;
+  let port = false;
+  let protocol = "https" ;
+  if (e) {
+    host = getRequestHost(e, { xForwardedHost: true }) || host;
+    protocol = getRequestProtocol(e, { xForwardedProto: true }) || protocol;
+  }
+  if (typeof host === "string" && host.includes(":")) {
+    const hostParts = host.split(":");
+    port = hostParts.pop();
+    host = hostParts.join(":") || false;
+  }
+  port = port ? `:${port}` : "";
+  return withTrailingSlash(`${protocol}://${host}${port}`);
+}
+
+const _sOo9MV = eventHandler(async (e) => {
+  if (e.context._initedSiteConfig)
+    return;
+  const runtimeConfig = useRuntimeConfig(e);
+  const config = runtimeConfig["nuxt-site-config"];
+  const nitroApp = useNitroApp();
+  const siteConfig = e.context.siteConfig || createSiteConfigStack({
+    debug: config.debug
+  });
+  const nitroOrigin = getNitroOrigin(e);
+  e.context.siteConfigNitroOrigin = nitroOrigin;
+  {
+    siteConfig.push({
+      _context: "nitro:init",
+      _priority: -4,
+      url: nitroOrigin
+    });
+  }
+  siteConfig.push({
+    _context: "runtimeEnv",
+    _priority: 0,
+    ...runtimeConfig.site || {},
+    ...runtimeConfig.public.site || {},
+    ...envSiteConfig(globalThis._importMeta_.env)
+    // just in-case, shouldn't be needed
+  });
+  const buildStack = config.stack || [];
+  buildStack.forEach((c) => siteConfig.push(c));
+  if (e.context._nitro.routeRules.site) {
+    siteConfig.push({
+      _context: "route-rules",
+      ...e.context._nitro.routeRules.site
+    });
+  }
+  if (config.multiTenancy) {
+    const host = parseURL(nitroOrigin).host;
+    const tenant = config.multiTenancy?.find((t) => t.hosts.includes(host));
+    if (tenant) {
+      siteConfig.push({
+        _context: `multi-tenancy:${host}`,
+        _priority: 0,
+        ...tenant.config
+      });
+    }
+  }
+  const ctx = { siteConfig, event: e };
+  await nitroApp.hooks.callHook("site-config:init", ctx);
+  e.context.siteConfig = ctx.siteConfig;
+  e.context._initedSiteConfig = true;
+});
+
+const logger = createConsola({
+  defaults: {
+    tag: "@nuxt/sitemap"
+  }
+});
+const merger = createDefu((obj, key, value) => {
+  if (Array.isArray(obj[key]) && Array.isArray(value))
+    obj[key] = Array.from(/* @__PURE__ */ new Set([...obj[key], ...value]));
+  return obj[key];
+});
+function mergeOnKey(arr, key) {
+  const seen = /* @__PURE__ */ new Map();
+  let resultLength = 0;
+  const result = Array.from({ length: arr.length });
+  for (const item of arr) {
+    const k = item[key];
+    if (seen.has(k)) {
+      const existingIndex = seen.get(k);
+      result[existingIndex] = merger(item, result[existingIndex]);
+    } else {
+      seen.set(k, resultLength);
+      result[resultLength++] = item;
+    }
+  }
+  return result.slice(0, resultLength);
+}
+function splitForLocales(path, locales) {
+  const prefix = withLeadingSlash(path).split("/")[1];
+  if (locales.includes(prefix))
+    return [prefix, path.replace(`/${prefix}`, "")];
+  return [null, path];
+}
+const StringifiedRegExpPattern = /\/(.*?)\/([gimsuy]*)$/;
+function normalizeRuntimeFilters(input) {
+  return (input || []).map((rule) => {
+    if (rule instanceof RegExp || typeof rule === "string")
+      return rule;
+    const match = rule.regex.match(StringifiedRegExpPattern);
+    if (match)
+      return new RegExp(match[1], match[2]);
+    return false;
+  }).filter(Boolean);
+}
+function createPathFilter(options = {}) {
+  const urlFilter = createFilter(options);
+  return (loc) => {
+    let path = loc;
+    try {
+      path = parseURL(loc).pathname;
+    } catch {
+      return false;
+    }
+    return urlFilter(path);
+  };
+}
+function createFilter(options = {}) {
+  const include = options.include || [];
+  const exclude = options.exclude || [];
+  if (include.length === 0 && exclude.length === 0)
+    return () => true;
+  return function(path) {
+    for (const v of [{ rules: exclude, result: false }, { rules: include, result: true }]) {
+      const regexRules = v.rules.filter((r) => r instanceof RegExp);
+      if (regexRules.some((r) => r.test(path)))
+        return v.result;
+      const stringRules = v.rules.filter((r) => typeof r === "string");
+      if (stringRules.length > 0) {
+        const routes = {};
+        for (const r of stringRules) {
+          if (r === path)
+            return v.result;
+          routes[r] = true;
+        }
+        const routeRulesMatcher = toRouteMatcher(createRouter$1({ routes, strictTrailingSlash: false }));
+        if (routeRulesMatcher.matchAll(path).length > 0)
+          return Boolean(v.result);
+      }
+    }
+    return include.length === 0;
+  };
+}
+
+function xmlEscape(str) {
+  return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+}
+function useSitemapRuntimeConfig(e) {
+  const clone = JSON.parse(JSON.stringify(useRuntimeConfig(e).sitemap));
+  for (const k in clone.sitemaps) {
+    const sitemap = clone.sitemaps[k];
+    sitemap.include = normalizeRuntimeFilters(sitemap.include);
+    sitemap.exclude = normalizeRuntimeFilters(sitemap.exclude);
+    clone.sitemaps[k] = sitemap;
+  }
+  return Object.freeze(clone);
+}
+
+function useSiteConfig(e, _options) {
+  return getSiteConfig(e, _options);
+}
+
+function resolveSitePath(pathOrUrl, options) {
+  let path = pathOrUrl;
+  if (hasProtocol(pathOrUrl, { strict: false, acceptRelative: true })) {
+    const parsed = parseURL(pathOrUrl);
+    path = parsed.pathname;
+  }
+  const base = withLeadingSlash(options.base || "/");
+  if (base !== "/" && path.startsWith(base)) {
+    path = path.slice(base.length);
+  }
+  let origin = withoutTrailingSlash(options.absolute ? options.siteUrl : "");
+  if (base !== "/" && origin.endsWith(base)) {
+    origin = origin.slice(0, origin.indexOf(base));
+  }
+  const baseWithOrigin = options.withBase ? withBase(base, origin || "/") : origin;
+  const resolvedUrl = withBase(path, baseWithOrigin);
+  return path === "/" && !options.withBase ? withTrailingSlash(resolvedUrl) : fixSlashes(options.trailingSlash, resolvedUrl);
+}
+const fileExtensions = [
+  // Images
+  "jpg",
+  "jpeg",
+  "png",
+  "gif",
+  "bmp",
+  "webp",
+  "svg",
+  "ico",
+  // Documents
+  "pdf",
+  "doc",
+  "docx",
+  "xls",
+  "xlsx",
+  "ppt",
+  "pptx",
+  "txt",
+  "md",
+  "markdown",
+  // Archives
+  "zip",
+  "rar",
+  "7z",
+  "tar",
+  "gz",
+  // Audio
+  "mp3",
+  "wav",
+  "flac",
+  "ogg",
+  "opus",
+  "m4a",
+  "aac",
+  "midi",
+  "mid",
+  // Video
+  "mp4",
+  "avi",
+  "mkv",
+  "mov",
+  "wmv",
+  "flv",
+  "webm",
+  // Web
+  "html",
+  "css",
+  "js",
+  "json",
+  "xml",
+  "tsx",
+  "jsx",
+  "ts",
+  "vue",
+  "svelte",
+  "xsl",
+  "rss",
+  "atom",
+  // Programming
+  "php",
+  "py",
+  "rb",
+  "java",
+  "c",
+  "cpp",
+  "h",
+  "go",
+  // Data formats
+  "csv",
+  "tsv",
+  "sql",
+  "yaml",
+  "yml",
+  // Fonts
+  "woff",
+  "woff2",
+  "ttf",
+  "otf",
+  "eot",
+  // Executables/Binaries
+  "exe",
+  "msi",
+  "apk",
+  "ipa",
+  "dmg",
+  "iso",
+  "bin",
+  // Scripts/Config
+  "bat",
+  "cmd",
+  "sh",
+  "env",
+  "htaccess",
+  "conf",
+  "toml",
+  "ini",
+  // Package formats
+  "deb",
+  "rpm",
+  "jar",
+  "war",
+  // E-books
+  "epub",
+  "mobi",
+  // Common temporary/backup files
+  "log",
+  "tmp",
+  "bak",
+  "old",
+  "sav"
+];
+function isPathFile(path) {
+  const lastSegment = path.split("/").pop();
+  const ext = (lastSegment || path).match(/\.[0-9a-z]+$/i)?.[0];
+  return ext && fileExtensions.includes(ext.replace(".", ""));
+}
+function fixSlashes(trailingSlash, pathOrUrl) {
+  const $url = parseURL(pathOrUrl);
+  if (isPathFile($url.pathname))
+    return pathOrUrl;
+  const fixedPath = trailingSlash ? withTrailingSlash($url.pathname) : withoutTrailingSlash($url.pathname);
+  return `${$url.protocol ? `${$url.protocol}//` : ""}${$url.host || ""}${fixedPath}${$url.search || ""}${$url.hash || ""}`;
+}
+
+function createSitePathResolver(e, options = {}) {
+  const siteConfig = getSiteConfig(e);
+  const nitroOrigin = getNitroOrigin(e);
+  const nuxtBase = useRuntimeConfig(e).app.baseURL || "/";
+  return (path) => {
+    return resolveSitePath(path, {
+      ...options,
+      siteUrl: options.canonical !== false || false ? siteConfig.url : nitroOrigin,
+      trailingSlash: siteConfig.trailingSlash,
+      base: nuxtBase
+    });
+  };
+}
+
+const _PhYssg = defineEventHandler(async (e) => {
+  const fixPath = createSitePathResolver(e, { absolute: false, withBase: true });
+  const { sitemapName: fallbackSitemapName, cacheMaxAgeSeconds, version, xslColumns, xslTips } = useSitemapRuntimeConfig();
+  setHeader(e, "Content-Type", "application/xslt+xml");
+  if (cacheMaxAgeSeconds)
+    setHeader(e, "Cache-Control", `public, max-age=${cacheMaxAgeSeconds}, must-revalidate`);
+  else
+    setHeader(e, "Cache-Control", `no-cache, no-store`);
+  const { name: siteName, url: siteUrl } = useSiteConfig(e);
+  const referrer = getHeader(e, "Referer") || "/";
+  const referrerPath = parseURL(referrer).pathname;
+  const isNotIndexButHasIndex = referrerPath !== "/sitemap.xml" && referrerPath !== "/sitemap_index.xml" && referrerPath.endsWith(".xml");
+  const sitemapName = parseURL(referrer).pathname.split("/").pop()?.split("-sitemap")[0] || fallbackSitemapName;
+  const title = `${siteName}${sitemapName !== "sitemap.xml" ? ` - ${sitemapName === "sitemap_index.xml" ? "index" : sitemapName}` : ""}`.replace(/&/g, "&amp;");
+  const canonicalQuery = getQuery$1(referrer).canonical;
+  const isShowingCanonical = typeof canonicalQuery !== "undefined" && canonicalQuery !== "false";
+  const conditionalTips = [
+    'You are looking at a <a href="https://developer.mozilla.org/en-US/docs/Web/XSLT/Transforming_XML_with_XSLT/An_Overview" style="color: #398465" target="_blank">XML stylesheet</a>. Read the <a href="https://nuxtseo.com/sitemap/guides/customising-ui" style="color: #398465" target="_blank">docs</a> to learn how to customize it. View the page source to see the raw XML.',
+    `URLs missing? Check Nuxt Devtools Sitemap tab (or the <a href="${xmlEscape(withQuery("/__sitemap__/debug.json", { sitemap: sitemapName }))}" style="color: #398465" target="_blank">debug endpoint</a>).`
+  ];
+  const fetchErrors = [];
+  const xslQuery = getQuery(e);
+  if (xslQuery.error_messages) {
+    const errorMessages = xslQuery.error_messages;
+    const errorUrls = xslQuery.error_urls;
+    if (errorMessages) {
+      const messages = Array.isArray(errorMessages) ? errorMessages : [errorMessages];
+      const urls = Array.isArray(errorUrls) ? errorUrls : errorUrls ? [errorUrls] : [];
+      messages.forEach((msg, i) => {
+        const errorParts = [xmlEscape(msg)];
+        if (urls[i]) {
+          errorParts.push(xmlEscape(urls[i]));
+        }
+        fetchErrors.push(`<strong style="color: #dc2626;">Error ${i + 1}:</strong> ${errorParts.join(" - ")}`);
+      });
+    }
+  }
+  if (!isShowingCanonical) {
+    const canonicalPreviewUrl = withQuery(referrer, { canonical: "" });
+    conditionalTips.push(`Your canonical site URL is <strong>${xmlEscape(siteUrl)}</strong>.`);
+    conditionalTips.push(`You can preview your canonical sitemap by visiting <a href="${xmlEscape(canonicalPreviewUrl)}" style="color: #398465; white-space: nowrap;">${xmlEscape(fixPath(canonicalPreviewUrl))}?canonical</a>`);
+  } else {
+    conditionalTips.push(`You are viewing the canonical sitemap. You can switch to using the request origin: <a href="${xmlEscape(fixPath(referrer))}" style="color: #398465; white-space: nowrap ">${xmlEscape(fixPath(referrer))}</a>`);
+  }
+  const hasRuntimeErrors = fetchErrors.length > 0;
+  const showSidebar = hasRuntimeErrors;
+  const runtimeErrors = hasRuntimeErrors ? fetchErrors.map((t) => `<li><p>${t}</p></li>`).join("\n") : "";
+  let columns = [...xslColumns];
+  if (!columns.length) {
+    columns = [
+      { label: "URL", width: "50%" },
+      { label: "Images", width: "25%", select: "count(image:image)" },
+      { label: "Last Updated", width: "25%", select: "concat(substring(sitemap:lastmod,0,11),concat(' ', substring(sitemap:lastmod,12,5)),concat(' ', substring(sitemap:lastmod,20,6)))" }
+    ];
+  }
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="2.0"
+                xmlns:html="http://www.w3.org/TR/REC-html40"
+                xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+                xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
+                xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes"/>
+  <xsl:template match="/">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+      <head>
+        <title>XML Sitemap</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <style type="text/css">
+          body {
+            font-family: Inter, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #333;
+          }
+
+          table {
+            border: none;
+            border-collapse: collapse;
+          }
+
+          .bg-yellow-200 {
+            background-color: #fef9c3;
+          }
+
+          .p-5 {
+            padding: 1.25rem;
+          }
+
+          .rounded {
+            border-radius: 4px;
+            }
+
+          .shadow {
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+          }
+
+          #sitemap tr:nth-child(odd) td {
+            background-color: #f8f8f8 !important;
+          }
+
+          #sitemap tbody tr:hover td {
+            background-color: #fff;
+          }
+
+          #sitemap tbody tr:hover td, #sitemap tbody tr:hover td a {
+            color: #000;
+          }
+
+          .expl a {
+            color: #398465;
+            font-weight: 600;
+          }
+
+          .expl a:visited {
+            color: #398465;
+          }
+
+          a {
+            color: #000;
+            text-decoration: none;
+          }
+
+          a:visited {
+            color: #777;
+          }
+
+          a:hover {
+            text-decoration: underline;
+          }
+
+          td {
+            font-size: 12px;
+          }
+
+          .text-2xl {
+            font-size: 2rem;
+            font-weight: 600;
+            line-height: 1.25;
+          }
+
+          th {
+            text-align: left;
+            padding-right: 30px;
+            font-size: 12px;
+          }
+
+          thead th {
+            border-bottom: 1px solid #000;
+          }
+          .fixed { position: fixed; }
+          .right-2 { right: 2rem; }
+          .top-2 { top: 2rem; }
+          .w-30 { width: 30rem; }
+          p { margin: 0; }
+          li { padding-bottom: 0.5rem; line-height: 1.5; }
+          h1 { margin: 0; }
+          .mb-5 { margin-bottom: 1.25rem; }
+          .mb-3 { margin-bottom: 0.75rem; }
+        </style>
+      </head>
+      <body>
+        <div style="grid-template-columns: 1fr 1fr; display: grid; margin: 3rem;">
+            <div>
+             <div id="content">
+          <h1 class="text-2xl mb-3">XML Sitemap</h1>
+          <h2>${xmlEscape(title)}</h2>
+          ${isNotIndexButHasIndex ? `<p style="font-size: 12px; margin-bottom: 1rem;"><a href="${xmlEscape(fixPath("/sitemap_index.xml"))}">${xmlEscape(fixPath("/sitemap_index.xml"))}</a></p>` : ""}
+          <xsl:if test="count(sitemap:sitemapindex/sitemap:sitemap) &gt; 0">
+            <p class="expl" style="margin-bottom: 1rem;">
+              This XML Sitemap Index file contains
+              <xsl:value-of select="count(sitemap:sitemapindex/sitemap:sitemap)"/> sitemaps.
+            </p>
+            <table id="sitemap" cellpadding="3">
+              <thead>
+                <tr>
+                  <th width="75%">Sitemap</th>
+                  <th width="25%">Last Modified</th>
+                </tr>
+              </thead>
+              <tbody>
+                <xsl:for-each select="sitemap:sitemapindex/sitemap:sitemap">
+                  <xsl:variable name="sitemapURL">
+                    <xsl:value-of select="sitemap:loc"/>
+                  </xsl:variable>
+                  <tr>
+                    <td>
+                      <a href="{$sitemapURL}">
+                        <xsl:value-of select="sitemap:loc"/>
+                      </a>
+                    </td>
+                    <td>
+                      <xsl:value-of
+                        select="concat(substring(sitemap:lastmod,0,11),concat(' ', substring(sitemap:lastmod,12,5)),concat(' ', substring(sitemap:lastmod,20,6)))"/>
+                    </td>
+                  </tr>
+                </xsl:for-each>
+              </tbody>
+            </table>
+          </xsl:if>
+          <xsl:if test="count(sitemap:sitemapindex/sitemap:sitemap) &lt; 1">
+            <p class="expl" style="margin-bottom: 1rem;">
+              This XML Sitemap contains
+              <xsl:value-of select="count(sitemap:urlset/sitemap:url)"/> URLs.
+            </p>
+            <table id="sitemap" cellpadding="3">
+              <thead>
+                <tr>
+                  ${columns.map((c) => `<th width="${c.width}">${c.label}</th>`).join("\n")}
+                </tr>
+              </thead>
+              <tbody>
+                <xsl:variable name="lower" select="'abcdefghijklmnopqrstuvwxyz'"/>
+                <xsl:variable name="upper" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
+                <xsl:for-each select="sitemap:urlset/sitemap:url">
+                  <tr>
+                    <td>
+                      <xsl:variable name="itemURL">
+                        <xsl:value-of select="sitemap:loc"/>
+                      </xsl:variable>
+                      <a href="{$itemURL}">
+                        <xsl:value-of select="sitemap:loc"/>
+                      </a>
+                    </td>
+                    ${columns.filter((c) => c.label !== "URL").map((c) => `<td>
+<xsl:value-of select="${c.select}"/>
+</td>`).join("\n")}
+                  </tr>
+                </xsl:for-each>
+              </tbody>
+            </table>
+          </xsl:if>
+        </div>
+        </div>
+                    ${showSidebar ? `<div class="w-30 top-2 shadow rounded p-5 right-2" style="margin: 0 auto;">
+                      ${""}
+                      ${hasRuntimeErrors ? `<div${""}><p><strong style="color: #dc2626;">Runtime Errors</strong></p><ul style="margin: 1rem 0; padding: 0;">${runtimeErrors}</ul></div>` : ""}
+                      ${""}
+                    </div>` : ""}
+        </div>
+      </body>
+    </html>
+  </xsl:template>
+</xsl:stylesheet>
+`;
+});
+
+function withoutQuery(path) {
+  return path.split("?")[0];
+}
+function createNitroRouteRuleMatcher() {
+  const { nitro, app } = useRuntimeConfig();
+  const _routeRulesMatcher = toRouteMatcher(
+    createRouter$1({
+      routes: Object.fromEntries(
+        Object.entries(nitro?.routeRules || {}).map(([path, rules]) => [path === "/" ? path : withoutTrailingSlash(path), rules])
+      )
+    })
+  );
+  return (pathOrUrl) => {
+    const path = pathOrUrl[0] === "/" ? pathOrUrl : parseURL(pathOrUrl, app.baseURL).pathname;
+    const pathWithoutQuery = withoutQuery(path);
+    return defu({}, ..._routeRulesMatcher.matchAll(
+      // radix3 does not support trailing slashes
+      withoutBase(pathWithoutQuery === "/" ? pathWithoutQuery : withoutTrailingSlash(pathWithoutQuery), app.baseURL)
+    ).reverse());
+  };
+}
+
+function resolve(s, resolvers) {
+  if (typeof s === "undefined" || !resolvers)
+    return s;
+  s = typeof s === "string" ? s : s.toString();
+  if (hasProtocol(s, { acceptRelative: true, strict: false }))
+    return resolvers.fixSlashes(s);
+  return resolvers.canonicalUrlResolver(s);
+}
+function removeTrailingSlash(s) {
+  return s.replace(/\/(\?|#|$)/, "$1");
+}
+function preNormalizeEntry(_e, resolvers) {
+  const e = typeof _e === "string" ? { loc: _e } : { ..._e };
+  if (e.url && !e.loc) {
+    e.loc = e.url;
+    delete e.url;
+  }
+  if (typeof e.loc !== "string") {
+    e.loc = "";
+  }
+  e.loc = removeTrailingSlash(e.loc);
+  e._abs = hasProtocol(e.loc, { acceptRelative: false, strict: false });
+  try {
+    e._path = e._abs ? parseURL(e.loc) : parsePath(e.loc);
+  } catch (e2) {
+    e2._path = null;
+  }
+  if (e._path) {
+    const query = parseQuery(e._path.search);
+    const qs = stringifyQuery(query);
+    e._relativeLoc = `${encodePath(e._path?.pathname)}${qs.length ? `?${qs}` : ""}`;
+    if (e._path.host) {
+      e.loc = stringifyParsedURL(e._path);
+    } else {
+      e.loc = e._relativeLoc;
+    }
+  } else if (!isEncoded(e.loc)) {
+    e.loc = encodeURI(e.loc);
+  }
+  if (e.loc === "")
+    e.loc = `/`;
+  e.loc = resolve(e.loc, resolvers);
+  e._key = `${e._sitemap || ""}${withoutTrailingSlash(e.loc)}`;
+  return e;
+}
+function isEncoded(url) {
+  try {
+    return url !== decodeURIComponent(url);
+  } catch {
+    return false;
+  }
+}
+function normaliseEntry(_e, defaults, resolvers) {
+  const e = defu(_e, defaults);
+  if (e.lastmod) {
+    const date = normaliseDate(e.lastmod);
+    if (date)
+      e.lastmod = date;
+    else
+      delete e.lastmod;
+  }
+  if (!e.lastmod)
+    delete e.lastmod;
+  e.loc = resolve(e.loc, resolvers);
+  if (e.alternatives) {
+    const alternatives = e.alternatives.map((a) => ({ ...a }));
+    for (let i = 0; i < alternatives.length; i++) {
+      const alt = alternatives[i];
+      if (typeof alt.href === "string") {
+        alt.href = resolve(alt.href, resolvers);
+      } else if (typeof alt.href === "object" && alt.href) {
+        alt.href = resolve(alt.href.href, resolvers);
+      }
+    }
+    e.alternatives = mergeOnKey(alternatives, "hreflang");
+  }
+  if (e.images) {
+    const images = e.images.map((i) => ({ ...i }));
+    for (let i = 0; i < images.length; i++) {
+      images[i].loc = resolve(images[i].loc, resolvers);
+    }
+    e.images = mergeOnKey(images, "loc");
+  }
+  if (e.videos) {
+    const videos = e.videos.map((v) => ({ ...v }));
+    for (let i = 0; i < videos.length; i++) {
+      if (videos[i].content_loc) {
+        videos[i].content_loc = resolve(videos[i].content_loc, resolvers);
+      }
+    }
+    e.videos = mergeOnKey(videos, "content_loc");
+  }
+  return e;
+}
+const IS_VALID_W3C_DATE = [
+  /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))/,
+  /^\d{4}-[01]\d-[0-3]\d$/,
+  /^\d{4}-[01]\d$/,
+  /^\d{4}$/
+];
+function isValidW3CDate(d) {
+  return IS_VALID_W3C_DATE.some((r) => r.test(d));
+}
+function normaliseDate(d) {
+  if (typeof d === "string") {
+    if (d.includes("T")) {
+      const t = d.split("T")[1];
+      if (!t.includes("+") && !t.includes("-") && !t.includes("Z")) {
+        d += "Z";
+      }
+    }
+    if (!isValidW3CDate(d))
+      return false;
+    d = new Date(d);
+    d.setMilliseconds(0);
+    if (Number.isNaN(d.getTime()))
+      return false;
+  }
+  const z = (n) => `0${n}`.slice(-2);
+  const date = `${d.getUTCFullYear()}-${z(d.getUTCMonth() + 1)}-${z(d.getUTCDate())}`;
+  if (d.getUTCHours() > 0 || d.getUTCMinutes() > 0 || d.getUTCSeconds() > 0) {
+    return `${date}T${z(d.getUTCHours())}:${z(d.getUTCMinutes())}:${z(d.getUTCSeconds())}Z`;
+  }
+  return date;
+}
+
+function isValidString(value) {
+  return typeof value === "string" && value.trim().length > 0;
+}
+function parseNumber(value) {
+  if (typeof value === "number") return value;
+  if (typeof value === "string" && value.trim()) {
+    const num = Number.parseFloat(value.trim());
+    return Number.isNaN(num) ? void 0 : num;
+  }
+  return void 0;
+}
+function parseInteger(value) {
+  if (typeof value === "number") return Math.floor(value);
+  if (typeof value === "string" && value.trim()) {
+    const num = Number.parseInt(value.trim(), 10);
+    return Number.isNaN(num) ? void 0 : num;
+  }
+  return void 0;
+}
+function extractUrlFromParsedElement(urlElement, warnings) {
+  if (!isValidString(urlElement.loc)) {
+    warnings.push({
+      type: "validation",
+      message: "URL entry missing required loc element",
+      context: { url: String(urlElement.loc || "undefined") }
+    });
+    return null;
+  }
+  const urlObj = { loc: urlElement.loc };
+  if (isValidString(urlElement.lastmod)) {
+    urlObj.lastmod = urlElement.lastmod;
+  }
+  if (isValidString(urlElement.changefreq)) {
+    const validFreqs = ["always", "hourly", "daily", "weekly", "monthly", "yearly", "never"];
+    if (validFreqs.includes(urlElement.changefreq)) {
+      urlObj.changefreq = urlElement.changefreq;
+    } else {
+      warnings.push({
+        type: "validation",
+        message: "Invalid changefreq value",
+        context: { url: urlElement.loc, field: "changefreq", value: urlElement.changefreq }
+      });
+    }
+  }
+  const priority = parseNumber(urlElement.priority);
+  if (priority !== void 0 && !Number.isNaN(priority)) {
+    if (priority < 0 || priority > 1) {
+      warnings.push({
+        type: "validation",
+        message: "Priority value should be between 0.0 and 1.0, clamping to valid range",
+        context: { url: urlElement.loc, field: "priority", value: priority }
+      });
+    }
+    urlObj.priority = Math.max(0, Math.min(1, priority));
+  } else if (urlElement.priority !== void 0) {
+    warnings.push({
+      type: "validation",
+      message: "Invalid priority value",
+      context: { url: urlElement.loc, field: "priority", value: urlElement.priority }
+    });
+  }
+  if (urlElement.image) {
+    const images = Array.isArray(urlElement.image) ? urlElement.image : [urlElement.image];
+    const validImages = images.map((img) => {
+      if (isValidString(img.loc)) {
+        return { loc: img.loc };
+      } else {
+        warnings.push({
+          type: "validation",
+          message: "Image missing required loc element",
+          context: { url: urlElement.loc, field: "image.loc" }
+        });
+        return null;
+      }
+    }).filter((img) => img !== null);
+    if (validImages.length > 0) {
+      urlObj.images = validImages;
+    }
+  }
+  if (urlElement.video) {
+    const videos = Array.isArray(urlElement.video) ? urlElement.video : [urlElement.video];
+    const validVideos = videos.map((video) => {
+      const missingFields = [];
+      if (!isValidString(video.title)) missingFields.push("title");
+      if (!isValidString(video.thumbnail_loc)) missingFields.push("thumbnail_loc");
+      if (!isValidString(video.description)) missingFields.push("description");
+      if (!isValidString(video.content_loc)) missingFields.push("content_loc");
+      if (missingFields.length > 0) {
+        warnings.push({
+          type: "validation",
+          message: `Video missing required fields: ${missingFields.join(", ")}`,
+          context: { url: urlElement.loc, field: "video" }
+        });
+        return null;
+      }
+      const videoObj = {
+        title: video.title,
+        thumbnail_loc: video.thumbnail_loc,
+        description: video.description,
+        content_loc: video.content_loc
+      };
+      if (isValidString(video.player_loc)) {
+        videoObj.player_loc = video.player_loc;
+      }
+      const duration = parseInteger(video.duration);
+      if (duration !== void 0) {
+        videoObj.duration = duration;
+      } else if (video.duration !== void 0) {
+        warnings.push({
+          type: "validation",
+          message: "Invalid video duration value",
+          context: { url: urlElement.loc, field: "video.duration", value: video.duration }
+        });
+      }
+      if (isValidString(video.expiration_date)) {
+        videoObj.expiration_date = video.expiration_date;
+      }
+      const rating = parseNumber(video.rating);
+      if (rating !== void 0) {
+        if (rating < 0 || rating > 5) {
+          warnings.push({
+            type: "validation",
+            message: "Video rating should be between 0.0 and 5.0",
+            context: { url: urlElement.loc, field: "video.rating", value: rating }
+          });
+        }
+        videoObj.rating = rating;
+      } else if (video.rating !== void 0) {
+        warnings.push({
+          type: "validation",
+          message: "Invalid video rating value",
+          context: { url: urlElement.loc, field: "video.rating", value: video.rating }
+        });
+      }
+      const viewCount = parseInteger(video.view_count);
+      if (viewCount !== void 0) {
+        videoObj.view_count = viewCount;
+      } else if (video.view_count !== void 0) {
+        warnings.push({
+          type: "validation",
+          message: "Invalid video view_count value",
+          context: { url: urlElement.loc, field: "video.view_count", value: video.view_count }
+        });
+      }
+      if (isValidString(video.publication_date)) {
+        videoObj.publication_date = video.publication_date;
+      }
+      if (isValidString(video.family_friendly)) {
+        const validValues = ["yes", "no"];
+        if (validValues.includes(video.family_friendly)) {
+          videoObj.family_friendly = video.family_friendly;
+        } else {
+          warnings.push({
+            type: "validation",
+            message: 'Invalid video family_friendly value, should be "yes" or "no"',
+            context: { url: urlElement.loc, field: "video.family_friendly", value: video.family_friendly }
+          });
+        }
+      }
+      if (isValidString(video.requires_subscription)) {
+        const validValues = ["yes", "no"];
+        if (validValues.includes(video.requires_subscription)) {
+          videoObj.requires_subscription = video.requires_subscription;
+        } else {
+          warnings.push({
+            type: "validation",
+            message: 'Invalid video requires_subscription value, should be "yes" or "no"',
+            context: { url: urlElement.loc, field: "video.requires_subscription", value: video.requires_subscription }
+          });
+        }
+      }
+      if (isValidString(video.live)) {
+        const validValues = ["yes", "no"];
+        if (validValues.includes(video.live)) {
+          videoObj.live = video.live;
+        } else {
+          warnings.push({
+            type: "validation",
+            message: 'Invalid video live value, should be "yes" or "no"',
+            context: { url: urlElement.loc, field: "video.live", value: video.live }
+          });
+        }
+      }
+      if (video.restriction && typeof video.restriction === "object") {
+        const restriction = video.restriction;
+        if (isValidString(restriction.relationship) && isValidString(restriction["#text"])) {
+          const validRelationships = ["allow", "deny"];
+          if (validRelationships.includes(restriction.relationship)) {
+            videoObj.restriction = {
+              relationship: restriction.relationship,
+              restriction: restriction["#text"]
+            };
+          } else {
+            warnings.push({
+              type: "validation",
+              message: 'Invalid video restriction relationship, should be "allow" or "deny"',
+              context: { url: urlElement.loc, field: "video.restriction.relationship", value: restriction.relationship }
+            });
+          }
+        }
+      }
+      if (video.platform && typeof video.platform === "object") {
+        const platform = video.platform;
+        if (isValidString(platform.relationship) && isValidString(platform["#text"])) {
+          const validRelationships = ["allow", "deny"];
+          if (validRelationships.includes(platform.relationship)) {
+            videoObj.platform = {
+              relationship: platform.relationship,
+              platform: platform["#text"]
+            };
+          } else {
+            warnings.push({
+              type: "validation",
+              message: 'Invalid video platform relationship, should be "allow" or "deny"',
+              context: { url: urlElement.loc, field: "video.platform.relationship", value: platform.relationship }
+            });
+          }
+        }
+      }
+      if (video.price) {
+        const prices = Array.isArray(video.price) ? video.price : [video.price];
+        const validPrices = prices.map((price) => {
+          const priceValue = price["#text"];
+          if (priceValue == null || typeof priceValue !== "string" && typeof priceValue !== "number") {
+            warnings.push({
+              type: "validation",
+              message: "Video price missing value",
+              context: { url: urlElement.loc, field: "video.price" }
+            });
+            return null;
+          }
+          const validTypes = ["rent", "purchase", "package", "subscription"];
+          if (price.type && !validTypes.includes(price.type)) {
+            warnings.push({
+              type: "validation",
+              message: `Invalid video price type "${price.type}", should be one of: ${validTypes.join(", ")}`,
+              context: { url: urlElement.loc, field: "video.price.type", value: price.type }
+            });
+          }
+          return {
+            price: String(priceValue),
+            currency: price.currency,
+            type: price.type
+          };
+        }).filter((p) => p !== null);
+        if (validPrices.length > 0) {
+          videoObj.price = validPrices;
+        }
+      }
+      if (video.uploader && typeof video.uploader === "object") {
+        const uploader = video.uploader;
+        if (isValidString(uploader.info) && isValidString(uploader["#text"])) {
+          videoObj.uploader = {
+            uploader: uploader["#text"],
+            info: uploader.info
+          };
+        } else {
+          warnings.push({
+            type: "validation",
+            message: "Video uploader missing required info or name",
+            context: { url: urlElement.loc, field: "video.uploader" }
+          });
+        }
+      }
+      if (video.tag) {
+        const tags = Array.isArray(video.tag) ? video.tag : [video.tag];
+        const validTags = tags.filter(isValidString);
+        if (validTags.length > 0) {
+          videoObj.tag = validTags;
+        }
+      }
+      return videoObj;
+    }).filter((video) => video !== null);
+    if (validVideos.length > 0) {
+      urlObj.videos = validVideos;
+    }
+  }
+  if (urlElement.link) {
+    const links = Array.isArray(urlElement.link) ? urlElement.link : [urlElement.link];
+    const alternatives = links.map((link) => {
+      if (link.rel === "alternate" && isValidString(link.hreflang) && isValidString(link.href)) {
+        return {
+          hreflang: link.hreflang,
+          href: link.href
+        };
+      } else {
+        warnings.push({
+          type: "validation",
+          message: 'Alternative link missing required rel="alternate", hreflang, or href',
+          context: { url: urlElement.loc, field: "link" }
+        });
+        return null;
+      }
+    }).filter((alt) => alt !== null);
+    if (alternatives.length > 0) {
+      urlObj.alternatives = alternatives;
+    }
+  }
+  if (urlElement.news && typeof urlElement.news === "object") {
+    const news = urlElement.news;
+    if (isValidString(news.title) && isValidString(news.publication_date) && news.publication && isValidString(news.publication.name) && isValidString(news.publication.language)) {
+      urlObj.news = {
+        title: news.title,
+        publication_date: news.publication_date,
+        publication: {
+          name: news.publication.name,
+          language: news.publication.language
+        }
+      };
+    } else {
+      warnings.push({
+        type: "validation",
+        message: "News entry missing required fields (title, publication_date, publication.name, publication.language)",
+        context: { url: urlElement.loc, field: "news" }
+      });
+    }
+  }
+  const filteredUrlObj = Object.fromEntries(
+    Object.entries(urlObj).filter(
+      ([_, value]) => value != null && (!Array.isArray(value) || value.length > 0)
+    )
+  );
+  return filteredUrlObj;
+}
+async function parseSitemapXml(xml) {
+  const warnings = [];
+  if (!xml) {
+    throw new Error("Empty XML input provided");
+  }
+  const { XMLParser } = await import('fast-xml-parser');
+  const parser = new XMLParser({
+    isArray: (tagName) => ["url", "image", "video", "link", "tag", "price"].includes(tagName),
+    removeNSPrefix: true,
+    parseAttributeValue: false,
+    ignoreAttributes: false,
+    attributeNamePrefix: "",
+    trimValues: true
+  });
+  try {
+    const parsed = parser.parse(xml);
+    if (!parsed?.urlset) {
+      throw new Error("XML does not contain a valid urlset element");
+    }
+    if (!parsed.urlset.url) {
+      throw new Error("Sitemap contains no URL entries");
+    }
+    const urls = Array.isArray(parsed.urlset.url) ? parsed.urlset.url : [parsed.urlset.url];
+    const validUrls = urls.map((url) => extractUrlFromParsedElement(url, warnings)).filter((url) => url !== null);
+    if (validUrls.length === 0 && urls.length > 0) {
+      warnings.push({
+        type: "validation",
+        message: "No valid URLs found in sitemap after validation"
+      });
+    }
+    return { urls: validUrls, warnings };
+  } catch (error) {
+    if (error instanceof Error && (error.message === "Empty XML input provided" || error.message === "XML does not contain a valid urlset element" || error.message === "Sitemap contains no URL entries")) {
+      throw error;
+    }
+    throw new Error(`Failed to parse XML: ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
+async function tryFetchWithFallback(url, options, event) {
+  const isExternalUrl = !url.startsWith("/");
+  if (isExternalUrl) {
+    const strategies = [
+      // Strategy 1: Use globalThis.$fetch (original approach)
+      () => globalThis.$fetch(url, options),
+      // Strategy 2: If event is available, try using event context even for external URLs
+      event ? () => event.$fetch(url, options) : null,
+      // Strategy 3: Use native fetch as last resort
+      () => $fetch(url, options)
+    ].filter(Boolean);
+    let lastError = null;
+    for (const strategy of strategies) {
+      try {
+        return await strategy();
+      } catch (error) {
+        lastError = error;
+        continue;
+      }
+    }
+    throw lastError;
+  }
+  const fetchContainer = url.startsWith("/") && event ? event : globalThis;
+  return await fetchContainer.$fetch(url, options);
+}
+async function fetchDataSource(input, event) {
+  const context = typeof input.context === "string" ? { name: input.context } : input.context || { name: "fetch" };
+  const url = typeof input.fetch === "string" ? input.fetch : input.fetch[0];
+  const options = typeof input.fetch === "string" ? {} : input.fetch[1];
+  const start = Date.now();
+  const isExternalUrl = !url.startsWith("/");
+  const timeout = isExternalUrl ? 1e4 : options.timeout || 5e3;
+  const timeoutController = new AbortController();
+  const abortRequestTimeout = setTimeout(() => timeoutController.abort(), timeout);
+  try {
+    let isMaybeErrorResponse = false;
+    const isXmlRequest = parseURL(url).pathname.endsWith(".xml");
+    const mergedHeaders = defu(
+      options?.headers,
+      {
+        Accept: isXmlRequest ? "text/xml" : "application/json"
+      },
+      event ? { host: getRequestHost(event, { xForwardedHost: true }) } : {}
+    );
+    const fetchOptions = {
+      ...options,
+      responseType: isXmlRequest ? "text" : "json",
+      signal: timeoutController.signal,
+      headers: mergedHeaders,
+      // Use ofetch's built-in retry for external sources
+      ...isExternalUrl && {
+        retry: 2,
+        retryDelay: 200
+      },
+      // @ts-expect-error untyped
+      onResponse({ response }) {
+        if (typeof response._data === "string" && response._data.startsWith("<!DOCTYPE html>"))
+          isMaybeErrorResponse = true;
+      }
+    };
+    const res = await tryFetchWithFallback(url, fetchOptions, event);
+    const timeTakenMs = Date.now() - start;
+    if (isMaybeErrorResponse) {
+      return {
+        ...input,
+        context,
+        urls: [],
+        timeTakenMs,
+        error: "Received HTML response instead of JSON"
+      };
+    }
+    let urls = [];
+    if (typeof res === "object") {
+      urls = res.urls || res;
+    } else if (typeof res === "string" && parseURL(url).pathname.endsWith(".xml")) {
+      const result = await parseSitemapXml(res);
+      urls = result.urls;
+    }
+    return {
+      ...input,
+      context,
+      timeTakenMs,
+      urls
+    };
+  } catch (_err) {
+    const error = _err;
+    if (isExternalUrl) {
+      const errorInfo = {
+        url,
+        timeout,
+        error: error.message,
+        statusCode: error.response?.status,
+        statusText: error.response?.statusText,
+        method: options?.method || "GET"
+      };
+      logger.error("Failed to fetch external source.", errorInfo);
+    } else {
+      logger.error("Failed to fetch source.", { url, error: error.message });
+    }
+    return {
+      ...input,
+      context,
+      urls: [],
+      error: error.message,
+      _isFailure: true
+      // Mark as failure to prevent caching
+    };
+  } finally {
+    if (abortRequestTimeout) {
+      clearTimeout(abortRequestTimeout);
+    }
+  }
+}
+function globalSitemapSources() {
+  return import('../virtual/global-sources.mjs').then((m) => m.sources);
+}
+function childSitemapSources(definition) {
+  return definition?._hasSourceChunk ? import('../virtual/child-sources.mjs').then((m) => m.sources[definition.sitemapName] || []) : Promise.resolve([]);
+}
+async function resolveSitemapSources(sources, event) {
+  return (await Promise.all(
+    sources.map((source) => {
+      if (typeof source === "object" && "urls" in source) {
+        return {
+          timeTakenMs: 0,
+          ...source,
+          urls: source.urls
+        };
+      }
+      if (source.fetch)
+        return fetchDataSource(source, event);
+      return {
+        ...source,
+        error: "Invalid source"
+      };
+    })
+  )).flat();
+}
+
+function sortInPlace(urls) {
+  urls.sort((a, b) => {
+    const aLoc = typeof a === "string" ? a : a.loc;
+    const bLoc = typeof b === "string" ? b : b.loc;
+    const aSegments = aLoc.split("/").length;
+    const bSegments = bLoc.split("/").length;
+    if (aSegments !== bSegments) {
+      return aSegments - bSegments;
+    }
+    return aLoc.localeCompare(bLoc, void 0, { numeric: true });
+  });
+  return urls;
+}
+
+function parseChunkInfo(sitemapName, sitemaps, defaultChunkSize) {
+  defaultChunkSize = defaultChunkSize || 1e3;
+  if (typeof sitemaps.chunks !== "undefined" && !Number.isNaN(Number(sitemapName))) {
+    return {
+      isChunked: true,
+      baseSitemapName: "sitemap",
+      chunkIndex: Number(sitemapName),
+      chunkSize: defaultChunkSize
+    };
+  }
+  if (sitemapName.includes("-")) {
+    const parts = sitemapName.split("-");
+    const lastPart = parts.pop();
+    if (!Number.isNaN(Number(lastPart))) {
+      const baseSitemapName = parts.join("-");
+      const baseSitemap = sitemaps[baseSitemapName];
+      if (baseSitemap && (baseSitemap.chunks || baseSitemap._isChunking)) {
+        const chunkSize = typeof baseSitemap.chunks === "number" ? baseSitemap.chunks : baseSitemap.chunkSize || defaultChunkSize;
+        return {
+          isChunked: true,
+          baseSitemapName,
+          chunkIndex: Number(lastPart),
+          chunkSize
+        };
+      }
+    }
+  }
+  return {
+    isChunked: false,
+    baseSitemapName: sitemapName,
+    chunkIndex: void 0,
+    chunkSize: defaultChunkSize
+  };
+}
+function sliceUrlsForChunk(urls, sitemapName, sitemaps, defaultChunkSize = 1e3) {
+  const chunkInfo = parseChunkInfo(sitemapName, sitemaps, defaultChunkSize);
+  if (chunkInfo.isChunked && chunkInfo.chunkIndex !== void 0) {
+    const startIndex = chunkInfo.chunkIndex * chunkInfo.chunkSize;
+    const endIndex = (chunkInfo.chunkIndex + 1) * chunkInfo.chunkSize;
+    return urls.slice(startIndex, endIndex);
+  }
+  return urls;
+}
+
+function escapeValueForXml(value) {
+  if (value === true || value === false)
+    return value ? "yes" : "no";
+  return xmlEscape(String(value));
+}
+const URLSET_OPENING_TAG = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd http://www.google.com/schemas/sitemap-image/1.1 http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+function buildUrlXml(url) {
+  const capacity = 50;
+  const parts = Array.from({ length: capacity });
+  let partIndex = 0;
+  parts[partIndex++] = "    <url>";
+  if (url.loc) {
+    parts[partIndex++] = `        <loc>${escapeValueForXml(url.loc)}</loc>`;
+  }
+  if (url.lastmod) {
+    parts[partIndex++] = `        <lastmod>${url.lastmod}</lastmod>`;
+  }
+  if (url.changefreq) {
+    parts[partIndex++] = `        <changefreq>${url.changefreq}</changefreq>`;
+  }
+  if (url.priority !== void 0) {
+    const priorityValue = Number.parseFloat(String(url.priority));
+    const formattedPriority = priorityValue % 1 === 0 ? String(priorityValue) : priorityValue.toFixed(1);
+    parts[partIndex++] = `        <priority>${formattedPriority}</priority>`;
+  }
+  const keys = Object.keys(url).filter((k) => !k.startsWith("_") && !["loc", "lastmod", "changefreq", "priority"].includes(k));
+  for (const key of keys) {
+    const value = url[key];
+    if (value === void 0 || value === null) continue;
+    switch (key) {
+      case "alternatives":
+        if (Array.isArray(value) && value.length > 0) {
+          for (const alt of value) {
+            const attrs = Object.entries(alt).map(([k, v]) => `${k}="${escapeValueForXml(v)}"`).join(" ");
+            parts[partIndex++] = `        <xhtml:link rel="alternate" ${attrs} />`;
+          }
+        }
+        break;
+      case "images":
+        if (Array.isArray(value) && value.length > 0) {
+          for (const img of value) {
+            parts[partIndex++] = "        <image:image>";
+            parts[partIndex++] = `            <image:loc>${escapeValueForXml(img.loc)}</image:loc>`;
+            if (img.title) parts[partIndex++] = `            <image:title>${escapeValueForXml(img.title)}</image:title>`;
+            if (img.caption) parts[partIndex++] = `            <image:caption>${escapeValueForXml(img.caption)}</image:caption>`;
+            if (img.geo_location) parts[partIndex++] = `            <image:geo_location>${escapeValueForXml(img.geo_location)}</image:geo_location>`;
+            if (img.license) parts[partIndex++] = `            <image:license>${escapeValueForXml(img.license)}</image:license>`;
+            parts[partIndex++] = "        </image:image>";
+          }
+        }
+        break;
+      case "videos":
+        if (Array.isArray(value) && value.length > 0) {
+          for (const video of value) {
+            parts[partIndex++] = "        <video:video>";
+            parts[partIndex++] = `            <video:title>${escapeValueForXml(video.title)}</video:title>`;
+            if (video.thumbnail_loc) {
+              parts[partIndex++] = `            <video:thumbnail_loc>${escapeValueForXml(video.thumbnail_loc)}</video:thumbnail_loc>`;
+            }
+            parts[partIndex++] = `            <video:description>${escapeValueForXml(video.description)}</video:description>`;
+            if (video.content_loc) {
+              parts[partIndex++] = `            <video:content_loc>${escapeValueForXml(video.content_loc)}</video:content_loc>`;
+            }
+            if (video.player_loc) {
+              const attrs = video.player_loc.allow_embed ? ' allow_embed="yes"' : "";
+              const autoplay = video.player_loc.autoplay ? ' autoplay="yes"' : "";
+              parts[partIndex++] = `            <video:player_loc${attrs}${autoplay}>${escapeValueForXml(video.player_loc)}</video:player_loc>`;
+            }
+            if (video.duration !== void 0) {
+              parts[partIndex++] = `            <video:duration>${video.duration}</video:duration>`;
+            }
+            if (video.expiration_date) {
+              parts[partIndex++] = `            <video:expiration_date>${video.expiration_date}</video:expiration_date>`;
+            }
+            if (video.rating !== void 0) {
+              parts[partIndex++] = `            <video:rating>${video.rating}</video:rating>`;
+            }
+            if (video.view_count !== void 0) {
+              parts[partIndex++] = `            <video:view_count>${video.view_count}</video:view_count>`;
+            }
+            if (video.publication_date) {
+              parts[partIndex++] = `            <video:publication_date>${video.publication_date}</video:publication_date>`;
+            }
+            if (video.family_friendly !== void 0) {
+              parts[partIndex++] = `            <video:family_friendly>${video.family_friendly === "yes" || video.family_friendly === true ? "yes" : "no"}</video:family_friendly>`;
+            }
+            if (video.restriction) {
+              const relationship = video.restriction.relationship || "allow";
+              parts[partIndex++] = `            <video:restriction relationship="${relationship}">${escapeValueForXml(video.restriction.restriction)}</video:restriction>`;
+            }
+            if (video.platform) {
+              const relationship = video.platform.relationship || "allow";
+              parts[partIndex++] = `            <video:platform relationship="${relationship}">${escapeValueForXml(video.platform.platform)}</video:platform>`;
+            }
+            if (video.requires_subscription !== void 0) {
+              parts[partIndex++] = `            <video:requires_subscription>${video.requires_subscription === "yes" || video.requires_subscription === true ? "yes" : "no"}</video:requires_subscription>`;
+            }
+            if (video.price) {
+              const prices = Array.isArray(video.price) ? video.price : [video.price];
+              for (const price of prices) {
+                const attrs = [];
+                if (price.currency) attrs.push(`currency="${price.currency}"`);
+                if (price.type) attrs.push(`type="${price.type}"`);
+                const attrsStr = attrs.length > 0 ? " " + attrs.join(" ") : "";
+                parts[partIndex++] = `            <video:price${attrsStr}>${escapeValueForXml(price.price)}</video:price>`;
+              }
+            }
+            if (video.uploader) {
+              const info = video.uploader.info ? ` info="${escapeValueForXml(video.uploader.info)}"` : "";
+              parts[partIndex++] = `            <video:uploader${info}>${escapeValueForXml(video.uploader.uploader)}</video:uploader>`;
+            }
+            if (video.live !== void 0) {
+              parts[partIndex++] = `            <video:live>${video.live === "yes" || video.live === true ? "yes" : "no"}</video:live>`;
+            }
+            if (video.tag) {
+              const tags = Array.isArray(video.tag) ? video.tag : [video.tag];
+              for (const tag of tags) {
+                parts[partIndex++] = `            <video:tag>${escapeValueForXml(tag)}</video:tag>`;
+              }
+            }
+            if (video.category) {
+              parts[partIndex++] = `            <video:category>${escapeValueForXml(video.category)}</video:category>`;
+            }
+            if (video.gallery_loc) {
+              const title = video.gallery_loc.title ? ` title="${escapeValueForXml(video.gallery_loc.title)}"` : "";
+              parts[partIndex++] = `            <video:gallery_loc${title}>${escapeValueForXml(video.gallery_loc)}</video:gallery_loc>`;
+            }
+            parts[partIndex++] = "        </video:video>";
+          }
+        }
+        break;
+      case "news":
+        if (value) {
+          parts[partIndex++] = "        <news:news>";
+          parts[partIndex++] = "            <news:publication>";
+          parts[partIndex++] = `                <news:name>${escapeValueForXml(value.publication.name)}</news:name>`;
+          parts[partIndex++] = `                <news:language>${escapeValueForXml(value.publication.language)}</news:language>`;
+          parts[partIndex++] = "            </news:publication>";
+          if (value.title) {
+            parts[partIndex++] = `            <news:title>${escapeValueForXml(value.title)}</news:title>`;
+          }
+          if (value.publication_date) {
+            parts[partIndex++] = `            <news:publication_date>${value.publication_date}</news:publication_date>`;
+          }
+          if (value.access) {
+            parts[partIndex++] = `            <news:access>${value.access}</news:access>`;
+          }
+          if (value.genres) {
+            parts[partIndex++] = `            <news:genres>${escapeValueForXml(value.genres)}</news:genres>`;
+          }
+          if (value.keywords) {
+            parts[partIndex++] = `            <news:keywords>${escapeValueForXml(value.keywords)}</news:keywords>`;
+          }
+          if (value.stock_tickers) {
+            parts[partIndex++] = `            <news:stock_tickers>${escapeValueForXml(value.stock_tickers)}</news:stock_tickers>`;
+          }
+          parts[partIndex++] = "        </news:news>";
+        }
+        break;
+    }
+  }
+  parts[partIndex++] = "    </url>";
+  return parts.slice(0, partIndex).join("\n");
+}
+function urlsToXml(urls, resolvers, { version, xsl, credits, minify }, errorInfo) {
+  const estimatedSize = urls.length + 5;
+  const xmlParts = Array.from({ length: estimatedSize });
+  let partIndex = 0;
+  let xslHref = xsl ? resolvers.relativeBaseUrlResolver(xsl) : false;
+  if (xslHref && errorInfo && errorInfo.messages.length > 0) {
+    xslHref = withQuery(xslHref, {
+      errors: "true",
+      error_messages: errorInfo.messages,
+      error_urls: errorInfo.urls
+    });
+  }
+  if (xslHref) {
+    xmlParts[partIndex++] = `<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="${escapeValueForXml(xslHref)}"?>`;
+  } else {
+    xmlParts[partIndex++] = '<?xml version="1.0" encoding="UTF-8"?>';
+  }
+  xmlParts[partIndex++] = URLSET_OPENING_TAG;
+  for (const url of urls) {
+    xmlParts[partIndex++] = buildUrlXml(url);
+  }
+  xmlParts[partIndex++] = "</urlset>";
+  if (credits) {
+    xmlParts[partIndex++] = `<!-- XML Sitemap generated by @nuxtjs/sitemap v${version} at ${(/* @__PURE__ */ new Date()).toISOString()} -->`;
+  }
+  const xmlContent = xmlParts.slice(0, partIndex);
+  if (minify) {
+    return xmlContent.join("").replace(/(?<!<[^>]*)\s(?![^<]*>)/g, "");
+  }
+  return xmlContent.join("\n");
+}
+
+function resolveSitemapEntries(sitemap, urls, runtimeConfig, resolvers) {
+  const {
+    autoI18n,
+    isI18nMapped
+  } = runtimeConfig;
+  const filterPath = createPathFilter({
+    include: sitemap.include,
+    exclude: sitemap.exclude
+  });
+  const _urls = urls.map((_e) => {
+    const e = preNormalizeEntry(_e, resolvers);
+    if (!e.loc || !filterPath(e.loc))
+      return false;
+    return e;
+  }).filter(Boolean);
+  let validI18nUrlsForTransform = [];
+  const withoutPrefixPaths = {};
+  if (autoI18n && autoI18n.strategy !== "no_prefix") {
+    const localeCodes = autoI18n.locales.map((l) => l.code);
+    validI18nUrlsForTransform = _urls.map((_e, i) => {
+      if (_e._abs)
+        return false;
+      const split = splitForLocales(_e._relativeLoc, localeCodes);
+      let localeCode = split[0];
+      const pathWithoutPrefix = split[1];
+      if (!localeCode)
+        localeCode = autoI18n.defaultLocale;
+      const e = _e;
+      e._pathWithoutPrefix = pathWithoutPrefix;
+      const locale = autoI18n.locales.find((l) => l.code === localeCode);
+      if (!locale)
+        return false;
+      e._locale = locale;
+      e._index = i;
+      e._key = `${e._sitemap || ""}${e._path?.pathname || "/"}${e._path.search}`;
+      withoutPrefixPaths[pathWithoutPrefix] = withoutPrefixPaths[pathWithoutPrefix] || [];
+      if (!withoutPrefixPaths[pathWithoutPrefix].some((e2) => e2._locale.code === locale.code))
+        withoutPrefixPaths[pathWithoutPrefix].push(e);
+      return e;
+    }).filter(Boolean);
+    for (const e of validI18nUrlsForTransform) {
+      if (!e._i18nTransform && !e.alternatives?.length) {
+        const alternatives = withoutPrefixPaths[e._pathWithoutPrefix].map((u) => {
+          const entries = [];
+          if (u._locale.code === autoI18n.defaultLocale) {
+            entries.push({
+              href: u.loc,
+              hreflang: "x-default"
+            });
+          }
+          entries.push({
+            href: u.loc,
+            hreflang: u._locale._hreflang || autoI18n.defaultLocale
+          });
+          return entries;
+        }).flat().filter(Boolean);
+        if (alternatives.length)
+          e.alternatives = alternatives;
+      } else if (e._i18nTransform) {
+        delete e._i18nTransform;
+        if (autoI18n.strategy === "no_prefix") ;
+        if (autoI18n.differentDomains) {
+          e.alternatives = [
+            {
+              // apply default locale domain
+              ...autoI18n.locales.find((l) => [l.code, l.language].includes(autoI18n.defaultLocale)),
+              code: "x-default"
+            },
+            ...autoI18n.locales.filter((l) => !!l.domain)
+          ].map((locale) => {
+            return {
+              hreflang: locale._hreflang,
+              href: joinURL(withHttps(locale.domain), e._pathWithoutPrefix)
+            };
+          });
+        } else {
+          for (const l of autoI18n.locales) {
+            let loc = e._pathWithoutPrefix;
+            if (autoI18n.pages) {
+              const pageKey = e._pathWithoutPrefix.replace(/^\//, "").replace(/\/index$/, "") || "index";
+              const pageMappings = autoI18n.pages[pageKey];
+              if (pageMappings && pageMappings[l.code] !== void 0) {
+                const customPath = pageMappings[l.code];
+                if (customPath === false)
+                  continue;
+                if (typeof customPath === "string")
+                  loc = customPath.startsWith("/") ? customPath : `/${customPath}`;
+              } else if (!autoI18n.differentDomains && !(["prefix_and_default", "prefix_except_default"].includes(autoI18n.strategy) && l.code === autoI18n.defaultLocale)) {
+                loc = joinURL(`/${l.code}`, e._pathWithoutPrefix);
+              }
+            } else {
+              if (!autoI18n.differentDomains && !(["prefix_and_default", "prefix_except_default"].includes(autoI18n.strategy) && l.code === autoI18n.defaultLocale))
+                loc = joinURL(`/${l.code}`, e._pathWithoutPrefix);
+            }
+            const _sitemap = isI18nMapped ? l._sitemap : void 0;
+            const newEntry = preNormalizeEntry({
+              _sitemap,
+              ...e,
+              _index: void 0,
+              _key: `${_sitemap || ""}${loc || "/"}${e._path.search}`,
+              _locale: l,
+              loc,
+              alternatives: [{ code: "x-default", _hreflang: "x-default" }, ...autoI18n.locales].map((locale) => {
+                const code = locale.code === "x-default" ? autoI18n.defaultLocale : locale.code;
+                const isDefault = locale.code === "x-default" || locale.code === autoI18n.defaultLocale;
+                let href = e._pathWithoutPrefix;
+                if (autoI18n.pages) {
+                  const pageKey = e._pathWithoutPrefix.replace(/^\//, "").replace(/\/index$/, "") || "index";
+                  const pageMappings = autoI18n.pages[pageKey];
+                  if (pageMappings && pageMappings[code] !== void 0) {
+                    const customPath = pageMappings[code];
+                    if (customPath === false)
+                      return false;
+                    if (typeof customPath === "string")
+                      href = customPath.startsWith("/") ? customPath : `/${customPath}`;
+                  } else if (autoI18n.strategy === "prefix") {
+                    href = joinURL("/", code, e._pathWithoutPrefix);
+                  } else if (["prefix_and_default", "prefix_except_default"].includes(autoI18n.strategy)) {
+                    if (!isDefault) {
+                      href = joinURL("/", code, e._pathWithoutPrefix);
+                    }
+                  }
+                } else {
+                  if (autoI18n.strategy === "prefix") {
+                    href = joinURL("/", code, e._pathWithoutPrefix);
+                  } else if (["prefix_and_default", "prefix_except_default"].includes(autoI18n.strategy)) {
+                    if (!isDefault) {
+                      href = joinURL("/", code, e._pathWithoutPrefix);
+                    }
+                  }
+                }
+                if (!filterPath(href))
+                  return false;
+                return {
+                  hreflang: locale._hreflang,
+                  href
+                };
+              }).filter(Boolean)
+            }, resolvers);
+            if (e._locale.code === newEntry._locale.code) {
+              _urls[e._index] = newEntry;
+              e._index = void 0;
+            } else {
+              _urls.push(newEntry);
+            }
+          }
+        }
+      }
+      if (isI18nMapped) {
+        e._sitemap = e._sitemap || e._locale._sitemap;
+        e._key = `${e._sitemap || ""}${e.loc || "/"}${e._path.search}`;
+      }
+      if (e._index)
+        _urls[e._index] = e;
+    }
+  }
+  return _urls;
+}
+async function buildSitemapUrls(sitemap, resolvers, runtimeConfig, nitro) {
+  const {
+    sitemaps,
+    // enhancing
+    autoI18n,
+    isI18nMapped,
+    isMultiSitemap,
+    // sorting
+    sortEntries,
+    // chunking
+    defaultSitemapsChunkSize
+  } = runtimeConfig;
+  const chunkInfo = parseChunkInfo(sitemap.sitemapName, sitemaps, defaultSitemapsChunkSize);
+  function maybeSort(urls2) {
+    return sortEntries ? sortInPlace(urls2) : urls2;
+  }
+  function maybeSlice(urls2) {
+    return sliceUrlsForChunk(urls2, sitemap.sitemapName, sitemaps, defaultSitemapsChunkSize);
+  }
+  if (autoI18n?.differentDomains) {
+    const domain = autoI18n.locales.find((e) => [e.language, e.code].includes(sitemap.sitemapName))?.domain;
+    if (domain) {
+      const _tester = resolvers.canonicalUrlResolver;
+      resolvers.canonicalUrlResolver = (path) => resolveSitePath(path, {
+        absolute: true,
+        withBase: false,
+        siteUrl: withHttps(domain),
+        trailingSlash: _tester("/test/").endsWith("/"),
+        base: "/"
+      });
+    }
+  }
+  let effectiveSitemap = sitemap;
+  const baseSitemapName = chunkInfo.baseSitemapName;
+  if (chunkInfo.isChunked && baseSitemapName !== sitemap.sitemapName && sitemaps[baseSitemapName]) {
+    effectiveSitemap = sitemaps[baseSitemapName];
+  }
+  let sourcesInput = effectiveSitemap.includeAppSources ? await globalSitemapSources() : [];
+  sourcesInput.push(...await childSitemapSources(effectiveSitemap));
+  if (nitro && resolvers.event) {
+    const ctx = {
+      event: resolvers.event,
+      sitemapName: baseSitemapName,
+      sources: sourcesInput
+    };
+    await nitro.hooks.callHook("sitemap:sources", ctx);
+    sourcesInput = ctx.sources;
+  }
+  const sources = await resolveSitemapSources(sourcesInput, resolvers.event);
+  const failedSources = sources.filter((source) => source.error && source._isFailure).map((source) => ({
+    url: typeof source.fetch === "string" ? source.fetch : source.fetch?.[0] || "unknown",
+    error: source.error || "Unknown error"
+  }));
+  const resolvedCtx = {
+    urls: sources.flatMap((s) => s.urls),
+    sitemapName: sitemap.sitemapName,
+    event: resolvers.event
+  };
+  await nitro?.hooks.callHook("sitemap:input", resolvedCtx);
+  const enhancedUrls = resolveSitemapEntries(sitemap, resolvedCtx.urls, { autoI18n, isI18nMapped }, resolvers);
+  const filteredUrls = enhancedUrls.filter((e) => {
+    if (isMultiSitemap && e._sitemap && sitemap.sitemapName)
+      return e._sitemap === sitemap.sitemapName;
+    return true;
+  });
+  const sortedUrls = maybeSort(filteredUrls);
+  const urls = maybeSlice(sortedUrls);
+  return { urls, failedSources };
+}
+
+function useNitroUrlResolvers(e) {
+  const canonicalQuery = getQuery(e).canonical;
+  const isShowingCanonical = typeof canonicalQuery !== "undefined" && canonicalQuery !== "false";
+  const siteConfig = useSiteConfig(e);
+  return {
+    event: e,
+    fixSlashes: (path) => fixSlashes(siteConfig.trailingSlash, path),
+    // we need these as they depend on the nitro event
+    canonicalUrlResolver: createSitePathResolver(e, {
+      canonical: isShowingCanonical || true,
+      absolute: true,
+      withBase: true
+    }),
+    relativeBaseUrlResolver: createSitePathResolver(e, { absolute: false, withBase: true })
+  };
+}
+async function buildSitemapXml(event, definition, resolvers, runtimeConfig) {
+  const { sitemapName } = definition;
+  const nitro = useNitroApp();
+  const { urls: sitemapUrls, failedSources } = await buildSitemapUrls(definition, resolvers, runtimeConfig, nitro);
+  const routeRuleMatcher = createNitroRouteRuleMatcher();
+  const { autoI18n } = runtimeConfig;
+  let validCount = 0;
+  for (let i = 0; i < sitemapUrls.length; i++) {
+    const u = sitemapUrls[i];
+    const path = u._path?.pathname || u.loc;
+    let routeRules = routeRuleMatcher(path);
+    if (autoI18n?.locales && autoI18n?.strategy !== "no_prefix") {
+      const match = splitForLocales(path, autoI18n.locales.map((l) => l.code));
+      const pathWithoutPrefix = match[1];
+      if (pathWithoutPrefix && pathWithoutPrefix !== path)
+        routeRules = defu(routeRules, routeRuleMatcher(pathWithoutPrefix));
+    }
+    if (routeRules.sitemap === false)
+      continue;
+    if (typeof routeRules.robots !== "undefined" && !routeRules.robots)
+      continue;
+    const hasRobotsDisabled = Object.entries(routeRules.headers || {}).some(([name, value]) => name.toLowerCase() === "x-robots-tag" && value.toLowerCase().includes("noindex"));
+    if (routeRules.redirect || hasRobotsDisabled)
+      continue;
+    sitemapUrls[validCount++] = routeRules.sitemap ? defu(u, routeRules.sitemap) : u;
+  }
+  sitemapUrls.length = validCount;
+  const locSize = sitemapUrls.length;
+  const resolvedCtx = {
+    urls: sitemapUrls,
+    sitemapName,
+    event
+  };
+  await nitro.hooks.callHook("sitemap:resolved", resolvedCtx);
+  if (resolvedCtx.urls.length !== locSize) {
+    resolvedCtx.urls = resolvedCtx.urls.map((e) => preNormalizeEntry(e, resolvers));
+  }
+  const maybeSort = (urls2) => runtimeConfig.sortEntries ? sortInPlace(urls2) : urls2;
+  const normalizedPreDedupe = resolvedCtx.urls.map((e) => normaliseEntry(e, definition.defaults, resolvers));
+  const urls = maybeSort(mergeOnKey(normalizedPreDedupe, "_key").map((e) => normaliseEntry(e, definition.defaults, resolvers)));
+  if (definition._isChunking && definition.sitemapName.includes("-")) {
+    const parts = definition.sitemapName.split("-");
+    const lastPart = parts.pop();
+    if (!Number.isNaN(Number(lastPart))) {
+      const chunkIndex = Number(lastPart);
+      const baseSitemapName = parts.join("-");
+      if (urls.length === 0 && chunkIndex > 0) {
+        throw createError$1({
+          statusCode: 404,
+          message: `Sitemap chunk ${chunkIndex} for "${baseSitemapName}" does not exist.`
+        });
+      }
+    }
+  }
+  const errorInfo = failedSources.length > 0 ? {
+    messages: failedSources.map((f) => f.error),
+    urls: failedSources.map((f) => f.url)
+  } : void 0;
+  const sitemap = urlsToXml(urls, resolvers, runtimeConfig, errorInfo);
+  const ctx = { sitemap, sitemapName, event };
+  await nitro.hooks.callHook("sitemap:output", ctx);
+  return ctx.sitemap;
+}
+const buildSitemapXmlCached = defineCachedFunction(
+  buildSitemapXml,
+  {
+    name: "sitemap:xml",
+    group: "sitemap",
+    maxAge: 60 * 10,
+    // Default 10 minutes
+    base: "sitemap",
+    // Use the sitemap storage
+    getKey: (event, definition) => {
+      const host = getHeader(event, "host") || getHeader(event, "x-forwarded-host") || "";
+      const proto = getHeader(event, "x-forwarded-proto") || "https";
+      const sitemapName = definition.sitemapName || "default";
+      return `${sitemapName}-${proto}-${host}`;
+    },
+    swr: true
+    // Enable stale-while-revalidate
+  }
+);
+async function createSitemap(event, definition, runtimeConfig) {
+  const resolvers = useNitroUrlResolvers(event);
+  const shouldCache = typeof runtimeConfig.cacheMaxAgeSeconds === "number" && runtimeConfig.cacheMaxAgeSeconds > 0;
+  const xml = shouldCache ? await buildSitemapXmlCached(event, definition, resolvers, runtimeConfig) : await buildSitemapXml(event, definition, resolvers, runtimeConfig);
+  setHeader(event, "Content-Type", "text/xml; charset=UTF-8");
+  if (runtimeConfig.cacheMaxAgeSeconds) {
+    setHeader(event, "Cache-Control", `public, max-age=${runtimeConfig.cacheMaxAgeSeconds}, s-maxage=${runtimeConfig.cacheMaxAgeSeconds}, stale-while-revalidate=3600`);
+    const now = /* @__PURE__ */ new Date();
+    setHeader(event, "X-Sitemap-Generated", now.toISOString());
+    setHeader(event, "X-Sitemap-Cache-Duration", `${runtimeConfig.cacheMaxAgeSeconds}s`);
+    const expiryTime = new Date(now.getTime() + runtimeConfig.cacheMaxAgeSeconds * 1e3);
+    setHeader(event, "X-Sitemap-Cache-Expires", expiryTime.toISOString());
+    const remainingSeconds = Math.floor((expiryTime.getTime() - now.getTime()) / 1e3);
+    setHeader(event, "X-Sitemap-Cache-Remaining", `${remainingSeconds}s`);
+  } else {
+    setHeader(event, "Cache-Control", `no-cache, no-store`);
+  }
+  event.context._isSitemap = true;
+  return xml;
+}
+
+const _EgKNTK = defineEventHandler(async (e) => {
+  const runtimeConfig = useSitemapRuntimeConfig();
+  const { sitemaps } = runtimeConfig;
+  if ("index" in sitemaps) {
+    return sendRedirect(e, withBase("/sitemap_index.xml", useRuntimeConfig().app.baseURL), 301);
+  }
+  return createSitemap(e, Object.values(sitemaps)[0], runtimeConfig);
+});
+
 const _SxA8c9 = defineEventHandler(() => {});
 
 const _lazy_MxQ1k3 = () => import('../routes/css/_..._.mjs');
@@ -6999,6 +9765,9 @@ const handlers = [
   { route: '/img/**', handler: _lazy_RIB6hp, lazy: true, middleware: false, method: undefined },
   { route: '/js/**', handler: _lazy_sxYhSI, lazy: true, middleware: false, method: undefined },
   { route: '/__nuxt_error', handler: _lazy_HNrS3l, lazy: true, middleware: false, method: undefined },
+  { route: '', handler: _sOo9MV, lazy: false, middleware: true, method: undefined },
+  { route: '/__sitemap__/style.xsl', handler: _PhYssg, lazy: false, middleware: false, method: undefined },
+  { route: '/sitemap.xml', handler: _EgKNTK, lazy: false, middleware: false, method: undefined },
   { route: '/__nuxt_island/**', handler: _SxA8c9, lazy: false, middleware: false, method: undefined },
   { route: '/**', handler: _lazy_HNrS3l, lazy: true, middleware: false, method: undefined }
 ];
@@ -7143,6 +9912,10 @@ function useNitroApp() {
   return nitroApp;
 }
 runNitroPlugins(nitroApp);
+
+function defineNitroPlugin(def) {
+  return def;
+}
 
 function defineRenderHandler(render) {
   const runtimeConfig = useRuntimeConfig();

@@ -8,12 +8,6 @@ import barba from '@barba/core';
 import Lenis from 'lenis';
 import imagesLoaded from 'imagesloaded';
 import Hamster from 'hamsterjs';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-import { CSSRulePlugin } from 'gsap/CSSRulePlugin';
-import { TextPlugin } from 'gsap/TextPlugin';
-import { Flip } from 'gsap/Flip';
 import { nextTick } from 'vue';
 
 // Note: Some GSAP plugins (DrawSVG, MorphSVG, ScrollSmoother, CustomEase, InertiaPlugin)
@@ -24,19 +18,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   if (process.client) {
     // Make jQuery available globally
     window.$ = window.jQuery = jQuery;
-
-    // Register GSAP plugins (free plugins only)
-    gsap.registerPlugin(
-      ScrollTrigger,
-      ScrollToPlugin,
-      CSSRulePlugin,
-      TextPlugin,
-      Flip
-    );
-
-    // Make GSAP available globally
-    window.gsap = gsap;
-    window.ScrollTrigger = ScrollTrigger;
 
     // Make Barba available globally
     window.barba = barba;

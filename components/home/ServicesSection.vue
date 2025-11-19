@@ -23,10 +23,6 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
 
 const { locale } = useI18n()
 const serviceRefs = ref<HTMLElement[]>([])
@@ -50,6 +46,12 @@ const services = [
 ]
 
 onMounted(() => {
+  const gsap = (window as any).gsap
+
+  if (!gsap || !(window as any).ScrollTrigger) {
+    return
+  }
+
   serviceRefs.value.forEach((ref, index) => {
     gsap.fromTo(
       ref,

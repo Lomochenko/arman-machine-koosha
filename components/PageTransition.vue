@@ -10,9 +10,10 @@
 </template>
 
 <script setup lang="ts">
-import gsap from 'gsap'
-
 const onEnter = (el: Element) => {
+  const gsap = (window as any).gsap
+  if (!gsap) return
+
   gsap.fromTo(
     el,
     { opacity: 0, y: 20 },
@@ -21,6 +22,9 @@ const onEnter = (el: Element) => {
 }
 
 const onLeave = (el: Element) => {
+  const gsap = (window as any).gsap
+  if (!gsap) return
+
   gsap.to(el, {
     opacity: 0,
     y: -20,

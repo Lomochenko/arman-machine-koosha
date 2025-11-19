@@ -685,7 +685,7 @@ const _inlineRuntimeConfig = {
         "headers": {
           "Content-Type": "text/xml; charset=UTF-8",
           "Cache-Control": "public, max-age=600, must-revalidate",
-          "X-Sitemap-Prerendered": "2025-11-17T10:25:44.698Z"
+          "X-Sitemap-Prerendered": "2025-11-19T11:36:38.660Z"
         }
       },
       "/_nuxt/builds/meta/**": {
@@ -743,7 +743,7 @@ const _inlineRuntimeConfig = {
         "defaults": {
           "changefreq": "weekly",
           "priority": 0.8,
-          "lastmod": "2025-11-17T10:25:44.253Z"
+          "lastmod": "2025-11-19T11:36:38.051Z"
         },
         "include": [],
         "exclude": [
@@ -1132,7 +1132,7 @@ async function errorHandler(error, event) {
 
 const rootDir = "C:/Users/Asus/Desktop/arman-machine-koosha";
 
-const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"},{"name":"author","content":"Pe Themes"},{"name":"description","content":"Multi-Concept Creative Portfolio Template"},{"name":"keywords","content":"portfolio, agency, personal, creative"},{"name":"theme-color","content":"#000000"}],"link":[{"rel":"preconnect","href":"https://fonts.googleapis.com"},{"rel":"preconnect","href":"https://fonts.gstatic.com","crossorigin":"anonymous"},{"rel":"stylesheet","href":"https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap"},{"rel":"stylesheet","href":"https://fonts.googleapis.com/icon?family=Material+Icons"},{"rel":"shortcut icon","href":"/img/img/site-favicon.png"},{"rel":"apple-touch-icon","href":"/img/img/site-favicon.png"}],"style":[],"script":[],"noscript":[],"charset":"utf-8","viewport":"width=device-width, initial-scale=1"};
+const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"},{"name":"author","content":"Pe Themes"},{"name":"description","content":"Multi-Concept Creative Portfolio Template"},{"name":"keywords","content":"portfolio, agency, personal, creative"},{"name":"theme-color","content":"#000000"}],"link":[{"rel":"preconnect","href":"https://fonts.googleapis.com"},{"rel":"preconnect","href":"https://fonts.gstatic.com","crossorigin":"anonymous"},{"rel":"stylesheet","href":"https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap"},{"rel":"stylesheet","href":"https://fonts.googleapis.com/icon?family=Material+Icons&display=swap"},{"rel":"shortcut icon","href":"/img/img/site-favicon.png"},{"rel":"apple-touch-icon","href":"/img/img/site-favicon.png"}],"style":[],"script":[],"noscript":[],"charset":"utf-8","viewport":"width=device-width, initial-scale=1"};
 
 const appRootTag = "div";
 
