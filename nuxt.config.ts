@@ -38,14 +38,14 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons&display=swap' },
-        { rel: 'shortcut icon', href: '/img/img/site-favicon.png' },
-        { rel: 'apple-touch-icon', href: '/img/img/site-favicon.png' },
+        { rel: 'shortcut icon', href: '/img/site-favicon.png' },
+        { rel: 'apple-touch-icon', href: '/img/site-favicon.png' },
       ],
       meta: [
         { name: 'author', content: 'Pe Themes' },
         { name: 'description', content: 'Multi-Concept Creative Portfolio Template' },
         { name: 'keywords', content: 'portfolio, agency, personal, creative' },
-        { name: 'theme-color', content: '#000000' },
+        { name: 'theme-color', content: '#1a1a1a' },
       ]
     }
   },
@@ -99,9 +99,14 @@ export default defineNuxtConfig({
   },
 
   plugins: [
+    '~/plugins/gsap.client.ts',
     '~/plugins/libraries.client.ts',
     '~/plugins/i18n.ts',
   ],
+
+  build: {
+    transpile: ['gsap'],
+  },
 
   // Serve static files from public folder
   nitro: {

@@ -19,6 +19,7 @@ type NuxtAppInjections =
   InjectionType<typeof import("../../node_modules/nuxt/dist/pages/runtime/plugins/check-if-page-unused.js")> &
   InjectionType<typeof import("../../node_modules/nuxt/dist/app/plugins/dev-server-logs.js")> &
   InjectionType<typeof import("../../node_modules/nuxt/dist/app/plugins/check-if-layout-used.js")> &
+  InjectionType<typeof import("../../plugins/gsap.client")> &
   InjectionType<typeof import("../../plugins/libraries.client")> &
   InjectionType<typeof import("../../plugins/i18n")> &
   InjectionType<typeof import("../../plugins/barba-router-integration.client")> &

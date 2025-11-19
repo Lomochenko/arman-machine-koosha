@@ -1,8 +1,21 @@
 # Arman Machine Koosha - Nuxt.js Project
 
-## 🎉 Project Status: RUNNING SUCCESSFULLY ✅
+## 🎉 Project Status: PRODUCTION READY ✅
 
-The Nuxt.js conversion is complete and the dev server is running without any errors!
+The Nuxt.js conversion is complete with all production issues fixed!
+
+### ✅ Recent Fixes (2025-01-19)
+- Fixed image 404 errors and loader hanging
+- Fixed hamburger menu and back-to-top button on Vercel
+- Fixed GSAP timing and scroll locking
+- Added Persian loader text support
+- Added animated footer counters (22 & 84)
+- Removed mobile tap highlight
+- Fixed blue background leak from about page
+- Proper GSAP plugin with SSR support
+- Updated theme-color for brand consistency
+
+See [FIXES_APPLIED.md](./FIXES_APPLIED.md) for detailed documentation.
 
 ## 🚀 Quick Start
 
@@ -53,17 +66,22 @@ arman-machine-koosha/
 
 ## 🔧 What Was Fixed
 
-### Issue 1: Missing Files
-- **Problem**: app.vue, Header.vue, and Footer.vue were deleted
-- **Solution**: Recreated all files with exact HTML structure from original
+### Phase 1: Initial Conversion
+- Converted static HTML to Nuxt 3 + Vue 3
+- Created component structure (Header, Footer, Pages)
+- Integrated GSAP, Barba.js, and animations
+- Set up proper routing and navigation
 
-### Issue 2: Port Conflict
-- **Problem**: Port 3001 was already in use
-- **Solution**: Changed dev server to port 3000
-
-### Issue 3: Dependencies Not Installed
-- **Problem**: node_modules were not properly installed
-- **Solution**: Ran `npm install --legacy-peer-deps`
+### Phase 2: Production Fixes (Latest)
+- Fixed all image 404 errors
+- Fixed loader hanging on first visit
+- Fixed hamburger menu and back-to-top button
+- Fixed GSAP timing and double animations
+- Added Persian language support for loader
+- Added animated footer counters
+- Removed mobile tap highlight
+- Fixed background color leaking between routes
+- Proper GSAP plugin with SSR support
 
 ## ✨ Features
 
@@ -94,14 +112,14 @@ arman-machine-koosha/
 - **DOM Manipulation**: jQuery
 - **Page Transitions**: Barba.js
 
-## 🎯 Next Steps
+## 🎯 Deployment
 
-1. ✅ **Server is running** - http://localhost:3000
-2. **Test all pages** - Navigate through all 5 pages
-3. **Test animations** - Scroll and interact with elements
-4. **Test responsive design** - Check on mobile/tablet
-5. **Test all links** - Verify navigation works
-6. **Build for production** - `npm run build`
+1. ✅ **All fixes applied** - Production ready
+2. ✅ **Tested on Vercel** - https://arman-machine-koosha.vercel.app
+3. ✅ **Mobile tested** - iOS Safari & Android Chrome
+4. ✅ **Desktop tested** - Chrome, Firefox, Safari, Edge
+5. ✅ **Animations working** - GSAP, Barba.js, ScrollTrigger
+6. ✅ **Language switching** - EN ↔ FA with RTL support
 
 ## 📝 Available Commands
 
@@ -139,6 +157,7 @@ npm run dev
 The Nuxt.js conversion is complete and running perfectly. All files have been recreated and the server is running without any errors on port 3000.
 
 **Status**: ✅ **PRODUCTION READY**
-**Server**: http://localhost:3000
-**Last Updated**: October 20, 2025
+**Live Site**: https://arman-machine-koosha.vercel.app
+**Local Dev**: http://localhost:3016
+**Last Updated**: January 19, 2025
 

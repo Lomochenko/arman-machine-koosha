@@ -81,56 +81,23 @@
         </div>
 
         <div class="c-col-2 sm-6 text-center">
-
-          <!-- Number Counter -->
-          <div class="nayla-number-counter" data-duration="2" data-stagger="0.05" data-count="9"
-            style="font-size: 75px;">
-            <!-- Count End -->
+          <div class="nayla-number-counter" style="font-size: 75px;">
             <span class="ct-text count-end">+</span>
-            <!--/ Count End -->
-            <!-- Count Number -->
-            <span class="ct-number">
-              22
-            </span>
-            <!--/ Count Number -->
-
+            <span ref="expRef" class="ct-number">0</span>
           </div>
-          <!--/ Number Counter -->
-
-          <!-- Text -->
           <div class="text-wrapper">
-
             <p>Years of experience.</p>
-
           </div>
-          <!--/ Text -->
         </div>
 
         <div class="c-col-2 sm-6 text-center">
-          <!-- our services links -->
-          <!-- Number Counter -->
-          <div class="nayla-number-counter" data-duration="2" data-stagger="0.05" data-count="9"
-            style="font-size: 75px;">
-            <!-- Count End -->
+          <div class="nayla-number-counter" style="font-size: 75px;">
             <span class="ct-text count-end">+</span>
-            <!--/ Count End -->
-            <!-- Count Number -->
-            <span class="ct-number">
-              84
-            </span>
-            <!--/ Count Number -->
-
+            <span ref="projRef" class="ct-number">0</span>
           </div>
-          <!--/ Number Counter -->
-
-          <!-- Text -->
           <div class="text-wrapper">
-
             <p>Projects delivered.</p>
-
           </div>
-          <!--/ Text -->
-          <!-- our services links -->
         </div>
         <div class="c-col-2 sm-12">
           <!-- our services links -->
@@ -149,17 +116,9 @@
 
 
         <div class="c-col-2 sm-12">
-
-          <!-- Scroll Top Icon -->
-          <div class="nayla-icon align-right nayla-scroll-button" data-scroll-to=0
-            style="--fontSize: 75px;--wgt: 300">
-            <span class="material-icons">
-              arrow_upward
-            </span>
-
+          <div class="nayla-icon align-right" @click="scrollToTop" style="--fontSize: 75px;--wgt: 300; cursor: pointer;">
+            <span class="material-icons">arrow_upward</span>
           </div>
-          <!--/ Scroll Top Icon -->
-
         </div>
 
       </div>
@@ -172,7 +131,21 @@
 </template>
 
 <script setup lang="ts">
-// Footer component
+import { ref, onMounted } from 'vue'
+
+const expRef = ref<HTMLElement | null>(null)
+const projRef = ref<HTMLElement | null>(null)
+
+onMounted(() => {
+  useCountUp(expRef, 22)
+  useCountUp(projRef, 84)
+})
+
+const scrollToTop = () => {
+  if (process.client) {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+}
 </script>
 
 <style scoped>

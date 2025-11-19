@@ -3,6 +3,31 @@
  * Fixes content flash during page transitions
  */
 
+/* ============================================
+   Remove Mobile Tap Highlight
+   ============================================ */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a,
+button,
+.menu-toggle,
+.nayla-button,
+.nayla-icon {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Preserve focus visibility for accessibility */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
 /* Hide main content during loading/transitions to prevent content flash */
 html.loading #page {
   opacity: 0;

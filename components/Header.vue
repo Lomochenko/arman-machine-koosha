@@ -54,18 +54,12 @@
 
         </div>
         <!--/ Language Switcher Button -->
-        <!--  Menu Toggle -->
-        <div class="menu-toggle">
-
+        <div class="menu-toggle" @click="toggleMenu">
           <div class="toggle-lines">
-
             <div class="toggle-line"></div>
             <div class="toggle-line"></div>
           </div>
-
-
         </div>
-        <!--/  Menu Toggle -->
 
       </div>
 
@@ -155,13 +149,32 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 
-// Language switching composable
 const { switchLanguage, initializeDirection, getCurrentLanguage } = useLanguage()
 
-// Initialize direction on mount
 onMounted(() => {
   initializeDirection()
 })
+
+const toggleMenu = () => {
+  if (!process.client) return
+  const menuToggle = document.querySelector('.menu-toggle')
+  const menu = document.querySelector('#site-navigation')
+  const body = document.body
+  
+  if (menuToggle && menu) {
+    const isOpen = menuToggle.classList.contains('active')
+    
+    if (isOpen) {
+      menuToggle.classList.remove('active')
+      menu.classList.remove('active')
+      body.classList.remove('menu-open')
+    } else {
+      menuToggle.classList.add('active')
+      menu.classList.add('active')
+      body.classList.add('menu-open')
+    }
+  }
+}
 </script>
 
 <style scoped>

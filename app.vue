@@ -11,8 +11,8 @@
     <!-- Page Transitions -->
     <div class="nayla-page-transition columns up capt-bottom-left default">
       <!-- Caption -->
-      <div class="page-transition-caption">
-        LOADING PLEASE WAIT..
+      <div class="page-transition-caption" :dir="locale === 'fa' ? 'rtl' : 'ltr'">
+        {{ locale === 'fa' ? 'لطفا صبر کنید ...' : 'LOADING PLEASE WAIT..' }}
       </div>
       <!--/ Caption -->
     </div>
@@ -50,43 +50,52 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-// Add the 'light' class to the body tag to match static version structure
-// This ensures CSS selectors like 'body.light' work correctly
+const { locale } = useI18n()
+
 useHead({
   bodyAttrs: {
     class: 'light',
     'data-barba': 'wrapper'
   },
   htmlAttrs: {
-    class: 'loading' // Start with loading class to hide content until animations are ready
-  }
+    class: 'loading'
+  },
+  link: [
+    { rel: 'icon', href: '/img/site-favicon.png' }
+  ]
 })
 
-// Safety fallback: if for any reason the legacy page loader never completes
-// (slow network, blocked asset, or scripts.js timing issues),
-// force-remove the "loading" class after a timeout so the app is usable.
-onMounted(() => {
-  // Last-resort safety: give the legacy GSAP loader plenty of time to run
-  // its percentage/count animation and complete normally. Only if something
-  // goes wrong (blocked script, very slow network, etc.) do we force-hide it.
-  window.setTimeout(() => {
-    const htmlEl = document.documentElement;
-    if (htmlEl && htmlEl.classList.contains('loading')) {
-      htmlEl.classList.remove('loading');
+onMounted(async () => {
+  if (!process.client) return
 
-      const loaderEl = document.querySelector('.page-loader') as HTMLElement | null;
+  // Wait for critical resources
+  await Promise.all([
+    document.fonts.ready,
+    new Promise(resolve => {
+      if (document.readyState === 'complete') {
+        resolve(true)
+      } else {
+        window.addEventListener('load', () => resolve(true))
+      }
+    })
+  ])
+
+  // Safety timeout
+  setTimeout(() => {
+    const htmlEl = document.documentElement
+    if (htmlEl?.classList.contains('loading')) {
+      htmlEl.classList.remove('loading')
+      const loaderEl = document.querySelector('.page-loader') as HTMLElement
       if (loaderEl) {
-        loaderEl.style.visibility = 'hidden';
-        loaderEl.style.height = '0';
-        loaderEl.style.opacity = '0';
+        loaderEl.style.visibility = 'hidden'
+        loaderEl.style.height = '0'
+        loaderEl.style.opacity = '0'
       }
     }
-  }, 12000); // 12s max wait so the loader counter can usually finish
-});
-
-// The loading class will normally be removed by scripts.js after the page loader completes
-// This fallback just prevents a permanent loader on slow/failed first loads
+  }, 8000)
+})
 </script>
 
 <style>

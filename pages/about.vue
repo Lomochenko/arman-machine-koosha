@@ -1001,13 +1001,43 @@
 </template>
 
 <script setup lang="ts">
-// SEO Configuration
+import { onMounted, onUnmounted } from 'vue'
+
 useSEO({
   title: 'About',
   description: 'Learn about Arman Machine Koosha - a creative agency driven by a deep-rooted desire to redefine what is possible in the realms of design.',
   image: '/img/agency_2.jpg',
   keywords: 'about, agency, creative team, design studio, Arman Machine Koosha',
-});
+})
+
+let gsapContext: any = null
+
+onMounted(() => {
+  if (!process.client) return
+  
+  const { $gsap } = useNuxtApp()
+  if ($gsap && $gsap.context) {
+    gsapContext = $gsap.context(() => {
+      // GSAP animations will be registered here by scripts.js
+    })
+  }
+})
+
+onUnmounted(() => {
+  if (!process.client) return
+  
+  // Revert GSAP context to clean up animations
+  if (gsapContext) {
+    gsapContext.revert()
+  }
+  
+  // Reset background color to default
+  const { $gsap } = useNuxtApp()
+  if ($gsap) {
+    $gsap.set(document.body, { backgroundColor: '#ffffff', clearProps: 'backgroundColor' })
+    $gsap.set(document.documentElement, { backgroundColor: '#ffffff', clearProps: 'backgroundColor' })
+  }
+})
 </script>
 
 <style scoped>
