@@ -29,7 +29,7 @@
                             <div class="nayla-button underline icon-right scroll-button" data-scroll-to="#sec1"
                                 data-icon="arrow_outward">
 
-                                <NuxtLink to="/contact">START A PROJECT</NuxtLink>
+                                <NuxtLink to="/contact">Call Us</NuxtLink>
 
                             </div>
                             <!--/ Button -->
