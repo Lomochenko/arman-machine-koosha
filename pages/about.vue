@@ -1031,11 +1031,26 @@ onUnmounted(() => {
     gsapContext.revert()
   }
   
-  // Reset background color to default
-  const { $gsap } = useNuxtApp()
-  if ($gsap) {
-    $gsap.set(document.body, { backgroundColor: '#ffffff', clearProps: 'backgroundColor' })
-    $gsap.set(document.documentElement, { backgroundColor: '#ffffff', clearProps: 'backgroundColor' })
+  // FIX Issue 5: Reset background colors to prevent blue bleed
+  const gsap = (window as any).gsap
+  if (gsap) {
+    // Reset body background
+    gsap.set(document.body, { 
+      backgroundColor: '#ffffff',
+      clearProps: 'backgroundColor' 
+    })
+    
+    // Reset html background
+    gsap.set(document.documentElement, { 
+      backgroundColor: '#ffffff',
+      clearProps: 'backgroundColor' 
+    })
+    
+    // Reset any sections with blue background
+    const blueSections = document.querySelectorAll('.anim-bg, .section[style*="background"]')
+    blueSections.forEach(section => {
+      gsap.set(section, { clearProps: 'backgroundColor' })
+    })
   }
 })
 </script>

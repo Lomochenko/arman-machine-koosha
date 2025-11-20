@@ -228,6 +228,30 @@ export default defineNuxtPlugin((nuxtApp) => {
 
       isTransitioning = true;
 
+      // FIX Issue 2: Force hide mobile menu immediately
+      const menuToggle = document.querySelector('.menu-toggle');
+      const menu = document.querySelector('#site-navigation');
+      const menuOverlay = document.querySelector('.menu-overlay');
+      const body = document.body;
+      
+      if (menuToggle && menu) {
+        menuToggle.classList.remove('active');
+        menu.classList.remove('active');
+        body.classList.remove('menu-open');
+        
+        // Force hide with inline styles
+        (menu as HTMLElement).style.opacity = '0';
+        (menu as HTMLElement).style.visibility = 'hidden';
+        if (menuOverlay) {
+          (menuOverlay as HTMLElement).style.opacity = '0';
+          (menuOverlay as HTMLElement).style.visibility = 'hidden';
+        }
+        
+        if (window.$) {
+          window.$(menuToggle).data('clicks', false);
+        }
+      }
+
       // REPLICATE barba.hooks.before() - Start loading indicator
       if (typeof window.startLoading === 'function') {
         window.startLoading();
@@ -239,10 +263,19 @@ export default defineNuxtPlugin((nuxtApp) => {
         window.lenis = null;
       }
 
-      // Kill ALL existing ScrollTrigger instances before navigation (matches static hooks near 12618)
-      if (window.ScrollTrigger && typeof window.ScrollTrigger.getAll === 'function') {
-        const all = window.ScrollTrigger.getAll();
-        all.forEach((st: any) => st.kill(true));
+      // FIX Issue 7: Comprehensive GSAP cleanup to prevent erratic behavior
+      if (window.gsap) {
+        // Kill all active tweens
+        window.gsap.killTweensOf('*');
+        
+        // Kill all ScrollTrigger instances
+        if (window.ScrollTrigger) {
+          const triggers = window.ScrollTrigger.getAll();
+          triggers.forEach((t: any) => {
+            t.kill(true);
+          });
+          window.ScrollTrigger.clearMatchMedia();
+        }
       }
 
       // REPLICATE Barba leave() transition
@@ -332,11 +365,10 @@ export default defineNuxtPlugin((nuxtApp) => {
     /**
      * Complete reinitialization after route change
      * Replicates barba.hooks.after() from static version
+     * FIX Issue 2: Ensure animations initialize BEFORE content shows
      */
     function afterRouteComplete() {
-      // Remove loading class
-      document.documentElement.classList.remove('loading');
-
+      // DON'T remove loading class yet - wait for animations
       // Enable scroll
       if (typeof window.enableScroll === 'function') {
         window.enableScroll();
@@ -390,9 +422,14 @@ export default defineNuxtPlugin((nuxtApp) => {
           window.naylaVideo(window.$(videos));
         }
 
-        // Refresh ScrollTrigger
+        // FIX Issue 7: Proper ScrollTrigger refresh with timing
         if (window.ScrollTrigger) {
-          window.ScrollTrigger.refresh(true);
+          // Small delay before refresh to ensure DOM is ready
+          setTimeout(() => {
+            if (window.ScrollTrigger) {
+              window.ScrollTrigger.refresh(true);
+            }
+          }, 100);
         }
 
         // Reinitialize mouse cursor
@@ -400,13 +437,35 @@ export default defineNuxtPlugin((nuxtApp) => {
           window.naylaMouseCursor(false);
         }
 
-        // Additional header cleanup and refresh after delay (from static version lines 12654-12677)
+        // FIX Issue 2 & 7: Wait for animations to initialize, THEN show content
+        setTimeout(() => {
+          // Remove loading class
+          document.documentElement.classList.remove('loading');
+          
+          // Show page content
+          const pageElement = document.getElementById('page');
+          if (pageElement && window.gsap) {
+            window.gsap.to(pageElement, {
+              opacity: 1,
+              visibility: 'visible',
+              duration: 0.3,
+              ease: 'power2.out'
+            });
+          }
+          
+          // FIX Issue 2: Ensure menu stays hidden after page load
+          const menu = document.querySelector('#site-navigation');
+          if (menu && !menu.classList.contains('active')) {
+            (menu as HTMLElement).style.opacity = '0';
+            (menu as HTMLElement).style.visibility = 'hidden';
+          }
+        }, 250);
+
+        // Additional header cleanup and refresh after delay
         setTimeout(() => {
           if (window.$ && window.gsap && window.ScrollTrigger) {
             const siteHeader = window.$('.site-header');
             let stickyTargets;
-
-            window.ScrollTrigger.refresh();
 
             if (siteHeader.find('.hide-sticky').length) {
               stickyTargets = siteHeader.find('.hide-sticky');
@@ -424,16 +483,17 @@ export default defineNuxtPlugin((nuxtApp) => {
               clearProps: 'all'
             });
 
-            // Reinitialize header (CRITICAL - missing from previous implementation)
+            // Reinitialize header
             if (typeof (window as any).naylaHeader === 'function') {
               (window as any).naylaHeader();
             }
 
+            // Final ScrollTrigger refresh
             window.ScrollTrigger.refresh(true);
           }
 
           isTransitioning = false;
-        }, 200);
+        }, 300);
       });
     }
   }

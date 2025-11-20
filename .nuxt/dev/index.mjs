@@ -685,7 +685,7 @@ const _inlineRuntimeConfig = {
         "headers": {
           "Content-Type": "text/xml; charset=UTF-8",
           "Cache-Control": "public, max-age=600, must-revalidate",
-          "X-Sitemap-Prerendered": "2025-11-19T19:35:07.991Z"
+          "X-Sitemap-Prerendered": "2025-11-19T21:46:39.009Z"
         }
       },
       "/_nuxt/builds/meta/**": {
@@ -743,7 +743,7 @@ const _inlineRuntimeConfig = {
         "defaults": {
           "changefreq": "weekly",
           "priority": 0.8,
-          "lastmod": "2025-11-19T19:35:07.393Z"
+          "lastmod": "2025-11-19T21:46:38.291Z"
         },
         "include": [],
         "exclude": [

@@ -28,11 +28,107 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
+/* ============================================
+   FIX Issue 1: Mobile Loader Percentage & Columns Visible
+   ============================================ */
+@media (max-width: 768px) {
+  .page-loader-percentage {
+    font-size: 60px !important;
+    bottom: 60px !important;
+    z-index: 999999 !important;
+    position: fixed !important;
+    display: block !important;
+    visibility: visible !important;
+  }
+  
+  .page-loader-count {
+    font-size: 60px !important;
+  }
+  
+  .page-loader-count span {
+    font-size: 60px !important;
+  }
+  
+  /* Ensure loader columns are visible on mobile */
+  .page-loader .loader-col {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  .page-loader {
+    display: block !important;
+    visibility: visible !important;
+  }
+}
+
+/* ============================================
+   FIX Issue 6: Hero CTAs Visible on Mobile
+   ============================================ */
+@media (max-width: 768px) {
+  /* Ensure hero section has proper height */
+  .hero-section,
+  .section.fullscreen {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Position CTAs at bottom of viewport */
+  .hero-ctas,
+  .nayla-button-group {
+    position: fixed !important;
+    bottom: 2rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 90% !important;
+    max-width: 400px !important;
+    z-index: 10 !important;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 1rem !important;
+  }
+}
+
 /* Hide main content during loading/transitions to prevent content flash */
 html.loading #page {
   opacity: 0;
   visibility: hidden;
   transition: none;
+}
+
+/* FIX Issue 2: Hide mobile menu during page load and transitions */
+html.loading #site-navigation,
+html.loading .menu-overlay {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Ensure menu is hidden by default */
+#site-navigation {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#site-navigation.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* FIX Issue 5: Prevent blue background flash during transitions */
+.nayla-page-transition {
+  background: transparent !important;
+}
+
+.nayla-page-transition .trans-col {
+  background: #191919 !important;
+}
+
+.nayla-page-transition.running {
+  background: transparent !important;
 }
 
 /* Ensure page loader is always on top */

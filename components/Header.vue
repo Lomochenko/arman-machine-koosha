@@ -158,7 +158,7 @@ onMounted(() => {
 const toggleMenu = () => {
   if (!process.client) return
   const menuToggle = document.querySelector('.menu-toggle')
-  const menu = document.querySelector('#site-navigation')
+  const menu = document.querySelector('#site-navigation') as HTMLElement
   const body = document.body
   
   if (menuToggle && menu) {
@@ -168,10 +168,16 @@ const toggleMenu = () => {
       menuToggle.classList.remove('active')
       menu.classList.remove('active')
       body.classList.remove('menu-open')
+      // FIX Issue 2: Explicitly hide menu
+      menu.style.opacity = '0'
+      menu.style.visibility = 'hidden'
     } else {
       menuToggle.classList.add('active')
       menu.classList.add('active')
       body.classList.add('menu-open')
+      // FIX Issue 2: Explicitly show menu
+      menu.style.opacity = '1'
+      menu.style.visibility = 'visible'
     }
   }
 }

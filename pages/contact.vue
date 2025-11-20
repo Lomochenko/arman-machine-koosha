@@ -3,21 +3,19 @@
 
                 <div class="section fullscreen">
 
-                    <!-- Empty Space -->
-                    <span class="empty-space hide-mobile" style="height: 75px"></span>
-                    <!--/ Empty Space -->
+                    <!-- FIX Issue 8: Add proper spacing for header -->
+                    <span class="empty-space" style="height: 120px"></span>
 
                     <div class="wrapper-full" style="min-height: 90vh">
 
                         <div class="c-col-12">
 
-                            <!-- Single Image -->
-                            <div class="single-image" style="--height: 50vh">
+                            <!-- FIX Issue 8: Add class for proper z-index -->
+                            <div class="single-image contact-hero-image" style="--height: 50vh">
 
                                 <img alt="Single Image" src="/img/photog_contact.jpg">
 
                             </div>
-                            <!--/ Single Imag -->
 
                         </div>
 
@@ -104,5 +102,16 @@ useSEO({
 </script>
 
 <style scoped>
-/* Styles are imported from CSS files in nuxt.config.ts */
+/* FIX Issue 8: Ensure image doesn't overlap header */
+.contact-hero-image {
+  position: relative;
+  z-index: 1;
+  margin-top: 2rem;
+}
+
+/* Ensure header stays on top */
+:deep(.site-header) {
+  z-index: 999;
+  position: relative;
+}
 </style>
