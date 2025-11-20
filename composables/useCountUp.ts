@@ -1,52 +1,75 @@
-import { ref, onMounted, onUnmounted } from 'vue'
+import type { Ref } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 
-// FIX Issue 3: Ensure counter animation works properly with proper GSAP timing
-export const useCountUp = (targetRef: Ref<HTMLElement | null>, endValue: number) => {
+/**
+ * Pure Vue/JS count-up animation with viewport trigger.
+ *
+ * - No GSAP dependency
+ * - Starts when target enters viewport (IntersectionObserver)
+ * - Uses requestAnimationFrame with easeOutQuad easing
+ */
+export const useCountUp = (targetRef: Ref<HTMLElement | null>, endValue: number, options?: {
+  durationMs?: number
+  threshold?: number
+}) => {
+  if (!process.client) return
+
+  const duration = options?.durationMs ?? 2000
+  const threshold = options?.threshold ?? 0.2
+
   let observer: IntersectionObserver | null = null
   let hasAnimated = false
-  let retryCount = 0
-  const maxRetries = 10
+  let animationFrameId: number | null = null
 
-  const initCounter = () => {
-    if (!process.client || !targetRef.value) return
+  const easeOutQuad = (t: number) => 1 - (1 - t) * (1 - t)
 
-    // FIX: Wait for GSAP to be available with retry mechanism
-    const gsap = (window as any).gsap
-    if (!gsap) {
-      if (retryCount < maxRetries) {
-        retryCount++
-        setTimeout(initCounter, 200)
-        return
+  const startAnimation = () => {
+    const el = targetRef.value
+    if (!el || hasAnimated) return
+
+    hasAnimated = true
+    const startTime = performance.now()
+
+    const step = (now: number) => {
+      const elapsed = now - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      const eased = easeOutQuad(progress)
+      const current = Math.round(endValue * eased)
+
+      if (targetRef.value) {
+        targetRef.value.textContent = current.toString()
       }
-      console.warn('GSAP not available for counter animation after retries')
-      // Fallback: just set the number immediately
+
+      if (progress < 1) {
+        animationFrameId = window.requestAnimationFrame(step)
+      }
+    }
+
+    animationFrameId = window.requestAnimationFrame(step)
+  }
+
+  const initObserver = () => {
+    if (!('IntersectionObserver' in window) || !targetRef.value) {
+      // Fallback: no IO support, just set final value
       if (targetRef.value) {
         targetRef.value.textContent = endValue.toString()
       }
       return
     }
 
-    const counter = { value: 0 }
-
     observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        for (const entry of entries) {
           if (entry.isIntersecting && !hasAnimated) {
-            hasAnimated = true
-            gsap.to(counter, {
-              value: endValue,
-              duration: 2.5,
-              ease: 'power2.out',
-              onUpdate: () => {
-                if (targetRef.value) {
-                  targetRef.value.textContent = Math.round(counter.value).toString()
-                }
-              },
-            })
+            startAnimation()
+            if (observer && targetRef.value) {
+              observer.unobserve(targetRef.value)
+            }
+            break
           }
-        })
+        }
       },
-      { threshold: 0.2 } // FIX: Trigger earlier for better UX
+      { threshold }
     )
 
     if (targetRef.value) {
@@ -55,13 +78,20 @@ export const useCountUp = (targetRef: Ref<HTMLElement | null>, endValue: number)
   }
 
   onMounted(() => {
-    // Wait a bit for GSAP to load from scripts.js
-    setTimeout(initCounter, 300)
+    // Initialize as soon as DOM node is available
+    initObserver()
   })
 
   onUnmounted(() => {
+    if (observer && targetRef.value) {
+      observer.unobserve(targetRef.value)
+    }
     if (observer) {
       observer.disconnect()
+      observer = null
+    }
+    if (animationFrameId !== null) {
+      window.cancelAnimationFrame(animationFrameId)
     }
   })
 }
