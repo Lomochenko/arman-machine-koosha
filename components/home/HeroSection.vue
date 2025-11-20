@@ -45,39 +45,65 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { locale } = useI18n()
-const titleRef = ref<HTMLElement>()
-const subtitleRef = ref<HTMLElement>()
-const buttonRef = ref<HTMLElement>()
+const titleRef = ref<HTMLElement | null>(null)
+const subtitleRef = ref<HTMLElement | null>(null)
+const buttonRef = ref<HTMLElement | null>(null)
+
+// Guard to prevent duplicate animations
+let heroAnimationInitialized = false
 
 onMounted(() => {
   const gsap = (window as any).gsap
-  if (!gsap) {
+  if (!gsap || heroAnimationInitialized) return
+
+  const titleEl = titleRef.value
+  const subtitleEl = subtitleRef.value
+  const buttonEl = buttonRef.value
+
+  // Only animate if at least one element exists
+  if (!titleEl && !subtitleEl && !buttonEl) {
     return
   }
 
-  // Animate title
-  gsap.fromTo(
-    titleRef.value,
-    { opacity: 0, y: 30 },
-    { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
-  )
+  try {
+    heroAnimationInitialized = true
 
-  // Animate subtitle
-  gsap.fromTo(
-    subtitleRef.value,
-    { opacity: 0, y: 20 },
-    { opacity: 1, y: 0, duration: 0.8, delay: 0.2, ease: 'power2.out' }
-  )
+    if (titleEl) {
+      gsap.fromTo(
+        titleEl,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
+      )
+    }
 
-  // Animate buttons
-  gsap.fromTo(
-    buttonRef.value,
-    { opacity: 0, y: 20 },
-    { opacity: 1, y: 0, duration: 0.8, delay: 0.4, ease: 'power2.out' }
-  )
+    if (subtitleEl) {
+      gsap.fromTo(
+        subtitleEl,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 0.2, ease: 'power2.out' }
+      )
+    }
+
+    if (buttonEl) {
+      gsap.fromTo(
+        buttonEl,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 0.4, ease: 'power2.out' }
+      )
+    }
+  } catch (err) {
+    console.error('HeroSection GSAP animation failed:', err)
+    heroAnimationInitialized = false
+  }
+})
+
+onUnmounted(() => {
+  // Reset guard on unmount so animations can run again on next mount
+  heroAnimationInitialized = false
 })
 </script>
 

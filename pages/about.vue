@@ -1015,42 +1015,54 @@ let gsapContext: any = null
 onMounted(() => {
   if (!process.client) return
   
-  const { $gsap } = useNuxtApp()
-  if ($gsap && $gsap.context) {
-    gsapContext = $gsap.context(() => {
-      // GSAP animations will be registered here by scripts.js
-    })
+  try {
+    const { $gsap } = useNuxtApp()
+    if ($gsap && $gsap.context) {
+      gsapContext = $gsap.context(() => {
+        // GSAP animations will be registered here by scripts.js
+      })
+    }
+  } catch (err) {
+    console.error('About page GSAP context setup failed:', err)
   }
 })
 
 onUnmounted(() => {
   if (!process.client) return
   
-  // Revert GSAP context to clean up animations
-  if (gsapContext) {
-    gsapContext.revert()
+  try {
+    // Revert GSAP context to clean up animations
+    if (gsapContext) {
+      gsapContext.revert()
+    }
+  } catch (err) {
+    console.error('About page GSAP context revert failed:', err)
   }
   
   // FIX Issue 5: Reset background colors to prevent blue bleed
-  const gsap = (window as any).gsap
-  if (gsap) {
-    // Reset body background
-    gsap.set(document.body, { 
-      backgroundColor: '#ffffff',
-      clearProps: 'backgroundColor' 
-    })
-    
-    // Reset html background
-    gsap.set(document.documentElement, { 
-      backgroundColor: '#ffffff',
-      clearProps: 'backgroundColor' 
-    })
-    
-    // Reset any sections with blue background
-    const blueSections = document.querySelectorAll('.anim-bg, .section[style*="background"]')
-    blueSections.forEach(section => {
-      gsap.set(section, { clearProps: 'backgroundColor' })
-    })
+  try {
+    const gsap = (window as any).gsap
+    if (gsap) {
+      // Reset body background
+      gsap.set(document.body, { 
+        backgroundColor: '#ffffff',
+        clearProps: 'backgroundColor' 
+      })
+      
+      // Reset html background
+      gsap.set(document.documentElement, { 
+        backgroundColor: '#ffffff',
+        clearProps: 'backgroundColor' 
+      })
+      
+      // Reset any sections with blue background
+      const blueSections = document.querySelectorAll('.anim-bg, .section[style*="background"]')
+      blueSections.forEach(section => {
+        gsap.set(section, { clearProps: 'backgroundColor' })
+      })
+    }
+  } catch (err) {
+    console.error('About page background reset failed:', err)
   }
 })
 </script>

@@ -376,50 +376,98 @@ export default defineNuxtPlugin((nuxtApp) => {
 
       nextTick(() => {
         // EXACT sequence from barba.hooks.after() in static version
-        if (typeof window.naylaTextAnims === 'function') {
-          window.naylaTextAnims();
+        try {
+          if (typeof window.naylaTextAnims === 'function') {
+            window.naylaTextAnims();
+          }
+        } catch (err) {
+          console.error('naylaTextAnims failed:', err);
         }
 
-        if (typeof window.naylaTextWrapper === 'function') {
-          window.naylaTextWrapper();
+        try {
+          if (typeof window.naylaTextWrapper === 'function') {
+            window.naylaTextWrapper();
+          }
+        } catch (err) {
+          console.error('naylaTextWrapper failed:', err);
         }
 
-        if (typeof window.naylaGeneralAnims === 'function' && window.$) {
-          const hasAnimElements = document.querySelectorAll('main .has-anim');
-          window.naylaGeneralAnims(window.$(hasAnimElements));
+        try {
+          if (typeof window.naylaGeneralAnims === 'function' && window.$) {
+            const hasAnimElements = document.querySelectorAll('main .has-anim');
+            if (hasAnimElements.length) {
+              window.naylaGeneralAnims(window.$(hasAnimElements));
+            }
+          }
+        } catch (err) {
+          console.error('naylaGeneralAnims failed:', err);
         }
 
-        if (typeof window.naylaListAnimations === 'function') {
-          window.naylaListAnimations();
+        try {
+          if (typeof window.naylaListAnimations === 'function') {
+            window.naylaListAnimations();
+          }
+        } catch (err) {
+          console.error('naylaListAnimations failed:', err);
         }
 
-        if (typeof window.naylaImageAnims === 'function') {
-          window.naylaImageAnims();
+        try {
+          if (typeof window.naylaImageAnims === 'function') {
+            window.naylaImageAnims();
+          }
+        } catch (err) {
+          console.error('naylaImageAnims failed:', err);
         }
 
-        if (typeof window.naylaParallaxImages === 'function') {
-          window.naylaParallaxImages();
+        try {
+          if (typeof window.naylaParallaxImages === 'function') {
+            window.naylaParallaxImages();
+          }
+        } catch (err) {
+          console.error('naylaParallaxImages failed:', err);
         }
 
-        if (typeof window.initShowcases === 'function') {
-          window.initShowcases();
+        try {
+          if (typeof window.initShowcases === 'function') {
+            window.initShowcases();
+          }
+        } catch (err) {
+          console.error('initShowcases failed:', err);
         }
 
-        if (typeof window.initPageElements === 'function') {
-          window.initPageElements();
+        try {
+          if (typeof window.initPageElements === 'function') {
+            window.initPageElements();
+          }
+        } catch (err) {
+          console.error('initPageElements failed:', err);
         }
 
-        if (typeof window.naylaSections === 'function') {
-          window.naylaSections();
+        try {
+          if (typeof window.naylaSections === 'function') {
+            window.naylaSections();
+          }
+        } catch (err) {
+          console.error('naylaSections failed:', err);
         }
 
-        if (typeof window.initPages === 'function') {
-          window.initPages();
+        try {
+          if (typeof window.initPages === 'function') {
+            window.initPages();
+          }
+        } catch (err) {
+          console.error('initPages failed:', err);
         }
 
-        if (typeof window.naylaVideo === 'function' && window.$) {
-          const videos = document.querySelectorAll('#primary .nayla-video');
-          window.naylaVideo(window.$(videos));
+        try {
+          if (typeof window.naylaVideo === 'function' && window.$) {
+            const videos = document.querySelectorAll('#primary .nayla-video');
+            if (videos.length) {
+              window.naylaVideo(window.$(videos));
+            }
+          }
+        } catch (err) {
+          console.error('naylaVideo failed:', err);
         }
 
         // FIX Issue 7: Proper ScrollTrigger refresh with timing

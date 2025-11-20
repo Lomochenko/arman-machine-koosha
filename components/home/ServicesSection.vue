@@ -23,6 +23,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import { ref, onMounted } from 'vue'
 
 const { locale } = useI18n()
 const serviceRefs = ref<HTMLElement[]>([])
@@ -47,28 +48,35 @@ const services = [
 
 onMounted(() => {
   const gsap = (window as any).gsap
+  const ScrollTrigger = (window as any).ScrollTrigger
 
-  if (!gsap || !(window as any).ScrollTrigger) {
+  if (!gsap || !ScrollTrigger) {
     return
   }
 
-  serviceRefs.value.forEach((ref, index) => {
-    gsap.fromTo(
-      ref,
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        delay: index * 0.2,
-        scrollTrigger: {
-          trigger: ref,
-          start: 'top 80%',
-          toggleActions: 'play none none none'
-        }
-      }
-    )
-  })
+  try {
+    serviceRefs.value
+      .filter((el): el is HTMLElement => !!el)
+      .forEach((el, index) => {
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            delay: index * 0.2,
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 80%',
+              toggleActions: 'play none none none'
+            }
+          }
+        )
+      })
+  } catch (err) {
+    console.error('ServicesSection GSAP animation failed:', err)
+  }
 })
 </script>
 
