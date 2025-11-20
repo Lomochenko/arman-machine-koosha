@@ -86,7 +86,7 @@
             <span class="ct-number" data-target="22">0</span>
           </div>
           <div class="text-wrapper">
-            <p>Years of experience.</p>
+            <p>Experience.</p>
           </div>
         </div>
 
