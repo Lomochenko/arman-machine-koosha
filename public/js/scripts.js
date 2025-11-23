@@ -10665,36 +10665,8 @@
 
 
 
-    if (($('.page-loader').length) && (!sessionStorage.getItem('doNotShow'))) {
-        sessionStorage.setItem('doNotShow', 'true');
-
-
-        pageLoader()
-
-
-    } else {
-        // Page loader is skipped (refresh/subsequent visits)
-        // Remove the loader element
-        $('.page-loader').remove();
-
-        // CRITICAL: Remove loading class to show content
-        $('html').removeClass('loading');
-
-        // Initialize animations immediately since pageLoader() won't run
-        // This ensures content is visible and animated on refresh
-        setTimeout(function() {
-            naylaVideo($('.nayla-video'));
-            naylaGeneralAnims($('.has-anim'));
-            naylaTextAnims();
-            naylaTextWrapper();
-            naylaListAnimations();
-            naylaImageAnims();
-            naylaParallaxImages();
-            initShowcases();
-            initPageElements();
-            naylaSections();
-            initPages();
-        }, 100);
+    if ($('.page-loader').length) {
+        pageLoader();
     }
 
     naylaMouseCursor(true);

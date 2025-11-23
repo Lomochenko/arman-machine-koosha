@@ -286,11 +286,14 @@ export default defineNuxtPlugin((nuxtApp) => {
         return;
       }
 
-      // Hide page content to prevent flash during transition
+      // Hide page content and set transition background color
       const pageElement = document.getElementById('page');
       if (pageElement) {
         window.gsap.set(pageElement, { opacity: 0, visibility: 'hidden' });
       }
+      
+      // Set background color during transition
+      document.body.style.backgroundColor = '#ebebeb';
 
       transitions.classList.add('running');
 
@@ -330,13 +333,19 @@ export default defineNuxtPlugin((nuxtApp) => {
           return;
         }
 
-        // REPLICATE Barba beforeEnter() transition
+        // Initialize animations FIRST (while transition is still covering)
+        initializePageAnimations();
+
+        // THEN animate transition out
         const tl = window.gsap.timeline({
+          delay: 0.1,
           onStart: () => {
             transitions.classList.remove('running');
+            
+            // Keep background color during transition
+            document.body.style.backgroundColor = '#ebebeb';
 
             // Reveal page content as transition starts fading out
-            // This ensures users see content only after transition overlay is in place
             if (pageElement) {
               window.gsap.to(pageElement, {
                 opacity: 1,
@@ -351,8 +360,8 @@ export default defineNuxtPlugin((nuxtApp) => {
             const cols = transitions.querySelectorAll('.trans-col');
             if (cols.length) window.gsap.set(cols, { clearProps: 'all' });
 
-            // REPLICATE barba.hooks.after() - Full reinitialization
-            afterRouteComplete();
+            // Final cleanup
+            finalizeRouteChange();
           }
         });
 
@@ -363,17 +372,9 @@ export default defineNuxtPlugin((nuxtApp) => {
     });
 
     /**
-     * Complete reinitialization after route change
-     * Replicates barba.hooks.after() from static version
-     * FIX Issue 2: Ensure animations initialize BEFORE content shows
+     * Initialize page animations immediately (while transition is covering)
      */
-    function afterRouteComplete() {
-      // DON'T remove loading class yet - wait for animations
-      // Enable scroll
-      if (typeof window.enableScroll === 'function') {
-        window.enableScroll();
-      }
-
+    function initializePageAnimations() {
       nextTick(() => {
         // EXACT sequence from barba.hooks.after() in static version
         try {
@@ -470,47 +471,39 @@ export default defineNuxtPlugin((nuxtApp) => {
           console.error('naylaVideo failed:', err);
         }
 
-        // FIX Issue 7: Proper ScrollTrigger refresh with timing
+        // Refresh ScrollTrigger after animations initialize
         if (window.ScrollTrigger) {
-          // Small delay before refresh to ensure DOM is ready
-          setTimeout(() => {
-            if (window.ScrollTrigger) {
-              window.ScrollTrigger.refresh(true);
-            }
-          }, 100);
+          window.ScrollTrigger.refresh(true);
         }
 
         // Reinitialize mouse cursor
         if (typeof window.naylaMouseCursor === 'function') {
           window.naylaMouseCursor(false);
         }
+      });
+    }
 
-        // FIX Issue 2 & 7: Wait for animations to initialize, THEN show content
-        setTimeout(() => {
-          // Remove loading class
-          document.documentElement.classList.remove('loading');
-          
-          // Show page content
-          const pageElement = document.getElementById('page');
-          if (pageElement && window.gsap) {
-            window.gsap.to(pageElement, {
-              opacity: 1,
-              visibility: 'visible',
-              duration: 0.3,
-              ease: 'power2.out'
-            });
-          }
-          
-          // FIX Issue 2: Ensure menu stays hidden after page load
-          const menu = document.querySelector('#site-navigation');
-          if (menu && !menu.classList.contains('active')) {
-            (menu as HTMLElement).style.opacity = '0';
-            (menu as HTMLElement).style.visibility = 'hidden';
-          }
-        }, 250);
+    /**
+     * Finalize route change after transition completes
+     */
+    function finalizeRouteChange() {
+      // Enable scroll
+      if (typeof window.enableScroll === 'function') {
+        window.enableScroll();
+      }
 
-        // Additional header cleanup and refresh after delay
-        setTimeout(() => {
+      // Remove loading class
+      document.documentElement.classList.remove('loading');
+      
+      // Ensure menu stays hidden
+      const menu = document.querySelector('#site-navigation');
+      if (menu && !menu.classList.contains('active')) {
+        (menu as HTMLElement).style.opacity = '0';
+        (menu as HTMLElement).style.visibility = 'hidden';
+      }
+
+      // Header cleanup and refresh
+      setTimeout(() => {
           if (window.$ && window.gsap && window.ScrollTrigger) {
             const siteHeader = window.$('.site-header');
             let stickyTargets;
@@ -540,9 +533,8 @@ export default defineNuxtPlugin((nuxtApp) => {
             window.ScrollTrigger.refresh(true);
           }
 
-          isTransitioning = false;
-        }, 300);
-      });
+        isTransitioning = false;
+      }, 100);
     }
   }
 });

@@ -133,8 +133,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
       function actuallyLoadScripts() {
         const script = document.createElement('script');
-        // Add cache-busting parameter to ensure fresh load
-        script.src = `/js/scripts.js?v=${Date.now()}`;
+        script.src = '/js/scripts.js';
         script.async = false;
         script.defer = false;
 
