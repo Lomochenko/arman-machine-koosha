@@ -74,7 +74,7 @@
         <div class="c-col-3 hide-mobile self-center">
 
           <!-- Menu -->
-          <ul class="menu" data-animation="linesUp">
+          <ul class="menu">
 
             <li><a href="#.">Commercial Department</a></li>
             <li><a href="#.">Production Department</a></li>
@@ -88,7 +88,7 @@
         <div class="c-col-3 hide-mobile self-center">
 
           <!-- Menu -->
-          <ul class="menu" data-animation="linesUp">
+          <ul class="menu">
 
             <li><a href="#">Telegram</a></li>
             <li><a href="#">Instagram</a></li>
