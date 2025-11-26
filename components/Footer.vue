@@ -82,8 +82,7 @@
 
         <div class="c-col-2 sm-6 text-center">
           <div class="nayla-number-counter" style="font-size: 75px;">
-            <span class="ct-text count-end">+</span>
-            <span class="ct-number" data-target="22">0</span>
+            <span class="ct-text count-end">+{{ experienceYears }}</span>
           </div>
           <div class="text-wrapper">
             <p>Experience.</p>
@@ -92,8 +91,7 @@
 
         <div class="c-col-2 sm-6 text-center">
           <div class="nayla-number-counter" style="font-size: 75px;">
-            <span class="ct-text count-end">+</span>
-            <span class="ct-number" data-target="84">0</span>
+            <span class="ct-text count-end">+{{ projectsDelivered }}</span>
           </div>
           <div class="text-wrapper">
             <p>Projects delivered.</p>
@@ -131,92 +129,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue'
-
-let observer: IntersectionObserver | null = null
-let hasAnimated = false
-let animationFrameId: number | null = null
-
-const animateNumbers = () => {
-  const container = document.getElementById('footer')
-  if (!container) return
-
-  const numbers = container.querySelectorAll<HTMLElement>('.ct-number')
-  if (!numbers.length) return
-
-  const targets = Array.from(numbers).map((el) => {
-    const dataTarget = el.getAttribute('data-target')
-    const endValue = dataTarget ? parseInt(dataTarget, 10) : 0
-
-    // Initialize display to 0 for animation start
-    el.textContent = '0'
-    return { el, endValue }
-  })
-
-  const duration = 2000
-  const startTime = performance.now()
-
-  const easeOutQuad = (t: number) => 1 - (1 - t) * (1 - t)
-
-  const step = (now: number) => {
-    const elapsed = now - startTime
-    const progress = Math.min(elapsed / duration, 1)
-    const eased = easeOutQuad(progress)
-
-    targets.forEach(({ el, endValue }) => {
-      const current = Math.round(endValue * eased)
-      el.textContent = current.toString()
-    })
-
-    if (progress < 1) {
-      animationFrameId = window.requestAnimationFrame(step)
-    }
-  }
-
-  animationFrameId = window.requestAnimationFrame(step)
-}
-
-const initObserver = () => {
-  if (!('IntersectionObserver' in window)) {
-    animateNumbers()
-    return
-  }
-
-  const footer = document.getElementById('footer')
-  if (!footer) return
-
-  observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          hasAnimated = true
-          animateNumbers()
-          if (observer) observer.unobserve(footer)
-        }
-      })
-    },
-    { threshold: 0.2 }
-  )
-
-  observer.observe(footer)
-}
-
-onMounted(() => {
-  if (typeof window === 'undefined') return
-  initObserver()
-})
-
-onUnmounted(() => {
-  const footer = document.getElementById('footer')
-  if (observer && footer) observer.unobserve(footer)
-  if (observer) observer.disconnect()
-  observer = null
-
-  if (animationFrameId !== null) {
-    window.cancelAnimationFrame(animationFrameId)
-    animationFrameId = null
-  }
-})
+const experienceYears = 22
+const projectsDelivered = 84
 
 const scrollToTop = () => {
   if (typeof window !== 'undefined') {

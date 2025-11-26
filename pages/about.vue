@@ -1002,6 +1002,8 @@
 
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue'
+import { useSEO } from '../composables/useSEO'
+import { useNuxtApp } from 'nuxt/app'
 
 useSEO({
   title: 'About',
