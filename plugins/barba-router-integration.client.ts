@@ -286,10 +286,18 @@ export default defineNuxtPlugin((nuxtApp) => {
         return;
       }
 
-      // Hide page content and set transition background color
+      // Reset page background and cursor immediately to prevent color bleed
       const pageElement = document.getElementById('page');
       if (pageElement) {
+        pageElement.style.backgroundColor = '';
         window.gsap.set(pageElement, { opacity: 0, visibility: 'hidden' });
+      }
+      document.body.style.backgroundColor = '';
+      
+      // Reset cursor color
+      const mouseCursor = document.getElementById('mouseCursor');
+      if (mouseCursor) {
+        mouseCursor.classList.remove('dark', 'light');
       }
       
       // Set background color during transition
@@ -487,6 +495,16 @@ export default defineNuxtPlugin((nuxtApp) => {
      * Finalize route change after transition completes
      */
     function finalizeRouteChange() {
+      // Reset body and page background colors to prevent color bleed from previous page
+      document.body.style.backgroundColor = '';
+      const pageEl = document.getElementById('page');
+      if (pageEl) {
+        pageEl.style.backgroundColor = '';
+        if (window.gsap) {
+          window.gsap.set(pageEl, { clearProps: 'backgroundColor' });
+        }
+      }
+      
       // Enable scroll
       if (typeof window.enableScroll === 'function') {
         window.enableScroll();

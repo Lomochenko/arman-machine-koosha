@@ -69,7 +69,7 @@ useHead({
 })
 
 onMounted(async () => {
-  if (!process.client) return
+  if (typeof window === 'undefined') return
 
   // Wait for critical resources
   await Promise.all([
