@@ -12,7 +12,7 @@ export const useCountUp = (targetRef: Ref<HTMLElement | null>, endValue: number,
   durationMs?: number
   threshold?: number
 }) => {
-  if (!process.client) return
+  if (typeof window === 'undefined') return
 
   const duration = options?.durationMs ?? 2000
   const threshold = options?.threshold ?? 0.2

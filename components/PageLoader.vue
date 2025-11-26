@@ -10,7 +10,8 @@
 </template>
 
 <script setup lang="ts">
-import { useUIStore } from '~/stores/ui'
+import { useUIStore } from '../stores/ui'
+import { ref, computed, watch, onBeforeUnmount } from 'vue'
 
 const uiStore = useUIStore()
 const isLoading = computed(() => uiStore.isLoading)

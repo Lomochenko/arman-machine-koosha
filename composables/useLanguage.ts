@@ -14,7 +14,7 @@ export const useLanguage = () => {
    */
   const switchLanguage = async () => {
     try {
-      if (!process.client) return
+      if (typeof window === 'undefined') return
 
       // Get current locale
       const currentLocale = locale.value
@@ -163,7 +163,7 @@ export const useLanguage = () => {
    * Update HTML direction attribute based on locale
    */
   const updateDirection = (localeValue: string) => {
-    if (process.client) {
+    if (typeof window !== 'undefined') {
       const html = document.documentElement
       if (localeValue === 'fa') {
         html.setAttribute('dir', 'rtl')
@@ -179,7 +179,7 @@ export const useLanguage = () => {
    * Initialize direction on mount
    */
   const initializeDirection = () => {
-    if (process.client) {
+    if (typeof window !== 'undefined') {
       updateDirection(locale.value)
     }
   }

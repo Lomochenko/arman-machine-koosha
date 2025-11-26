@@ -202,7 +202,7 @@ const initObserver = () => {
 }
 
 onMounted(() => {
-  if (!process.client) return
+  if (typeof window === 'undefined') return
   initObserver()
 })
 
@@ -219,7 +219,7 @@ onUnmounted(() => {
 })
 
 const scrollToTop = () => {
-  if (process.client) {
+  if (typeof window !== 'undefined') {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }

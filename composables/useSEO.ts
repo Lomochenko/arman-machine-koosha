@@ -3,6 +3,8 @@
  * Provides canonical URLs and comprehensive SEO support
  */
 
+import { useRoute, useHead } from 'nuxt/app'
+
 export interface SEOOptions {
   title: string;
   description: string;
@@ -85,7 +87,7 @@ export const useStructuredData = (data: any) => {
     script: [
       {
         type: 'application/ld+json',
-        children: JSON.stringify(data)
+        innerHTML: JSON.stringify(data)
       }
     ]
   })

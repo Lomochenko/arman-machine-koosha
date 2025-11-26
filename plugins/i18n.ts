@@ -1,11 +1,12 @@
 import { createI18n } from 'vue-i18n'
-import en from '~/locales/en.json'
-import fa from '~/locales/fa.json'
+import { defineNuxtPlugin } from 'nuxt/app'
+import en from '../locales/en.json'
+import fa from '../locales/fa.json'
 
 export default defineNuxtPlugin(({ vueApp }) => {
   try {
     // Get stored locale from localStorage or default to 'en'
-    const storedLocale = process.client ? localStorage.getItem('locale') || 'en' : 'en'
+    const storedLocale = typeof window !== 'undefined' ? localStorage.getItem('locale') || 'en' : 'en'
 
     const i18n = createI18n({
       legacy: false,

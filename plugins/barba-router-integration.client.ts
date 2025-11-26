@@ -12,7 +12,7 @@
  * 5. Proper timing and sequencing of all animations
  */
 
-import { defineNuxtPlugin } from '#app';
+import { defineNuxtPlugin } from 'nuxt/app';
 import { nextTick } from 'vue';
 
 // TypeScript: extend Window with globals provided by libraries.client.ts and scripts.js
@@ -329,7 +329,7 @@ export default defineNuxtPlugin((nuxtApp) => {
           if (pageElement) {
             window.gsap.set(pageElement, { opacity: 1, visibility: 'visible' });
           }
-          afterRouteComplete();
+          finalizeRouteChange();
           return;
         }
 

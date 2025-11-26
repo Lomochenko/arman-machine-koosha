@@ -147,6 +147,7 @@
 </template>
 
 <script setup lang="ts">
+import { useLanguage } from '../composables/useLanguage'
 import { onMounted } from 'vue'
 
 const { switchLanguage, initializeDirection, getCurrentLanguage } = useLanguage()
@@ -156,7 +157,7 @@ onMounted(() => {
 })
 
 const toggleMenu = () => {
-  if (!process.client) return
+  if (typeof window === 'undefined') return
   const menuToggle = document.querySelector('.menu-toggle')
   const menu = document.querySelector('#site-navigation') as HTMLElement
   const body = document.body

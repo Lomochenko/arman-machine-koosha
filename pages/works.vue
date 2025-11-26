@@ -1207,6 +1207,7 @@
 </template>
 
 <script setup lang="ts">
+import { useSEO } from '../composables/useSEO'
 // SEO Configuration
 useSEO({
     title: 'Works',

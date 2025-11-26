@@ -3,6 +3,7 @@
  * This replaces the old method of loading from /js/ folder
  */
 
+import { defineNuxtPlugin } from 'nuxt/app';
 import jQuery from 'jquery';
 import barba from '@barba/core';
 import Lenis from 'lenis';
@@ -15,7 +16,7 @@ import { nextTick } from 'vue';
 // They are already included in the bundled gsap.js file
 
 export default defineNuxtPlugin((nuxtApp) => {
-  if (process.client) {
+  if (typeof window !== 'undefined') {
     // Make jQuery available globally
     window.$ = window.jQuery = jQuery;
 

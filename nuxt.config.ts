@@ -27,6 +27,9 @@ export default defineNuxtConfig({
     server: {
       middlewares: [],
     },
+    json: {
+      stringify: true,
+    },
   },
 
   app: {

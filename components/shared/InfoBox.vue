@@ -11,6 +11,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 interface Props {
   title?: string
   variant?: 'default' | 'dark' | 'light'
