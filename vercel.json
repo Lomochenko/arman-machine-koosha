@@ -1,6 +1,0 @@
-{
-  "installCommand": "npm ci --ignore-scripts",
-  "buildCommand": "npm run build",
-  "devCommand": "npm run dev",
-  "framework": "nuxtjs"
-}

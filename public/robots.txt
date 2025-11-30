@@ -1,7 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /.nuxt/
-Disallow: /node_modules/
-
-Sitemap: https://amk.ir/sitemap.xml
-
