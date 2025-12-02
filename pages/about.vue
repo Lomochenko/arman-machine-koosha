@@ -26,7 +26,16 @@
                             <!-- Single Image -->
                             <div class="single-image">
 
-                                <img alt="Single Image" src="/img/agency_2.jpg">
+                                <NuxtImg
+                                    alt="Single Image"
+                                    src="/img/img/agency_2.jpg"
+                                    format="webp"
+                                    quality="80"
+                                    loading="lazy"
+                                    placeholder
+                                    sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw"
+                                    :modifiers="{ fit: 'cover' }"
+                                />
 
                             </div>
                             <!--/ Single Image -->
@@ -233,7 +242,16 @@
                                     <!-- Single Image -->
                                     <div class="single-image">
 
-                                        <img src="/img/agency_1.jpg" alt="Single Image">
+                                        <NuxtImg
+                                            src="/img/img/agency_1.jpg"
+                                            alt="Single Image"
+                                            format="webp"
+                                            quality="80"
+                                            loading="lazy"
+                                            placeholder
+                                            sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw"
+                                            :modifiers="{ fit: 'cover' }"
+                                        />
 
                                     </div>
                                     <!--/Single Image -->
@@ -247,7 +265,16 @@
                                     <!-- Single Image -->
                                     <div class="single-image">
 
-                                        <img src="/img/agency_2.jpg" alt="Single Image">
+                                        <NuxtImg
+                                            src="/img/img/agency_2.jpg"
+                                            alt="Single Image"
+                                            format="webp"
+                                            quality="80"
+                                            loading="lazy"
+                                            placeholder
+                                            sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw"
+                                            :modifiers="{ fit: 'cover' }"
+                                        />
 
                                     </div>
                                     <!--/Single Image -->
@@ -261,7 +288,16 @@
                                     <!-- Single Image -->
                                     <div class="single-image">
 
-                                        <img src="/img/agency_3.jpg" alt="Single Image">
+                                        <NuxtImg
+                                            src="/img/img/agency_3.jpg"
+                                            alt="Single Image"
+                                            format="webp"
+                                            quality="80"
+                                            loading="lazy"
+                                            placeholder
+                                            sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw"
+                                            :modifiers="{ fit: 'cover' }"
+                                        />
 
                                     </div>
                                     <!--/Single Image -->
@@ -275,7 +311,16 @@
                                     <!-- Single Image -->
                                     <div class="single-image">
 
-                                        <img src="/img/agency_4.jpg" alt="Single Image">
+                                        <NuxtImg
+                                            src="/img/img/agency_4.jpg"
+                                            alt="Single Image"
+                                            format="webp"
+                                            quality="80"
+                                            loading="lazy"
+                                            placeholder
+                                            sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw"
+                                            :modifiers="{ fit: 'cover' }"
+                                        />
 
                                     </div>
                                     <!--/Single Image -->
@@ -289,7 +334,16 @@
                                     <!-- Single Image -->
                                     <div class="single-image">
 
-                                        <img src="/img/agency_5.jpg" alt="Single Image">
+                                        <NuxtImg
+                                            src="/img/img/agency_5.jpg"
+                                            alt="Single Image"
+                                            format="webp"
+                                            quality="80"
+                                            loading="lazy"
+                                            placeholder
+                                            sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw"
+                                            :modifiers="{ fit: 'cover' }"
+                                        />
 
                                     </div>
                                     <!--/Single Image -->
@@ -303,7 +357,16 @@
                                     <!-- Single Image -->
                                     <div class="single-image">
 
-                                        <img src="/img/agency_6.jpg" alt="Single Image">
+                                        <NuxtImg
+                                            src="/img/img/agency_6.jpg"
+                                            alt="Single Image"
+                                            format="webp"
+                                            quality="80"
+                                            loading="lazy"
+                                            placeholder
+                                            sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw"
+                                            :modifiers="{ fit: 'cover' }"
+                                        />
 
                                     </div>
                                     <!--/Single Image -->
@@ -353,7 +416,16 @@
                                 <!-- Image -->
                                 <div class="team-member-image">
 
-                                    <img alt="Team Member Image" src="/img/team_member_1.jpg">
+                                    <NuxtImg
+                                        alt="Team Member Image"
+                                        src="/img/img/team_member_1.jpg"
+                                        format="webp"
+                                        quality="80"
+                                        loading="lazy"
+                                        placeholder
+                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
+                                        :modifiers="{ fit: 'cover' }"
+                                    />
 
                                 </div>
                                 <!--/ Image -->
@@ -391,7 +463,16 @@
                                 <!-- Image -->
                                 <div class="team-member-image">
 
-                                    <img alt="Team Member Image" src="/img/team_member_2.jpg">
+                                    <NuxtImg
+                                        alt="Team Member Image"
+                                        src="/img/img/team_member_2.jpg"
+                                        format="webp"
+                                        quality="80"
+                                        loading="lazy"
+                                        placeholder
+                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
+                                        :modifiers="{ fit: 'cover' }"
+                                    />
 
                                 </div>
                                 <!--/ Image -->
@@ -431,7 +512,16 @@
                                 <!-- Image -->
                                 <div class="team-member-image">
 
-                                    <img alt="Team Member Image" src="/img/team_member_3.jpg">
+                                    <NuxtImg
+                                        alt="Team Member Image"
+                                        src="/img/img/team_member_3.jpg"
+                                        format="webp"
+                                        quality="80"
+                                        loading="lazy"
+                                        placeholder
+                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
+                                        :modifiers="{ fit: 'cover' }"
+                                    />
 
                                 </div>
                                 <!--/ Image -->
@@ -485,7 +575,16 @@
                                 <!-- Image -->
                                 <div class="team-member-image">
 
-                                    <img alt="Team Member Image" src="/img/team_member_4.jpg">
+                                    <NuxtImg
+                                        alt="Team Member Image"
+                                        src="/img/img/team_member_4.jpg"
+                                        format="webp"
+                                        quality="80"
+                                        loading="lazy"
+                                        placeholder
+                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
+                                        :modifiers="{ fit: 'cover' }"
+                                    />
 
                                 </div>
                                 <!--/ Image -->
@@ -530,7 +629,16 @@
                                 <!-- Image -->
                                 <div class="team-member-image">
 
-                                    <img alt="Team Member Image" src="/img/team_member_5.jpg">
+                                    <NuxtImg
+                                        alt="Team Member Image"
+                                        src="/img/img/team_member_5.jpg"
+                                        format="webp"
+                                        quality="80"
+                                        loading="lazy"
+                                        placeholder
+                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
+                                        :modifiers="{ fit: 'cover' }"
+                                    />
 
                                 </div>
                                 <!--/ Image -->
@@ -570,7 +678,16 @@
                                 <!-- Image -->
                                 <div class="team-member-image">
 
-                                    <img alt="Team Member Image" src="/img/team_member_6.jpg">
+                                    <NuxtImg
+                                        alt="Team Member Image"
+                                        src="/img/img/team_member_6.jpg"
+                                        format="webp"
+                                        quality="80"
+                                        loading="lazy"
+                                        placeholder
+                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
+                                        :modifiers="{ fit: 'cover' }"
+                                    />
 
                                 </div>
                                 <!--/ Image -->
@@ -611,7 +728,16 @@
                                 <!-- Image -->
                                 <div class="team-member-image">
 
-                                    <img alt="Team Member Image" src="/img/team_member_7.jpg">
+                                    <NuxtImg
+                                        alt="Team Member Image"
+                                        src="/img/img/team_member_7.jpg"
+                                        format="webp"
+                                        quality="80"
+                                        loading="lazy"
+                                        placeholder
+                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
+                                        :modifiers="{ fit: 'cover' }"
+                                    />
 
                                 </div>
                                 <!--/ Image -->
@@ -649,7 +775,16 @@
                                 <!-- Image -->
                                 <div class="team-member-image">
 
-                                    <img alt="Team Member Image" src="/img/team_member_8.jpg">
+                                    <NuxtImg
+                                        alt="Team Member Image"
+                                        src="/img/img/team_member_8.jpg"
+                                        format="webp"
+                                        quality="80"
+                                        loading="lazy"
+                                        placeholder
+                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
+                                        :modifiers="{ fit: 'cover' }"
+                                    />
 
                                 </div>
                                 <!--/ Image -->
@@ -755,7 +890,16 @@
                                             <!-- Testimonial Avatar -->
                                             <div class="testimonial-avatar">
 
-                                                <img src="/img/test_avatar_1.jpg" alt="Testimoial Avatar">
+                                                <NuxtImg
+                                                    src="/img/img/test_avatar_1.jpg"
+                                                    alt="Testimoial Avatar"
+                                                    format="webp"
+                                                    quality="80"
+                                                    loading="lazy"
+                                                    placeholder
+                                                    sizes="xs:80px sm:80px md:80px lg:80px xl:80px"
+                                                    :modifiers="{ fit: 'cover' }"
+                                                />
 
                                             </div>
                                             <!--/Testimonial Avatar -->
@@ -797,7 +941,16 @@
                                             <!-- Testimonial Avatar -->
                                             <div class="testimonial-avatar">
 
-                                                <img src="/img/test_avatar_2.jpg" alt="Testimoial Avatar">
+                                                <NuxtImg
+                                                    src="/img/img/test_avatar_2.jpg"
+                                                    alt="Testimoial Avatar"
+                                                    format="webp"
+                                                    quality="80"
+                                                    loading="lazy"
+                                                    placeholder
+                                                    sizes="xs:80px sm:80px md:80px lg:80px xl:80px"
+                                                    :modifiers="{ fit: 'cover' }"
+                                                />
 
                                             </div>
                                             <!--/Testimonial Avatar -->
@@ -840,7 +993,16 @@
                                             <!-- Testimonial Avatar -->
                                             <div class="testimonial-avatar">
 
-                                                <img src="/img/test_avatar_3.jpg" alt="Testimoial Avatar">
+                                                <NuxtImg
+                                                    src="/img/img/test_avatar_3.jpg"
+                                                    alt="Testimoial Avatar"
+                                                    format="webp"
+                                                    quality="80"
+                                                    loading="lazy"
+                                                    placeholder
+                                                    sizes="xs:80px sm:80px md:80px lg:80px xl:80px"
+                                                    :modifiers="{ fit: 'cover' }"
+                                                />
 
                                             </div>
                                             <!--/Testimonial Avatar -->

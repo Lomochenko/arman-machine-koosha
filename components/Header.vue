@@ -22,8 +22,8 @@
           <!--  Sticky Logo -->
           <div class="sticky-logo">
 
-            <NuxtImg alt="Sticky Logo (Dark)" class="sticky-dark-logo" src="/img/sticky_logo.png" width="150" height="40" loading="eager" format="webp" />
-            <NuxtImg alt="Sticky Logo (Light)" class="sticky-light-logo" src="/img/sticky_logo_light.png" width="150" height="40" loading="eager" format="webp" />
+            <NuxtImg alt="Sticky Logo (Dark)" class="sticky-dark-logo" src="/img/sticky_logo.png" loading="eager" format="webp" />
+            <NuxtImg alt="Sticky Logo (Light)" class="sticky-light-logo" src="/img/sticky_logo_light.png" loading="eager" format="webp" />
 
           </div>
           <!--/  Sticky Logo -->

@@ -13,7 +13,16 @@
                             <!-- FIX Issue 8: Add class for proper z-index -->
                             <div class="single-image contact-hero-image" style="--height: 50vh">
 
-                                <img alt="Single Image" src="/img/photog_contact.jpg">
+                                <NuxtImg
+                                    alt="Single Image"
+                                    src="/img/img/photog_contact.jpg"
+                                    format="webp"
+                                    quality="80"
+                                    loading="lazy"
+                                    placeholder
+                                    sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw"
+                                    :modifiers="{ fit: 'cover' }"
+                                />
 
                             </div>
 

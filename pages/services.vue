@@ -40,7 +40,16 @@
                             <!-- Single Image -->
                             <div class="single-image has-anim-image slideUp imgScale">
 
-                                <img alt="Single Image" src="/img/ag_exp_vert_3.jpg">
+                                <NuxtImg
+                                    alt="Single Image"
+                                    src="/img/img/ag_exp_vert_3.jpg"
+                                    format="webp"
+                                    quality="80"
+                                    loading="lazy"
+                                    placeholder
+                                    sizes="xs:100vw sm:100vw md:33vw lg:25vw xl:300px"
+                                    :modifiers="{ fit: 'cover' }"
+                                />
 
                             </div>
                             <!--/Single Image -->
@@ -113,7 +122,16 @@
                             <!-- Single Image -->
                             <div class="single-image has-anim-image slideUp imgScale">
 
-                                <img alt="Single Image" src="/img/agency_mag.jpg">
+                                <NuxtImg
+                                    alt="Single Image"
+                                    src="/img/img/agency_mag.jpg"
+                                    format="webp"
+                                    quality="80"
+                                    loading="lazy"
+                                    placeholder
+                                    sizes="xs:100vw sm:100vw md:50vw lg:33vw xl:400px"
+                                    :modifiers="{ fit: 'cover' }"
+                                />
 
                             </div>
                             <!--/Single Image -->
@@ -169,7 +187,16 @@
                             <!-- Single Image -->
                             <div class="single-image">
 
-                                <img alt="Single Image" src="/img/office_1.jpg">
+                                <NuxtImg
+                                    alt="Single Image"
+                                    src="/img/img/office_1.jpg"
+                                    format="webp"
+                                    quality="80"
+                                    loading="lazy"
+                                    placeholder
+                                    sizes="xs:100vw sm:100vw md:50vw lg:50vw xl:600px"
+                                    :modifiers="{ fit: 'cover' }"
+                                />
 
                             </div>
                             <!--/Single Image -->
@@ -185,7 +212,16 @@
                             <!-- Single Image -->
                             <div class="single-image">
 
-                                <img alt="Single Image" src="/img/office_3.jpg">
+                                <NuxtImg
+                                    alt="Single Image"
+                                    src="/img/img/office_3.jpg"
+                                    format="webp"
+                                    quality="80"
+                                    loading="lazy"
+                                    placeholder
+                                    sizes="xs:100vw sm:100vw md:50vw lg:33vw xl:400px"
+                                    :modifiers="{ fit: 'cover' }"
+                                />
 
                             </div>
                             <!--/Single Image -->

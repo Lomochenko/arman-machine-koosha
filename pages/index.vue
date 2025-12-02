@@ -98,7 +98,16 @@
                             <!-- Single Image -->
                             <NuxtLink to="/about" class="single-image">
 
-                                <img alt="Single Image" src="/img/agency_mag.jpg">
+                                <NuxtImg
+                                    alt="Single Image"
+                                    src="/img/img/agency_mag.jpg"
+                                    format="webp"
+                                    quality="80"
+                                    loading="lazy"
+                                    placeholder
+                                    sizes="xs:100vw sm:100vw md:66vw lg:66vw xl:800px"
+                                    :modifiers="{ fit: 'cover' }"
+                                />
 
                             </NuxtLink>
                             <!--/ Single Image -->
@@ -166,7 +175,16 @@
                                     <!-- Single Image -->
                                     <div class="single-image has-anim-image slideUp" data-scrub=true>
 
-                                        <img alt="Single Image" src="/img/ag_exp_vert_5.jpg">
+                                        <NuxtImg
+                                            alt="Single Image"
+                                            src="/img/img/ag_exp_vert_5.jpg"
+                                            format="webp"
+                                            quality="80"
+                                            loading="lazy"
+                                            placeholder
+                                            sizes="xs:100vw sm:100vw md:33vw lg:25vw xl:300px"
+                                            :modifiers="{ fit: 'cover' }"
+                                        />
 
                                     </div>
                                     <!--/ Single Image -->
@@ -205,7 +223,16 @@
                                     <!-- Single Image -->
                                     <div class="single-image has-anim-image slideUp" data-scrub=true>
 
-                                        <img alt="Single Image" src="/img/ag_exp_vert_2.jpg">
+                                        <NuxtImg
+                                            alt="Single Image"
+                                            src="/img/img/ag_exp_vert_2.jpg"
+                                            format="webp"
+                                            quality="80"
+                                            loading="lazy"
+                                            placeholder
+                                            sizes="xs:100vw sm:100vw md:33vw lg:25vw xl:300px"
+                                            :modifiers="{ fit: 'cover' }"
+                                        />
 
                                     </div>
                                     <!--/ Single Image -->
@@ -238,7 +265,16 @@
                                     <!-- Single Image -->
                                     <div class="single-image has-anim-image slideUp" data-scrub=true>
 
-                                        <img alt="Single Image" src="/img/ag_exp_vert_3.jpg">
+                                        <NuxtImg
+                                            alt="Single Image"
+                                            src="/img/img/ag_exp_vert_3.jpg"
+                                            format="webp"
+                                            quality="80"
+                                            loading="lazy"
+                                            placeholder
+                                            sizes="xs:100vw sm:100vw md:33vw lg:25vw xl:300px"
+                                            :modifiers="{ fit: 'cover' }"
+                                        />
 
                                     </div>
                                     <!--/ Single Image -->
@@ -453,7 +489,16 @@
 
                                         <a href="#">
 
-                                            <img alt="Client" src="/img/client_1_dark.png">
+                                            <NuxtImg
+                                                alt="Client"
+                                                src="/img/img/client_1_dark.png"
+                                                format="webp"
+                                                quality="80"
+                                                loading="lazy"
+                                                placeholder
+                                                sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:200px"
+                                                :modifiers="{ fit: 'contain' }"
+                                            />
 
                                         </a>
 
@@ -465,7 +510,16 @@
 
                                         <a href="#">
 
-                                            <img alt="Client" src="/img/client_2_dark.png">
+                                            <NuxtImg
+                                                alt="Client"
+                                                src="/img/img/client_2_dark.png"
+                                                format="webp"
+                                                quality="80"
+                                                loading="lazy"
+                                                placeholder
+                                                sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:200px"
+                                                :modifiers="{ fit: 'contain' }"
+                                            />
 
                                         </a>
 
@@ -477,7 +531,16 @@
 
                                         <a href="#">
 
-                                            <img alt="Client" src="/img/client_3_dark.png">
+                                            <NuxtImg
+                                                alt="Client"
+                                                src="/img/img/client_3_dark.png"
+                                                format="webp"
+                                                quality="80"
+                                                loading="lazy"
+                                                placeholder
+                                                sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:200px"
+                                                :modifiers="{ fit: 'contain' }"
+                                            />
 
                                         </a>
 
@@ -489,7 +552,16 @@
 
                                         <a href="#">
 
-                                            <img alt="Client" src="/img/client_4_dark.png">
+                                            <NuxtImg
+                                                alt="Client"
+                                                src="/img/img/client_4_dark.png"
+                                                format="webp"
+                                                quality="80"
+                                                loading="lazy"
+                                                placeholder
+                                                sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:200px"
+                                                :modifiers="{ fit: 'contain' }"
+                                            />
 
                                         </a>
 
@@ -501,7 +573,16 @@
 
                                         <a href="#">
 
-                                            <img alt="Client" src="/img/client_5_dark.png">
+                                            <NuxtImg
+                                                alt="Client"
+                                                src="/img/img/client_5_dark.png"
+                                                format="webp"
+                                                quality="80"
+                                                loading="lazy"
+                                                placeholder
+                                                sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:200px"
+                                                :modifiers="{ fit: 'contain' }"
+                                            />
 
                                         </a>
 
@@ -513,7 +594,16 @@
 
                                         <a href="#">
 
-                                            <img alt="Client" src="/img/client_6_dark.png">
+                                            <NuxtImg
+                                                alt="Client"
+                                                src="/img/img/client_6_dark.png"
+                                                format="webp"
+                                                quality="80"
+                                                loading="lazy"
+                                                placeholder
+                                                sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:200px"
+                                                :modifiers="{ fit: 'contain' }"
+                                            />
 
                                         </a>
 
@@ -525,7 +615,16 @@
 
                                         <a href="#">
 
-                                            <img alt="Client" src="/img/client_7_dark.png">
+                                            <NuxtImg
+                                                alt="Client"
+                                                src="/img/img/client_7_dark.png"
+                                                format="webp"
+                                                quality="80"
+                                                loading="lazy"
+                                                placeholder
+                                                sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:200px"
+                                                :modifiers="{ fit: 'contain' }"
+                                            />
 
                                         </a>
 
@@ -537,7 +636,16 @@
 
                                         <a href="#">
 
-                                            <img alt="Client" src="/img/client_8_dark.png">
+                                            <NuxtImg
+                                                alt="Client"
+                                                src="/img/img/client_8_dark.png"
+                                                format="webp"
+                                                quality="80"
+                                                loading="lazy"
+                                                placeholder
+                                                sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:200px"
+                                                :modifiers="{ fit: 'contain' }"
+                                            />
 
                                         </a>
 
@@ -565,7 +673,16 @@
 
                                         <a href="#">
 
-                                            <img alt="Client" src="/img/client_9_dark.png">
+                                            <NuxtImg
+                                                alt="Client"
+                                                src="/img/img/client_9_dark.png"
+                                                format="webp"
+                                                quality="80"
+                                                loading="lazy"
+                                                placeholder
+                                                sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:200px"
+                                                :modifiers="{ fit: 'contain' }"
+                                            />
 
                                         </a>
 
@@ -577,7 +694,16 @@
 
                                         <a href="#">
 
-                                            <img alt="Client" src="/img/client_10_dark.png">
+                                            <NuxtImg
+                                                alt="Client"
+                                                src="/img/img/client_10_dark.png"
+                                                format="webp"
+                                                quality="80"
+                                                loading="lazy"
+                                                placeholder
+                                                sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:200px"
+                                                :modifiers="{ fit: 'contain' }"
+                                            />
                                         </a>
 
                                     </div>
@@ -588,43 +714,16 @@
 
                                         <a href="#">
 
-                                            <img alt="Client" src="/img/client_11_dark.png">
-
-                                        </a>
-
-                                    </div>
-                                    <!--/ Client -->
-
-                                    <!-- Client -->
-                                    <div class="client">
-
-                                        <a href="#">
-
-                                            <img alt="Client" src="/img/client_12_dark.png">
-
-                                        </a>
-
-                                    </div>
-                                    <!--/ Client -->
-
-                                    <!-- Client -->
-                                    <div class="client">
-
-                                        <a href="#">
-
-                                            <img alt="Client" src="/img/client_13_dark.png">
-
-                                        </a>
-
-                                    </div>
-                                    <!--/ Client -->
-
-                                    <!-- Client -->
-                                    <div class="client">
-
-                                        <a href="#">
-
-                                            <img alt="Client" src="/img/client_14_dark.png">
+                                            <NuxtImg
+                                                alt="Client"
+                                                src="/img/img/client_11_dark.png"
+                                                format="webp"
+                                                quality="80"
+                                                loading="lazy"
+                                                placeholder
+                                                sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:200px"
+                                                :modifiers="{ fit: 'contain' }"
+                                            />
 
                                         </a>
 
@@ -636,7 +735,16 @@
 
                                         <a href="#">
 
-                                            <img alt="Client" src="/img/client_15_dark.png">
+                                            <NuxtImg
+                                                alt="Client"
+                                                src="/img/img/client_12_dark.png"
+                                                format="webp"
+                                                quality="80"
+                                                loading="lazy"
+                                                placeholder
+                                                sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:200px"
+                                                :modifiers="{ fit: 'contain' }"
+                                            />
 
                                         </a>
 
@@ -648,7 +756,79 @@
 
                                         <a href="#">
 
-                                            <img alt="Client" src="/img/client_16_dark.png">
+                                            <NuxtImg
+                                                alt="Client"
+                                                src="/img/img/client_13_dark.png"
+                                                format="webp"
+                                                quality="80"
+                                                loading="lazy"
+                                                placeholder
+                                                sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:200px"
+                                                :modifiers="{ fit: 'contain' }"
+                                            />
+
+                                        </a>
+
+                                    </div>
+                                    <!--/ Client -->
+
+                                    <!-- Client -->
+                                    <div class="client">
+
+                                        <a href="#">
+
+                                            <NuxtImg
+                                                alt="Client"
+                                                src="/img/img/client_14_dark.png"
+                                                format="webp"
+                                                quality="80"
+                                                loading="lazy"
+                                                placeholder
+                                                sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:200px"
+                                                :modifiers="{ fit: 'contain' }"
+                                            />
+
+                                        </a>
+
+                                    </div>
+                                    <!--/ Client -->
+
+                                    <!-- Client -->
+                                    <div class="client">
+
+                                        <a href="#">
+
+                                            <NuxtImg
+                                                alt="Client"
+                                                src="/img/img/client_15_dark.png"
+                                                format="webp"
+                                                quality="80"
+                                                loading="lazy"
+                                                placeholder
+                                                sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:200px"
+                                                :modifiers="{ fit: 'contain' }"
+                                            />
+
+                                        </a>
+
+                                    </div>
+                                    <!--/ Client -->
+
+                                    <!-- Client -->
+                                    <div class="client">
+
+                                        <a href="#">
+
+                                            <NuxtImg
+                                                alt="Client"
+                                                src="/img/img/client_16_dark.png"
+                                                format="webp"
+                                                quality="80"
+                                                loading="lazy"
+                                                placeholder
+                                                sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:200px"
+                                                :modifiers="{ fit: 'contain' }"
+                                            />
 
                                         </a>
 
@@ -711,7 +891,16 @@
                                             <!-- Avatar -->
                                             <div class="testimonial-avatar">
 
-                                                <img alt="Testimonial Avatar" src="/img/test_avatar_1.jpg">
+                                                <NuxtImg
+                                                    alt="Testimonial Avatar"
+                                                    src="/img/img/test_avatar_1.jpg"
+                                                    format="webp"
+                                                    quality="80"
+                                                    loading="lazy"
+                                                    placeholder
+                                                    sizes="xs:80px sm:80px md:80px lg:80px xl:80px"
+                                                    :modifiers="{ fit: 'cover' }"
+                                                />
 
                                             </div>
                                             <!--/ Avatar -->
@@ -752,7 +941,16 @@
                                             <!-- Avatar -->
                                             <div class="testimonial-avatar">
 
-                                                <img alt="Testimonial Avatar" src="/img/test_avatar_2.jpg">
+                                                <NuxtImg
+                                                    alt="Testimonial Avatar"
+                                                    src="/img/img/test_avatar_2.jpg"
+                                                    format="webp"
+                                                    quality="80"
+                                                    loading="lazy"
+                                                    placeholder
+                                                    sizes="xs:80px sm:80px md:80px lg:80px xl:80px"
+                                                    :modifiers="{ fit: 'cover' }"
+                                                />
 
                                             </div>
                                             <!--/ Avatar -->
@@ -792,7 +990,16 @@
                                             <!-- Avatar -->
                                             <div class="testimonial-avatar">
 
-                                                <img alt="Testimonial Avatar" src="/img/test_avatar_3.jpg">
+                                                <NuxtImg
+                                                    alt="Testimonial Avatar"
+                                                    src="/img/img/test_avatar_3.jpg"
+                                                    format="webp"
+                                                    quality="80"
+                                                    loading="lazy"
+                                                    placeholder
+                                                    sizes="xs:80px sm:80px md:80px lg:80px xl:80px"
+                                                    :modifiers="{ fit: 'cover' }"
+                                                />
 
                                             </div>
                                             <!--/ Avatar -->
@@ -854,7 +1061,16 @@
                                 <!-- Image -->
                                 <div class="team-member-image">
 
-                                    <img alt="Team Member Image" src="/img/team_member_1.jpg">
+                                    <NuxtImg
+                                        alt="Team Member Image"
+                                        src="/img/img/team_member_1.jpg"
+                                        format="webp"
+                                        quality="80"
+                                        loading="lazy"
+                                        placeholder
+                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
+                                        :modifiers="{ fit: 'cover' }"
+                                    />
 
                                 </div>
                                 <!--/ Image -->
@@ -892,7 +1108,16 @@
                                 <!-- Image -->
                                 <div class="team-member-image">
 
-                                    <img alt="Team Member Image" src="/img/team_member_2.jpg">
+                                    <NuxtImg
+                                        alt="Team Member Image"
+                                        src="/img/img/team_member_2.jpg"
+                                        format="webp"
+                                        quality="80"
+                                        loading="lazy"
+                                        placeholder
+                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
+                                        :modifiers="{ fit: 'cover' }"
+                                    />
 
                                 </div>
                                 <!--/ Image -->
@@ -932,7 +1157,16 @@
                                 <!-- Image -->
                                 <div class="team-member-image">
 
-                                    <img alt="Team Member Image" src="/img/team_member_3.jpg">
+                                    <NuxtImg
+                                        alt="Team Member Image"
+                                        src="/img/img/team_member_3.jpg"
+                                        format="webp"
+                                        quality="80"
+                                        loading="lazy"
+                                        placeholder
+                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
+                                        :modifiers="{ fit: 'cover' }"
+                                    />
 
                                 </div>
                                 <!--/ Image -->
@@ -986,7 +1220,16 @@
                                 <!-- Image -->
                                 <div class="team-member-image">
 
-                                    <img alt="Team Member Image" src="/img/team_member_4.jpg">
+                                    <NuxtImg
+                                        alt="Team Member Image"
+                                        src="/img/img/team_member_4.jpg"
+                                        format="webp"
+                                        quality="80"
+                                        loading="lazy"
+                                        placeholder
+                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
+                                        :modifiers="{ fit: 'cover' }"
+                                    />
 
                                 </div>
                                 <!--/ Image -->
@@ -1031,7 +1274,16 @@
                                 <!-- Image -->
                                 <div class="team-member-image">
 
-                                    <img alt="Team Member Image" src="/img/team_member_5.jpg">
+                                    <NuxtImg
+                                        alt="Team Member Image"
+                                        src="/img/img/team_member_5.jpg"
+                                        format="webp"
+                                        quality="80"
+                                        loading="lazy"
+                                        placeholder
+                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
+                                        :modifiers="{ fit: 'cover' }"
+                                    />
 
                                 </div>
                                 <!--/ Image -->
@@ -1071,7 +1323,16 @@
                                 <!-- Image -->
                                 <div class="team-member-image">
 
-                                    <img alt="Team Member Image" src="/img/team_member_6.jpg">
+                                    <NuxtImg
+                                        alt="Team Member Image"
+                                        src="/img/img/team_member_6.jpg"
+                                        format="webp"
+                                        quality="80"
+                                        loading="lazy"
+                                        placeholder
+                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
+                                        :modifiers="{ fit: 'cover' }"
+                                    />
 
                                 </div>
                                 <!--/ Image -->
@@ -1112,7 +1373,16 @@
                                 <!-- Image -->
                                 <div class="team-member-image">
 
-                                    <img alt="Team Member Image" src="/img/team_member_7.jpg">
+                                    <NuxtImg
+                                        alt="Team Member Image"
+                                        src="/img/img/team_member_7.jpg"
+                                        format="webp"
+                                        quality="80"
+                                        loading="lazy"
+                                        placeholder
+                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
+                                        :modifiers="{ fit: 'cover' }"
+                                    />
 
                                 </div>
                                 <!--/ Image -->
@@ -1150,7 +1420,16 @@
                                 <!-- Image -->
                                 <div class="team-member-image">
 
-                                    <img alt="Team Member Image" src="/img/team_member_8.jpg">
+                                    <NuxtImg
+                                        alt="Team Member Image"
+                                        src="/img/img/team_member_8.jpg"
+                                        format="webp"
+                                        quality="80"
+                                        loading="lazy"
+                                        placeholder
+                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
+                                        :modifiers="{ fit: 'cover' }"
+                                    />
 
                                 </div>
                                 <!--/ Image -->

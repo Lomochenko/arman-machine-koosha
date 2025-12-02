@@ -2,10 +2,10 @@
         import { ImageProvider } from '@nuxt/image'
         declare module '@nuxt/image' {
           interface ProviderDefaults {
-            provider: "none"
+            provider: "ipx"
           }
           interface ConfiguredImageProviders {
-            "none": ImageProviders["none"]
+            "ipx": ImageProviders["ipx"]
           }
           interface ImageProviders {
             "aliyun": ReturnType<typeof import('../../node_modules/@nuxt/image/dist/runtime/providers/aliyun').default> extends ImageProvider<infer Options> ? Options : unknown 

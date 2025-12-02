@@ -74,9 +74,21 @@ export default defineNuxtConfig({
       xl: 1280,
       xxl: 1536,
     },
-    // Disable provider for local images
-    provider: 'none',
+    // Use ipx provider for image optimization
+    provider: 'ipx',
     dir: 'public',
+    // Enable densities for retina displays
+    densities: [1, 2],
+    // Presets for consistent sizing
+    presets: {
+      portfolio: {
+        modifiers: {
+          format: 'webp',
+          quality: 80,
+          fit: 'cover',
+        },
+      },
+    },
   },
 
   // Configure Sitemap
