@@ -54,7 +54,7 @@ import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
 
 const { locale } = useI18n()
-
+ 
 useHead({
   bodyAttrs: {
     class: 'light',
