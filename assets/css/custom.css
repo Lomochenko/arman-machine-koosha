@@ -363,3 +363,9 @@ html[dir="rtl"] .nayla-button a[href="#"] {
   display: inline-block;
 }
 
+/* ============================================
+   Cursor Pointer Utility
+   ============================================ */
+.cursor-pointer {
+  cursor: pointer;
+}

@@ -4615,7 +4615,7 @@ span.g-list-arrow {
 
 .grid-project {
     grid-column-start: span 4;
-    padding-bottom: 150px;
+    /* padding-bottom: 150px; */
     margin-bottom: 0;
     position: relative;
     -webkit-filter: saturate(0.75);

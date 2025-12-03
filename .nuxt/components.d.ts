@@ -23,6 +23,7 @@ interface _GlobalComponents {
     'TeamSection': typeof import("../components/home/TeamSection.vue")['default']
     'TestimonialsSection': typeof import("../components/home/TestimonialsSection.vue")['default']
     'Button': typeof import("../components/shared/Button.vue")['default']
+    'GalleryLightbox': typeof import("../components/shared/GalleryLightbox.vue")['default']
     'InfoBox': typeof import("../components/shared/InfoBox.vue")['default']
     'TextWrapper': typeof import("../components/shared/TextWrapper.vue")['default']
     'NuxtWelcome': typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
@@ -60,6 +61,7 @@ interface _GlobalComponents {
     'LazyTeamSection': LazyComponent<typeof import("../components/home/TeamSection.vue")['default']>
     'LazyTestimonialsSection': LazyComponent<typeof import("../components/home/TestimonialsSection.vue")['default']>
     'LazyButton': LazyComponent<typeof import("../components/shared/Button.vue")['default']>
+    'LazyGalleryLightbox': LazyComponent<typeof import("../components/shared/GalleryLightbox.vue")['default']>
     'LazyInfoBox': LazyComponent<typeof import("../components/shared/InfoBox.vue")['default']>
     'LazyTextWrapper': LazyComponent<typeof import("../components/shared/TextWrapper.vue")['default']>
     'LazyNuxtWelcome': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
@@ -103,6 +105,7 @@ export const ServicesSection: typeof import("../components/home/ServicesSection.
 export const TeamSection: typeof import("../components/home/TeamSection.vue")['default']
 export const TestimonialsSection: typeof import("../components/home/TestimonialsSection.vue")['default']
 export const Button: typeof import("../components/shared/Button.vue")['default']
+export const GalleryLightbox: typeof import("../components/shared/GalleryLightbox.vue")['default']
 export const InfoBox: typeof import("../components/shared/InfoBox.vue")['default']
 export const TextWrapper: typeof import("../components/shared/TextWrapper.vue")['default']
 export const NuxtWelcome: typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
@@ -140,6 +143,7 @@ export const LazyServicesSection: LazyComponent<typeof import("../components/hom
 export const LazyTeamSection: LazyComponent<typeof import("../components/home/TeamSection.vue")['default']>
 export const LazyTestimonialsSection: LazyComponent<typeof import("../components/home/TestimonialsSection.vue")['default']>
 export const LazyButton: LazyComponent<typeof import("../components/shared/Button.vue")['default']>
+export const LazyGalleryLightbox: LazyComponent<typeof import("../components/shared/GalleryLightbox.vue")['default']>
 export const LazyInfoBox: LazyComponent<typeof import("../components/shared/InfoBox.vue")['default']>
 export const LazyTextWrapper: LazyComponent<typeof import("../components/shared/TextWrapper.vue")['default']>
 export const LazyNuxtWelcome: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
