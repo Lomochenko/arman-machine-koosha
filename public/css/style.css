@@ -3367,7 +3367,7 @@ div#mouseCursor.hover-text {
 div#mouseCursor.hover-text .main-circle {
     stroke: none;
     stroke-width: 0;
-    fill: #ebebeb;
+    fill: var(--mainColor);
 }
 
 div#mouseCursor.hover-text .mouse-cursor-text span {
@@ -3391,7 +3391,7 @@ div#mouseCursor.hover-icon {
 div#mouseCursor.hover-icon .main-circle {
     stroke: none;
     stroke-width: 0;
-    fill: #ebebeb;
+    fill: var(--mainColor);
 }
 
 div#mouseCursor.hover-icon .mouse-cursor-icon::after {
