@@ -82,7 +82,10 @@
         scrollSmoother,
         $cursorInner = ' <div class="mouse-cursor-icon"></div><svg height="100%" width="100%" viewbox="0 0 100 100"><circle class="main-circle" cx="50" cy="50" r="40" /></svg><span class="mouse-cursor-text"></span>';
 
-    mouseCursor.append($cursorInner);
+    // GUARD: Only append if not already populated (prevents duplication in SSR)
+    if (mouseCursor.length && !mouseCursor.children('.main-circle').length) {
+        mouseCursor.append($cursorInner);
+    }
 
 
     // Match Medias
