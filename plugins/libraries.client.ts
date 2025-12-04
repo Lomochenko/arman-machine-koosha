@@ -174,20 +174,26 @@ export default defineNuxtPlugin((nuxtApp) => {
   // STEP 4: Hook into Nuxt lifecycle
   // ============================================
 
-  // Wait for Vue hydration to complete before initializing scripts
-  // This is CRITICAL for SSR - scripts must run AFTER hydration
-  nuxtApp.hook('app:suspense:resolve', () => {
-    // app:suspense:resolve fires after hydration is complete
-    initializeScripts()
+  // Since we're using ClientOnly wrapper for all GSAP content,
+  // we can safely initialize scripts when the app is mounted.
+  // The ClientOnly wrapper ensures this only runs after hydration.
+
+  nuxtApp.hook('app:mounted', () => {
+    // Give Vue a moment to finish rendering ClientOnly content
+    requestAnimationFrame(() => {
+      initializeScripts()
+    })
   })
 
-  // Fallback for non-SSR or if the hook doesn't fire
-  nuxtApp.hook('app:mounted', () => {
-    // Small delay to ensure hydration is complete
-    setTimeout(() => {
-      if (!scriptsLoaded) {
-        initializeScripts()
-      }
-    }, 100)
+  // Also listen for page:finish for subsequent navigations
+  nuxtApp.hook('page:finish', () => {
+    // For subsequent page loads, re-trigger animations
+    if (scriptsLoaded && window.jQuery) {
+      const $ = window.jQuery
+      // Re-trigger animations for new page content
+      setTimeout(() => {
+        $(window).trigger('load')
+      }, 100)
+    }
   })
 })

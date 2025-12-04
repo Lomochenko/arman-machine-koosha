@@ -1,3 +1,6 @@
+// Detect Vercel deployment environment
+const isVercel = process.env.VERCEL === '1' || process.env.VERCEL === 'true'
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-10-19',
 
@@ -72,6 +75,8 @@ export default defineNuxtConfig({
   ],
 
   // Configure Nuxt Image for optimization
+  // Using 'vercel' provider in production for Vercel's built-in image optimization
+  // Using 'ipx' provider in development for local optimization
   image: {
     quality: 80,
     format: ['webp', 'jpg', 'png'],
@@ -83,8 +88,8 @@ export default defineNuxtConfig({
       xl: 1280,
       xxl: 1536,
     },
-    // Use ipx provider for image optimization
-    provider: 'ipx',
+    // Use Vercel provider in production, IPX in development
+    provider: isVercel ? 'vercel' : 'ipx',
     dir: 'public',
     // Enable densities for retina displays
     densities: [1, 2],
