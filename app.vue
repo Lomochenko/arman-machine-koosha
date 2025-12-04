@@ -1,31 +1,35 @@
 <template>
   <div id="app">
-    <!-- Page Loader -->
-    <div class="page-loader columns">
-      <!-- Percentage (Don't Touch) -->
-      <div class="page-loader-percentage"></div>
-      <!-- Percentage (Don't Touch) -->
-    </div>
+    <!-- Page Loader (Client-only to prevent hydration mismatch) -->
+    <ClientOnly>
+      <div class="page-loader columns">
+        <div class="page-loader-percentage"></div>
+      </div>
+    </ClientOnly>
     <!--/ Page Loader -->
 
-    <!-- Page Transitions -->
-    <div class="nayla-page-transition columns up capt-bottom-left default">
-      <!-- Caption -->
-      <div class="page-transition-caption" :dir="locale === 'fa' ? 'rtl' : 'ltr'">
-        {{ locale === 'fa' ? 'لطفا صبر کنید ...' : 'LOADING PLEASE WAIT..' }}
+    <!-- Page Transitions (Client-only) -->
+    <ClientOnly>
+      <div class="nayla-page-transition columns up capt-bottom-left default">
+        <div class="page-transition-caption" :dir="locale === 'fa' ? 'rtl' : 'ltr'">
+          {{ locale === 'fa' ? 'لطفا صبر کنید ...' : 'LOADING PLEASE WAIT..' }}
+        </div>
       </div>
-      <!--/ Caption -->
-    </div>
+    </ClientOnly>
     <!--/ Page Transitions -->
 
-    <!-- Mouse Cursor -->
-    <div id="mouseCursor" class="dot"></div>
+    <!-- Mouse Cursor (Client-only) -->
+    <ClientOnly>
+      <div id="mouseCursor" class="dot"></div>
+    </ClientOnly>
     <!--/ Mouse Cursor -->
 
     <!-- Page -->
     <div id="page">
-      <!-- Menu Overlay -->
-      <div class="menu-overlay"></div>
+      <!-- Menu Overlay (Client-only) -->
+      <ClientOnly>
+        <div class="menu-overlay"></div>
+      </ClientOnly>
       <!--/ Menu Overlay -->
 
       <!-- Header -->
@@ -51,10 +55,11 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useHead } from '@unhead/vue'
+import { useHead } from '#imports'
 
 const { locale } = useI18n()
- 
+
+// Use useHead from #imports (Nuxt's auto-import) to avoid SSR issues
 useHead({
   bodyAttrs: {
     class: 'light',
@@ -69,24 +74,21 @@ useHead({
 })
 
 onMounted(async () => {
-  if (typeof window === 'undefined') return
+  // This only runs on client after hydration
 
-  // Wait for critical resources
-  await Promise.all([
-    document.fonts.ready,
-    new Promise(resolve => {
-      if (document.readyState === 'complete') {
-        resolve(true)
-      } else {
-        window.addEventListener('load', () => resolve(true))
-      }
-    })
-  ])
+  // Wait for fonts to be ready
+  try {
+    await document.fonts.ready
+  } catch (e) {
+    // Font API not available, continue anyway
+  }
 
-  // Safety timeout
+  // Safety timeout - if animations don't complete in 10 seconds,
+  // force remove the loading state so page is visible
   setTimeout(() => {
     const htmlEl = document.documentElement
     if (htmlEl?.classList.contains('loading')) {
+      console.warn('Safety timeout: forcing loader removal')
       htmlEl.classList.remove('loading')
       const loaderEl = document.querySelector('.page-loader') as HTMLElement
       if (loaderEl) {
@@ -95,7 +97,7 @@ onMounted(async () => {
         loaderEl.style.opacity = '0'
       }
     }
-  }, 8000)
+  }, 10000)
 })
 </script>
 
@@ -103,4 +105,3 @@ onMounted(async () => {
 /* Global styles are imported from CSS files in nuxt.config.ts */
 /* Barba.js handles all page transitions and animations */
 </style>
-

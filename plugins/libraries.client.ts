@@ -1,226 +1,193 @@
 /**
- * Plugin to load JavaScript libraries from NPM packages
- * This replaces the old method of loading from /js/ folder
+ * Client-only plugin to load JavaScript libraries
+ *
+ * CRITICAL: This plugin handles the loading order for:
+ * 1. NPM libraries (jQuery, Barba, Lenis, imagesLoaded, Hamster)
+ * 2. External GSAP with premium plugins (/js/gsap.js)
+ * 3. Custom animation scripts (/js/scripts.js)
+ *
+ * This plugin ONLY runs on the client (browser) side - never on server.
+ * The ".client.ts" suffix ensures Nuxt only loads this in the browser.
  */
 
-import { defineNuxtPlugin } from 'nuxt/app';
-import jQuery from 'jquery';
-import barba from '@barba/core';
-import Lenis from 'lenis';
-import imagesLoaded from 'imagesloaded';
-import Hamster from 'hamsterjs';
-import { nextTick } from 'vue';
+import { defineNuxtPlugin } from 'nuxt/app'
+import jQuery from 'jquery'
+import barba from '@barba/core'
+import Lenis from 'lenis'
+import imagesLoaded from 'imagesloaded'
+import Hamster from 'hamsterjs'
 
-// Note: Some GSAP plugins (DrawSVG, MorphSVG, ScrollSmoother, CustomEase, InertiaPlugin)
-// are premium plugins and need to be loaded from /js/gsap.js instead
-// They are already included in the bundled gsap.js file
+// Type declarations for window globals
+declare global {
+  interface Window {
+    $: typeof jQuery
+    jQuery: typeof jQuery
+    barba: typeof barba
+    Lenis: typeof Lenis
+    imagesLoaded: typeof imagesLoaded
+    Hamster: typeof Hamster
+    gsap: any
+    ScrollTrigger: any
+    enableScroll: Function
+    disableScroll: Function
+    startLoading: Function
+    naylaTextAnims: Function
+    naylaGeneralAnims: Function
+    naylaImageAnims: Function
+    initShowcases: Function
+    initPageElements: Function
+    naylaSections: Function
+    initPages: Function
+    naylaMouseCursor: Function
+    naylaHeader: Function
+  }
+}
 
 export default defineNuxtPlugin((nuxtApp) => {
-  if (typeof window !== 'undefined') {
-    // Make jQuery available globally
-    window.$ = window.jQuery = jQuery;
+  // This check is technically redundant due to .client.ts suffix,
+  // but kept for safety and clarity
+  if (typeof window === 'undefined') return
 
-    // Make Barba available globally
-    window.barba = barba;
+  // ============================================
+  // STEP 1: Initialize NPM libraries immediately
+  // ============================================
 
-    // Make Lenis available globally
-    window.Lenis = Lenis;
+  // Make jQuery available globally FIRST (other scripts depend on it)
+  window.$ = window.jQuery = jQuery
 
-    // Make imagesLoaded available globally AND as jQuery plugin
-    window.imagesLoaded = imagesLoaded;
-
-    // Attach imagesLoaded to jQuery with proper API that returns an object with .done() method
-    jQuery.fn.imagesLoaded = function(options) {
-      const elem = this[0];
-      const instance = imagesLoaded(elem, options);
-
-      // Return an object that mimics jQuery's Deferred/Promise API
-      return {
-        // Store the instance
-        _instance: instance,
-
-        // .done() method for completion callback
-        done: function(callback) {
-          instance.on('done', callback);
-          return this;
-        },
-
-        // .progress() method for progress callback
-        progress: function(callback) {
-          instance.on('progress', callback);
-          return this;
-        },
-
-        // .fail() method for error callback
-        fail: function(callback) {
-          instance.on('fail', callback);
-          return this;
-        },
-
-        // .always() method
-        always: function(callback) {
-          instance.on('always', callback);
-          return this;
-        }
-      };
-    };
-
-    // Make Hamster available globally
-    window.Hamster = Hamster;
-
-    // Load the bundled GSAP file that includes premium plugins
-    const gsapScript = document.createElement('script');
-    gsapScript.src = '/js/gsap.js';
-    gsapScript.async = false;
-    gsapScript.defer = false;
-
-    gsapScript.onload = () => {
-      // CRITICAL: Wait for GSAP to be fully registered on window object
-      const checkGSAP = () => {
-        if (window.gsap && window.ScrollTrigger) {
-          loadScriptsJS();
-        } else {
-          setTimeout(checkGSAP, 50);
-        }
-      };
-
-      // Use requestAnimationFrame to ensure DOM is ready
-      requestAnimationFrame(() => {
-        checkGSAP();
-      });
-    };
-
-    gsapScript.onerror = () => {
-      console.error('❌ Failed to load /js/gsap.js');
-      // Try to continue anyway with free plugins
-      loadScriptsJS();
-    };
-
-    document.head.appendChild(gsapScript);
-
-    // Function to load scripts.js
-    function loadScriptsJS() {
-      let scriptsLoaded = false;
-
-      function loadScripts() {
-        if (scriptsLoaded) {
-          return;
-        }
-        scriptsLoaded = true;
-
-        // CRITICAL: Verify all dependencies are available before loading scripts.js
-        const verifyDependencies = () => {
-          const checks = {
-            jQuery: !!window.$,
-            gsap: !!window.gsap,
-            ScrollTrigger: !!window.ScrollTrigger,
-            Barba: !!window.barba,
-            Lenis: !!window.Lenis,
-            imagesLoaded: !!window.imagesLoaded
-          };
-
-          const allReady = Object.values(checks).every(v => v);
-
-          if (!allReady) {
-            setTimeout(verifyDependencies, 50);
-            return;
-          }
-
-          actuallyLoadScripts();
-        };
-
-        verifyDependencies();
-      }
-
-      function actuallyLoadScripts() {
-        const script = document.createElement('script');
-        script.src = '/js/scripts.js';
-        script.async = false;
-        script.defer = false;
-
-        script.onload = () => {
-          // CRITICAL: Verify that animation functions are exposed to window
-          setTimeout(() => {
-            const functionCheck = {
-              enableScroll: typeof window.enableScroll,
-              disableScroll: typeof window.disableScroll,
-              startLoading: typeof window.startLoading,
-              naylaTextAnims: typeof window.naylaTextAnims,
-              naylaTextWrapper: typeof window.naylaTextWrapper,
-              naylaGeneralAnims: typeof window.naylaGeneralAnims,
-              naylaListAnimations: typeof window.naylaListAnimations,
-              naylaImageAnims: typeof window.naylaImageAnims,
-              naylaParallaxImages: typeof window.naylaParallaxImages,
-              initShowcases: typeof window.initShowcases,
-              initPageElements: typeof window.initPageElements,
-              naylaSections: typeof window.naylaSections,
-              initPages: typeof window.initPages,
-              naylaVideo: typeof window.naylaVideo,
-              naylaMouseCursor: typeof window.naylaMouseCursor,
-              naylaHeader: typeof window.naylaHeader
-            };
-
-            const allFunctionsAvailable = Object.values(functionCheck).every(v => v === 'function');
-            if (!allFunctionsAvailable) {
-              console.error('❌ Animation functions missing:',
-                Object.entries(functionCheck)
-                  .filter(([_, type]) => type !== 'function')
-                  .map(([name]) => name)
-              );
-            }
-          }, 100);
-
-          // Wait for all images and assets to load before triggering the load event
-          // This ensures winLoaded will be set to true when the page loader completes
-          if (typeof window !== 'undefined' && window.jQuery) {
-            const $ = window.jQuery;
-
-            // Use imagesLoaded to wait for all images
-            const imgLoadedInstance = $('body').imagesLoaded({ background: true });
-
-            imgLoadedInstance.done(() => {
-              // Small delay to ensure everything is ready
-              setTimeout(() => {
-                $(window).trigger('load');
-              }, 100);
-            });
-          } else {
-            console.error('❌ jQuery is NOT available!');
-          }
-        };
-
-        script.onerror = () => {
-          console.error('❌ Failed to load /js/scripts.js');
-        };
-
-        document.head.appendChild(script);
-      }
-
-      // Strategy 1: Try app:mounted (works in dev mode)
-      nuxtApp.hook('app:mounted', () => {
-        loadScripts();
-      });
-
-      // Strategy 2: Try page:finish (works in production)
-      nuxtApp.hook('page:finish', () => {
-        loadScripts();
-      });
-
-      // Strategy 3: Fallback to DOM ready + Vue nextTick (universal)
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-          // Use Vue's nextTick to ensure Vue has finished rendering
-          nextTick(() => {
-            loadScripts();
-          });
-        });
-      } else {
-        // Document already loaded, use nextTick immediately
-        nextTick(() => {
-          loadScripts();
-        });
+  // Extend jQuery with imagesLoaded plugin
+  ;(jQuery.fn as any).imagesLoaded = function(options: any) {
+    const elem = this[0]
+    const instance = imagesLoaded(elem, options)
+    return {
+      _instance: instance,
+      done: function(callback: Function) {
+        instance.on('done', callback)
+        return this
+      },
+      progress: function(callback: Function) {
+        instance.on('progress', callback)
+        return this
+      },
+      fail: function(callback: Function) {
+        instance.on('fail', callback)
+        return this
+      },
+      always: function(callback: Function) {
+        instance.on('always', callback)
+        return this
       }
     }
   }
-});
 
+  // Make other libraries available globally
+  window.barba = barba
+  window.Lenis = Lenis
+  window.imagesLoaded = imagesLoaded
+  window.Hamster = Hamster
+
+  // ============================================
+  // STEP 2: Script loading utilities
+  // ============================================
+
+  let gsapLoaded = false
+  let scriptsLoaded = false
+
+  function loadScript(src: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = src
+      script.async = false
+      script.onload = () => resolve()
+      script.onerror = () => reject(new Error(`Failed to load ${src}`))
+      document.head.appendChild(script)
+    })
+  }
+
+  function waitForGSAP(maxAttempts = 100): Promise<void> {
+    return new Promise((resolve, reject) => {
+      let attempts = 0
+      const check = () => {
+        if (window.gsap && window.ScrollTrigger) {
+          resolve()
+        } else if (attempts++ < maxAttempts) {
+          setTimeout(check, 50)
+        } else {
+          reject(new Error('GSAP failed to register on window'))
+        }
+      }
+      check()
+    })
+  }
+
+  function triggerWindowLoad() {
+    const $ = window.jQuery
+    if (!$) return
+
+    // Use imagesLoaded to wait for all images
+    const imgLoadedInstance = ($('body') as any).imagesLoaded({ background: true })
+
+    imgLoadedInstance.done(() => {
+      // Delay to ensure all scripts are ready
+      setTimeout(() => {
+        // Trigger jQuery load event (for scripts.js)
+        $(window).trigger('load')
+      }, 150)
+    })
+  }
+
+  // ============================================
+  // STEP 3: Main initialization sequence
+  // ============================================
+
+  async function initializeScripts() {
+    if (scriptsLoaded) return
+    scriptsLoaded = true
+
+    try {
+      // Load GSAP with premium plugins
+      if (!gsapLoaded) {
+        await loadScript('/js/gsap.js')
+        await waitForGSAP()
+        gsapLoaded = true
+      }
+
+      // Load custom animation scripts
+      await loadScript('/js/scripts.js')
+
+      // Wait a moment for scripts.js to initialize
+      await new Promise(resolve => setTimeout(resolve, 100))
+
+      // Trigger window load to start animations
+      triggerWindowLoad()
+
+    } catch (error) {
+      console.error('Script initialization failed:', error)
+      // Fallback: try to show page anyway
+      setTimeout(() => {
+        document.documentElement.classList.remove('loading')
+      }, 3000)
+    }
+  }
+
+  // ============================================
+  // STEP 4: Hook into Nuxt lifecycle
+  // ============================================
+
+  // Wait for Vue hydration to complete before initializing scripts
+  // This is CRITICAL for SSR - scripts must run AFTER hydration
+  nuxtApp.hook('app:suspense:resolve', () => {
+    // app:suspense:resolve fires after hydration is complete
+    initializeScripts()
+  })
+
+  // Fallback for non-SSR or if the hook doesn't fire
+  nuxtApp.hook('app:mounted', () => {
+    // Small delay to ensure hydration is complete
+    setTimeout(() => {
+      if (!scriptsLoaded) {
+        initializeScripts()
+      }
+    }, 100)
+  })
+})

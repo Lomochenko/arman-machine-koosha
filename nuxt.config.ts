@@ -1,6 +1,11 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-10-19',
-  ssr: false,
+
+  // Enable SSR for:
+  // 1. IPX image optimization (requires Node.js server)
+  // 2. Better SEO and Core Web Vitals
+  // 3. Faster initial page load
+  ssr: true,
 
   // Configure router
   router: {
@@ -29,6 +34,10 @@ export default defineNuxtConfig({
     },
     json: {
       stringify: true,
+    },
+    // Exclude external GSAP from optimization (loaded from /js/gsap.js)
+    optimizeDeps: {
+      exclude: ['gsap'],
     },
   },
 
@@ -114,20 +123,24 @@ export default defineNuxtConfig({
   },
 
   plugins: [
+    // GSAP is loaded from external /js/gsap.js (contains premium plugins)
+    // gsap.client.ts provides type-safe access after external load
     '~/plugins/gsap.client.ts',
     '~/plugins/libraries.client.ts',
     '~/plugins/i18n.ts',
   ],
 
   build: {
-    transpile: ['gsap'],
+    // Don't transpile gsap - it's loaded externally from /js/gsap.js
+    transpile: [],
   },
 
-  // Serve static files from public folder
+  // Nitro server configuration
   nitro: {
     // Enable compression for better performance
     compressPublicAssets: true,
 
+    // Prerender static pages for better initial load
     prerender: {
       crawlLinks: true,
       routes: ['/sitemap.xml', '/robots.txt', '/', '/works', '/about', '/services', '/contact'],
@@ -139,6 +152,8 @@ export default defineNuxtConfig({
       '/img/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
       '/js/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
       '/css/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+      // IPX image optimization endpoint - cache processed images
+      '/_ipx/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
 
       // Cache pages for 1 hour with revalidation
       '/': { headers: { 'cache-control': 'public, max-age=3600, must-revalidate' } },
