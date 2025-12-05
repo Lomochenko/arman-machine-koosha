@@ -103,8 +103,10 @@
 
         if (mouseCursor.length) {
 
-
-            mouseCursor.append($cursorInner);
+            // GUARD: Only append if not already populated (prevents duplication in SSR)
+            if (!mouseCursor.children('.main-circle').length) {
+                mouseCursor.append($cursorInner);
+            }
 
             let cursorText = mouseCursor.children('.mouse-cursor-text').wrapInner('<span></span>'),
                 cursorIcon = mouseCursor.children('.mouse-cursor-icon'),
@@ -399,6 +401,12 @@
                 loader = $('.page-loader'),
                 transitions = $('.nayla-page-transition'); // Define transitions here to avoid "Cannot access before initialization" error
 
+            // GUARD: Skip if already initialized (prevents duplication in SSR)
+            // Check for overlays OR count container (count is in .page-loader-percentage, not .page-loader)
+            if (loader.find('.page-loader-overlays').length || perc.find('.page-loader-count').length) {
+                return;
+            }
+
             loader.append('<div class="page-loader-overlays"></div>');
 
             let overlays = loader.find('.page-loader-overlays');
@@ -454,9 +462,11 @@
             countLabels.push(Math.floor(gsap.utils.random(60, 80)));
             countLabels.push(100);
 
-            perc.append('<div class="page-loader-count"></div>');
-
-            countLabels.forEach(element => $('.page-loader-count').append('<span class="count_' + element + '">' + element + '</span>'));
+            // GUARD: Only append counter if it doesn't exist
+            if (!perc.find('.page-loader-count').length) {
+                perc.append('<div class="page-loader-count"></div>');
+                countLabels.forEach(element => $('.page-loader-count').append('<span class="count_' + element + '">' + element + '</span>'));
+            }
 
 
             var innerTl = gsap.timeline({
@@ -10319,10 +10329,18 @@
 
         let numberCt = $('.nayla-number-counter');
 
+        // GUARD: Skip if no number counters exist
+        if (!numberCt.length) return;
+
         numberCt.each(function () {
 
             let $this = $(this),
-                ctNumberSplit = new SplitText($this.find('.ct-number'), {
+                ctNumberEl = $this.find('.ct-number');
+
+            // GUARD: Skip if no .ct-number element exists (prevents GSAP target not found error)
+            if (!ctNumberEl.length) return;
+
+            let ctNumberSplit = new SplitText(ctNumberEl, {
                     type: 'words, chars',
                     charsClass: 'ct-number-char',
                     wordsClass: 'ct-number-word'
@@ -10332,6 +10350,9 @@
                 dataCount = $this.data('count'),
                 ctStart = $this.find('.count-start'),
                 ctEnd = $this.find('.count-end');
+
+            // GUARD: Skip if SplitText didn't create any characters
+            if (!ctChar.length) return;
 
 
 
@@ -10861,6 +10882,8 @@
 
 
     function blockTrans() {
+        // GUARD: Skip if already initialized (prevents duplication in SSR)
+        if (transitions.find('.transition-block').length) return;
 
         let blocksCount = 10,
             i = 0;
@@ -10874,6 +10897,8 @@
     block ? blockTrans() : '';
 
     function columnsTrans() {
+        // GUARD: Skip if already initialized (prevents duplication in SSR)
+        if (transitions.find('.trans-col').length) return;
 
         let blocksCount = 4,
             i = 0;
@@ -10888,6 +10913,8 @@
 
 
     function pageOverDef() {
+        // GUARD: Skip if already initialized (prevents duplication in SSR)
+        if ($('.page-over-ovs').length) return;
 
         $('<span class="page-over-ovs"></span>').insertBefore(transitions)
 
@@ -10896,6 +10923,8 @@
     pageOver ? pageOverDef() : '';
 
     function transOv() {
+        // GUARD: Skip if already initialized (prevents duplication in SSR)
+        if (transitions.find('.transition-overlay').length) return;
 
         transitions.append('<span class="transition-overlay"></span>')
 

@@ -28,6 +28,7 @@ declare global {
     Hamster: typeof Hamster
     gsap: any
     ScrollTrigger: any
+    disableBarbaInit: boolean // CRITICAL: Prevents Barba.js from initializing (Nuxt handles routing)
     enableScroll: Function
     disableScroll: Function
     startLoading: Function
@@ -40,6 +41,10 @@ declare global {
     initPages: Function
     naylaMouseCursor: Function
     naylaHeader: Function
+    naylaVideo: Function
+    naylaTextWrapper: Function
+    naylaListAnimations: Function
+    naylaParallaxImages: Function
   }
 }
 
@@ -137,35 +142,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   }
 
   // ============================================
-  // STEP 3: Clear dynamic content that scripts.js creates
-  // ============================================
-
-  // CRITICAL: scripts.js has top-level code that runs immediately AND
-  // functions that run later - this causes duplication. We need to
-  // clear any dynamically created content before scripts run.
-  function clearDynamicContent() {
-    const $ = window.jQuery
-    if (!$) return
-
-    // Clear mouse cursor inner elements (line 85 + 104 in scripts.js both append)
-    $('#mouseCursor').empty()
-
-    // Clear page loader overlays (created dynamically)
-    $('.page-loader-overlays').remove()
-    $('.page-loader-count').remove()
-
-    // Clear page transition blocks (created dynamically)
-    $('.nayla-page-transition .transition-block').remove()
-    $('.nayla-page-transition .trans-col').remove()
-    $('.nayla-page-transition .transition-overlay').remove()
-    $('.page-over-ovs').remove()
-
-    // Clear any cloned elements from previous runs
-    $('.clone').remove()
-  }
-
-  // ============================================
-  // STEP 4: Main initialization sequence
+  // STEP 3: Main initialization sequence
   // ============================================
 
   async function initializeScripts() {
@@ -173,9 +150,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     scriptsLoaded = true
 
     try {
-      // Clear any leftover dynamic content before loading scripts
-      clearDynamicContent()
-
       // Load GSAP with premium plugins
       if (!gsapLoaded) {
         await loadScript('/js/gsap.js')
@@ -184,15 +158,13 @@ export default defineNuxtPlugin((nuxtApp) => {
       }
 
       // Load custom animation scripts
+      // Note: scripts.js now has guards to prevent duplicate DOM manipulation
       await loadScript('/js/scripts.js')
 
       // Wait a moment for scripts.js to initialize its IIFE
       await new Promise(resolve => setTimeout(resolve, 100))
 
-      // Clear again after script loaded (line 85 runs immediately on load)
-      clearDynamicContent()
-
-      // Now trigger window load - functions will properly populate elements
+      // Trigger window load to start animations
       triggerWindowLoad()
 
     } catch (error) {
@@ -219,15 +191,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     })
   })
 
-  // Also listen for page:finish for subsequent navigations
-  nuxtApp.hook('page:finish', () => {
-    // For subsequent page loads, re-trigger animations
-    if (scriptsLoaded && window.jQuery) {
-      const $ = window.jQuery
-      // Re-trigger animations for new page content
-      setTimeout(() => {
-        $(window).trigger('load')
-      }, 100)
-    }
-  })
+  // NOTE: Page navigation is handled by barba-router-integration.client.ts
+  // which properly manages transitions and animation reinitialization.
+  // DO NOT add page:finish hook here - it causes double initialization and element duplication.
 })
