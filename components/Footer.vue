@@ -81,7 +81,7 @@
         </div>
 
         <div class="c-col-2 sm-6 text-center">
-          <div class="nayla-number-counter" style="font-size: 75px;">
+          <div class="nayla-number-counter footer-counter" style="font-size: 75px;">
             <span class="ct-text count-end">+{{ experienceYears }}</span>
           </div>
           <div class="text-wrapper">
@@ -90,7 +90,7 @@
         </div>
 
         <div class="c-col-2 sm-6 text-center">
-          <div class="nayla-number-counter" style="font-size: 75px;">
+          <div class="nayla-number-counter footer-counter" style="font-size: 75px;">
             <span class="ct-text count-end">+{{ projectsDelivered }}</span>
           </div>
           <div class="text-wrapper">

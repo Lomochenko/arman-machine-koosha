@@ -155,6 +155,15 @@ export default defineNuxtPlugin((nuxtApp) => {
         await loadScript('/js/gsap.js')
         await waitForGSAP()
         gsapLoaded = true
+
+        // Configure GSAP to suppress "target not found" warnings
+        // These warnings occur during page transitions when animations target elements
+        // that haven't loaded yet or have been removed from the DOM
+        if (window.gsap) {
+          window.gsap.config({
+            nullTargetWarn: false
+          })
+        }
       }
 
       // Load custom animation scripts

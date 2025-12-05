@@ -369,3 +369,24 @@ html[dir="rtl"] .nayla-button a[href="#"] {
 .cursor-pointer {
   cursor: pointer;
 }
+
+/* ============================================
+   Footer Counter - CSS-based Fade Animation
+   ============================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Footer counter uses CSS fade animation instead of GSAP */
+.footer-counter .count-end {
+  animation: fadeInUp 1s ease-out forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
+}
