@@ -23,7 +23,7 @@
 
                         </div>
 
-                        <div class="c-col-6 align-bottom" style="margin-bottom: 30px">
+                        <div class="c-col-6 align-bottom" style="margin-bottom: 50px">
 
                             <!-- Button -->
                             <div class="nayla-button underline icon-right scroll-button" data-scroll-to="#sec1"
@@ -36,7 +36,7 @@
 
                         </div>
 
-                        <div class="c-col-6 align-bottom align-right" style="margin-bottom: 30px">
+                        <div class="c-col-6 align-bottom align-right" style="margin-bottom: 50px">
 
                             <!-- Button -->
                             <div class="nayla-button underline icon-right" data-icon="arrow_downward">
