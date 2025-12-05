@@ -390,3 +390,25 @@ html[dir="rtl"] .nayla-button a[href="#"] {
   animation-delay: 0.2s;
   opacity: 0;
 }
+
+/* ============================================
+   Show/Hide Mobile Classes
+   ============================================ */
+@media (min-width: 901px) {
+  .show-mobile {
+    display: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .show-mobile {
+    display: block !important;
+  }
+}
+
+/* Mobile Department Links Styling */
+.mobile-departments {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}

@@ -11,21 +11,24 @@
         <div class="site-branding">
 
           <!--  Site Logo -->
-          <div class="site-logo">
+          <nuxt-link to="/" class="site-logo">
 
             <NuxtImg alt="Site Logo (Dark)" class="dark-logo" src="/img/site-logo.png" loading="eager" format="webp" />
-            <NuxtImg alt="Site Logo (Light)" class="light-logo" src="/img/site-logo-light.png" loading="eager" format="webp" />
+            <NuxtImg alt="Site Logo (Light)" class="light-logo" src="/img/site-logo-light.png" loading="eager"
+              format="webp" />
 
-          </div>
+          </nuxt-link>
           <!--/  Site Logo -->
 
           <!--  Sticky Logo -->
-          <div class="sticky-logo">
+          <nuxt-link to="/" class="sticky-logo">
 
-            <NuxtImg alt="Sticky Logo (Dark)" class="sticky-dark-logo" src="/img/sticky_logo.png" loading="eager" format="webp" />
-            <NuxtImg alt="Sticky Logo (Light)" class="sticky-light-logo" src="/img/sticky_logo_light.png" loading="eager" format="webp" />
+            <NuxtImg alt="Sticky Logo (Dark)" class="sticky-dark-logo" src="/img/sticky_logo.png" loading="eager"
+              format="webp" />
+            <NuxtImg alt="Sticky Logo (Light)" class="sticky-light-logo" src="/img/sticky_logo_light.png"
+              loading="eager" format="webp" />
 
-          </div>
+          </nuxt-link>
           <!--/  Sticky Logo -->
 
         </div>
@@ -104,14 +107,42 @@
           <!-- Main Menu -->
           <ul class="menu main-menu">
 
-            <li><NuxtLink to="/" class="menu-link">Home</NuxtLink></li>
-            <li><NuxtLink to="/services" class="menu-link">Services</NuxtLink></li>
-            <li><NuxtLink to="/about" class="menu-link">About</NuxtLink></li>
+            <li>
+              <NuxtLink to="/" class="menu-link">Home</NuxtLink>
+            </li>
+            <li>
+              <NuxtLink to="/services" class="menu-link">Services</NuxtLink>
+            </li>
+            <li>
+              <NuxtLink to="/about" class="menu-link">About</NuxtLink>
+            </li>
             <li><a href="#" class="menu-link">Team</a></li>
-            <li><NuxtLink to="/contact" class="menu-link">Contact</NuxtLink></li>
+            <li>
+              <NuxtLink to="/contact" class="menu-link">Contact</NuxtLink>
+            </li>
 
           </ul>
           <!--/ Main Menu -->
+
+          <!-- Mobile Department Links (visible only on mobile) -->
+          <ul class="menu show-mobile mobile-departments">
+
+            <li><a href="#.">Commercial Department</a></li>
+            <li><a href="#.">Production Department</a></li>
+            <li><a href="#.">Repair Department</a></li>
+
+          </ul>
+          <!--/ Mobile Department Links -->
+
+          <!-- Mobile social Links (visible only on mobile) -->
+          <ul class="menu show-mobile mobile-departments">
+
+            <li><a href="#">Telegram</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">WhatsApp</a></li>
+
+          </ul>
+          <!--/ Mobile social Links -->
 
         </div>
 
@@ -161,10 +192,10 @@ const toggleMenu = () => {
   const menuToggle = document.querySelector('.menu-toggle')
   const menu = document.querySelector('#site-navigation') as HTMLElement
   const body = document.body
-  
+
   if (menuToggle && menu) {
     const isOpen = menuToggle.classList.contains('active')
-    
+
     if (isOpen) {
       menuToggle.classList.remove('active')
       menu.classList.remove('active')
@@ -187,4 +218,3 @@ const toggleMenu = () => {
 <style scoped>
 /* Styles are imported from CSS files in nuxt.config.ts */
 </style>
-
