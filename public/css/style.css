@@ -2899,7 +2899,7 @@ span.page-over-ovs::before {
 .nayla-page-transition.columns.left .trans-col {
     height: 20vh;
     width: 0%;
-    background-color: var(--backG);
+    background-color: var(--backG, #043561) !important;
 }
 
 .nayla-page-transition.columns.down {
@@ -2918,8 +2918,7 @@ span.page-over-ovs::before {
 .nayla-page-transition.columns.up .trans-col {
     width: 20vw;
     height: 0%;
-    background-color: var(--backG);
-
+    background-color: var(--backG, #043561) !important;
 }
 
 .nayla-page-transition.columns.up.half {
@@ -3024,7 +3023,7 @@ span.page-over-ovs::before {
 .page-loader-overlays.columns .loader-col {
     width: 20vw;
     height: 100%;
-    background-color: var(--bg)
+    background-color: var(--bg, #043561) !important;
 }
 
 .page-loader-percentage {
