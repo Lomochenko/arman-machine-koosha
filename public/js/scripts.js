@@ -863,6 +863,11 @@
 
                     let snapPerc = gsap.utils.snap(countLabels, percentage);
 
+                    // Skip animation if snapPerc is 100 - let done() callback handle it
+                    if (snapPerc === 100) {
+                        return;
+                    }
+
                     if (perc.length) {
 
                         let countFind = '.count_' + snapPerc + '',
