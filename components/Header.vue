@@ -111,10 +111,10 @@
               <NuxtLink to="/" class="menu-link">Home</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/services" class="menu-link">Services</NuxtLink>
+              <NuxtLink to="/about" class="menu-link">About</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/about" class="menu-link">About</NuxtLink>
+              <NuxtLink to="/services" class="menu-link">Services</NuxtLink>
             </li>
             <li><a href="#" class="menu-link">Team</a></li>
             <li>
