@@ -394,13 +394,13 @@ html[dir="rtl"] .nayla-button a[href="#"] {
 /* ============================================
    Show/Hide Mobile Classes
    ============================================ */
-@media (min-width: 901px) {
+@media (min-width: 578px) {
   .show-mobile {
     display: none !important;
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 576px) {
   .show-mobile {
     display: block !important;
   }
