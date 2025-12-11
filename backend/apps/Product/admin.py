@@ -5,6 +5,6 @@ admin.site.register(Category)
 
 
 @admin.register(Product)
-class CategoryAdmin(admin.ModelAdmin):
+class ProductAdmin(admin.ModelAdmin):
     list_display = ['title', ]
     list_filter = ['is_active']

@@ -29,6 +29,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('', include('apps.Home.urls')),
     path('', include('apps.Product.urls')),
+    path('', include('apps.About.urls')),
     # OpenAPI schema (json/yaml)
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
 
