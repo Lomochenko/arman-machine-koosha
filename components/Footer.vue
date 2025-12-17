@@ -97,7 +97,7 @@
             <p>Projects delivered.</p>
           </div>
         </div>
-        <div class="c-col-2 sm-12">
+        <div class="c-col-2 sm-8">
           <!-- our services links -->
           <!-- Menu -->
           <ul class="menu">
@@ -113,7 +113,7 @@
 
 
 
-        <div class="c-col-2 sm-12">
+        <div class="c-col-2 sm-4">
           <div class="nayla-icon align-right" @click="scrollToTop" style="--fontSize: 75px;--wgt: 300; cursor: pointer;">
             <span class="material-icons">arrow_upward</span>
           </div>

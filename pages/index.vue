@@ -1086,16 +1086,6 @@
                                     <div class="team-member-title text-h6">Marketing Manager</div>
                                     <!--/ Title -->
 
-                                    <!-- CV -->
-                                    <div class="team-member-cv">
-
-                                        <p>By abandoning conventional tools and the way traditional agencies work, we
-                                            created the addmore way of working. We built a multidisciplinary team that
-                                            lets us move fast and deliver results every week.</p>
-
-                                    </div>
-                                    <!--/ CV -->
-
                                 </div>
                                 <!--/ Card -->
 
@@ -1132,19 +1122,6 @@
                                     <!-- Title -->
                                     <div class="team-member-title text-h6">Senior Software Engineer</div>
                                     <!--/ Title -->
-
-                                    <!-- CV -->
-                                    <div class="team-member-cv">
-
-                                        <p>
-                                            By abandoning conventional tools and the way traditional agencies work, we
-                                            created the addmore way of working. We built a multidisciplinary team that
-                                            lets us move fast and deliver results every week.
-                                        </p>
-
-                                    </div>
-                                    <!--/ CV -->
-
                                 </div>
                                 <!--/Card -->
 
@@ -1181,89 +1158,11 @@
                                     <!-- Title -->
                                     <div class="team-member-title text-h6">Project Coordinator</div>
                                     <!--/ Title -->
-
-                                    <!-- CV -->
-                                    <div class="team-member-cv">
-
-                                        <p>
-                                            By abandoning conventional tools and the way traditional agencies work, we
-                                            created the addmore way of working. We built a multidisciplinary team that
-                                            lets us move fast and deliver results every week.
-                                        </p>
-
-                                        <!-- Button -->
-                                        <div class="nayla-button button-md hide-mobile">
-
-                                            <a href="#" class="underline icon-right" data-hover="all">
-
-                                                Personal Website
-                                                <span class="button-icon material-icons">
-                                                    arrow_outward
-                                                </span>
-                                            </a>
-
-                                        </div>
-                                        <!--/ Button -->
-
-                                    </div>
-                                    <!--/ CV -->
-
                                 </div>
                                 <!--/ Card -->
 
                             </div>
                             <!--/ Nayla Team Member -->
-
-                            <!-- Nayla Team Member -->
-                            <div class="nayla-team-member">
-
-                                <!-- Image -->
-                                <div class="team-member-image">
-
-                                    <NuxtImg
-                                        alt="Team Member Image"
-                                        src="/img/img/team_member_4.jpg"
-                                        format="webp"
-                                        quality="80"
-                                        loading="lazy"
-                                        placeholder
-                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
-                                        :modifiers="{ fit: 'cover' }"
-                                    />
-
-                                </div>
-                                <!--/ Image -->
-
-                                <!-- Card -->
-                                <div class="team-member-card">
-
-                                    <!-- Name -->
-                                    <div class="team-member-name text-h6">Noah Thompson </div>
-                                    <!--/ Name -->
-
-                                    <!-- Title -->
-                                    <div class="team-member-title text-h6">Sales Director</div>
-                                    <!--/ Title -->
-
-                                    <!-- CV -->
-                                    <div class="team-member-cv">
-
-                                        <p>
-                                            By abandoning conventional tools and the way traditional agencies work, we
-                                            created the addmore way of working. We built a multidisciplinary team that
-                                            lets us move fast and deliver results every week.
-                                        </p>
-
-                                    </div>
-                                    <!--/ CV -->
-
-                                </div>
-                                <!--/ Card -->
-
-
-                            </div>
-                            <!--/ Nayla Team Member -->
-
                         </div>
 
                         <div class="c-col-4 sm-12 has-parallax" data-parallax-speed=15>
@@ -1298,19 +1197,6 @@
                                     <!-- Title -->
                                     <div class="team-member-title text-h6">Operations Manager </div>
                                     <!--/ Title -->
-
-                                    <!-- CV-->
-                                    <div class="team-member-cv">
-
-                                        <p class="text-h6">
-                                            By abandoning conventional tools and the way traditional agencies work, we
-                                            created the addmore way of working. We built a multidisciplinary team that
-                                            lets us move fast and deliver results every week.
-                                        </p>
-
-                                    </div>
-                                    <!--/ CV -->
-
                                 </div>
                                 <!--/ Card -->
 
@@ -1347,23 +1233,8 @@
                                     <!-- Title -->
                                     <div class="team-member-title text-h6">Graphic Designer</div>
                                     <!--/ Title -->
-
-                                    <!-- CV -->
-                                    <div class="team-member-cv">
-
-                                        <p>
-                                            By abandoning conventional tools and the way traditional agencies work, we
-                                            created the addmore way of working. We built a multidisciplinary team that
-                                            lets us move fast and deliver results every week.
-                                        </p>
-
-                                    </div>
-                                    <!--/ CV -->
-
                                 </div>
                                 <!--/ Card -->
-
-
                             </div>
                             <!--/ Nayla Team Member -->
 
@@ -1397,72 +1268,10 @@
                                     <!-- Title -->
                                     <div class="team-member-title text-h6">Financial Analyst</div>
                                     <!--/ Title -->
-
-                                    <!-- CV -->
-                                    <div class="team-member-cv">
-
-                                        <p class="text-h6">
-                                            By abandoning conventional tools and the way traditional agencies work, we
-                                            created the addmore way of working. We built a multidisciplinary team that
-                                            lets us move fast and deliver results every week.
-                                        </p>
-
-                                    </div>
-                                    <!--/ CV -->
-
                                 </div>
                                 <!--/ Card -->
 
                             </div>
-                            <!--/ Nayla Team Member -->
-                            <div class="nayla-team-member">
-
-                                <!-- Image -->
-                                <div class="team-member-image">
-
-                                    <NuxtImg
-                                        alt="Team Member Image"
-                                        src="/img/img/team_member_8.jpg"
-                                        format="webp"
-                                        quality="80"
-                                        loading="lazy"
-                                        placeholder
-                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
-                                        :modifiers="{ fit: 'cover' }"
-                                    />
-
-                                </div>
-                                <!--/ Image -->
-
-                                <!-- Card -->
-                                <div class="team-member-card">
-
-                                    <!-- Name -->
-                                    <div class="team-member-name text-h6">Alexander Wilson</div>
-                                    <!--/ Name -->
-
-                                    <!-- Title -->
-                                    <div class="team-member-title text-h6">Research Scientist</div>
-                                    <!--/ Title -->
-
-                                    <!-- CV -->
-                                    <div class="team-member-cv">
-
-                                        <p>
-                                            By abandoning conventional tools and the way traditional agencies work, we
-                                            created the addmore way of working. We built a multidisciplinary team that
-                                            lets us move fast and deliver results every week.
-                                        </p>
-
-                                    </div>
-                                    <!--/ CV -->
-
-                                </div>
-                                <!--/ Card -->
-
-                            </div>
-                            <!--/ Nayla Team Member -->
-
                         </div>
 
                     </div>

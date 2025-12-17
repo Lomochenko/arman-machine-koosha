@@ -10443,7 +10443,7 @@
                 cardHeight = card.outerHeight(),
                 cvHeight = cv.outerHeight();
 
-            image.append('<div class="cv-toggle"><span class="material-icons">add</span></div>')
+            image.append('<div class="cv-toggle"><span></span></div>')
 
 
             let cvToggle = $this.find('.cv-toggle');
