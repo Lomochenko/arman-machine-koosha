@@ -1030,7 +1030,7 @@
                     </div>
                     <!-- testimonials -->
                     <!-- our team -->
-                    <div class="wrapper">
+                    <div class="wrapper" id="team">
 
 
                         <div class="c-col-3 sm-12">

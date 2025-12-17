@@ -114,13 +114,8 @@
               <NuxtLink to="/about" class="menu-link">About</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/services" class="menu-link">Services</NuxtLink>
-            </li>
-            <li><a href="#" class="menu-link">Team</a></li>
-            <li>
               <NuxtLink to="/contact" class="menu-link">Contact</NuxtLink>
             </li>
-
           </ul>
           <!--/ Main Menu -->
 
