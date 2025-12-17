@@ -17,11 +17,6 @@ interface _GlobalComponents {
     'MouseCursor': typeof import("../components/MouseCursor.vue")['default']
     'PageLoader': typeof import("../components/PageLoader.vue")['default']
     'PageTransition': typeof import("../components/PageTransition.vue")['default']
-    'ClientsCarousel': typeof import("../components/home/ClientsCarousel.vue")['default']
-    'HeroSection': typeof import("../components/home/HeroSection.vue")['default']
-    'ServicesSection': typeof import("../components/home/ServicesSection.vue")['default']
-    'TeamSection': typeof import("../components/home/TeamSection.vue")['default']
-    'TestimonialsSection': typeof import("../components/home/TestimonialsSection.vue")['default']
     'Button': typeof import("../components/shared/Button.vue")['default']
     'GalleryLightbox': typeof import("../components/shared/GalleryLightbox.vue")['default']
     'InfoBox': typeof import("../components/shared/InfoBox.vue")['default']
@@ -55,11 +50,6 @@ interface _GlobalComponents {
     'LazyMouseCursor': LazyComponent<typeof import("../components/MouseCursor.vue")['default']>
     'LazyPageLoader': LazyComponent<typeof import("../components/PageLoader.vue")['default']>
     'LazyPageTransition': LazyComponent<typeof import("../components/PageTransition.vue")['default']>
-    'LazyClientsCarousel': LazyComponent<typeof import("../components/home/ClientsCarousel.vue")['default']>
-    'LazyHeroSection': LazyComponent<typeof import("../components/home/HeroSection.vue")['default']>
-    'LazyServicesSection': LazyComponent<typeof import("../components/home/ServicesSection.vue")['default']>
-    'LazyTeamSection': LazyComponent<typeof import("../components/home/TeamSection.vue")['default']>
-    'LazyTestimonialsSection': LazyComponent<typeof import("../components/home/TestimonialsSection.vue")['default']>
     'LazyButton': LazyComponent<typeof import("../components/shared/Button.vue")['default']>
     'LazyGalleryLightbox': LazyComponent<typeof import("../components/shared/GalleryLightbox.vue")['default']>
     'LazyInfoBox': LazyComponent<typeof import("../components/shared/InfoBox.vue")['default']>
@@ -99,11 +89,6 @@ export const Header: typeof import("../components/Header.vue")['default']
 export const MouseCursor: typeof import("../components/MouseCursor.vue")['default']
 export const PageLoader: typeof import("../components/PageLoader.vue")['default']
 export const PageTransition: typeof import("../components/PageTransition.vue")['default']
-export const ClientsCarousel: typeof import("../components/home/ClientsCarousel.vue")['default']
-export const HeroSection: typeof import("../components/home/HeroSection.vue")['default']
-export const ServicesSection: typeof import("../components/home/ServicesSection.vue")['default']
-export const TeamSection: typeof import("../components/home/TeamSection.vue")['default']
-export const TestimonialsSection: typeof import("../components/home/TestimonialsSection.vue")['default']
 export const Button: typeof import("../components/shared/Button.vue")['default']
 export const GalleryLightbox: typeof import("../components/shared/GalleryLightbox.vue")['default']
 export const InfoBox: typeof import("../components/shared/InfoBox.vue")['default']
@@ -137,11 +122,6 @@ export const LazyHeader: LazyComponent<typeof import("../components/Header.vue")
 export const LazyMouseCursor: LazyComponent<typeof import("../components/MouseCursor.vue")['default']>
 export const LazyPageLoader: LazyComponent<typeof import("../components/PageLoader.vue")['default']>
 export const LazyPageTransition: LazyComponent<typeof import("../components/PageTransition.vue")['default']>
-export const LazyClientsCarousel: LazyComponent<typeof import("../components/home/ClientsCarousel.vue")['default']>
-export const LazyHeroSection: LazyComponent<typeof import("../components/home/HeroSection.vue")['default']>
-export const LazyServicesSection: LazyComponent<typeof import("../components/home/ServicesSection.vue")['default']>
-export const LazyTeamSection: LazyComponent<typeof import("../components/home/TeamSection.vue")['default']>
-export const LazyTestimonialsSection: LazyComponent<typeof import("../components/home/TestimonialsSection.vue")['default']>
 export const LazyButton: LazyComponent<typeof import("../components/shared/Button.vue")['default']>
 export const LazyGalleryLightbox: LazyComponent<typeof import("../components/shared/GalleryLightbox.vue")['default']>
 export const LazyInfoBox: LazyComponent<typeof import("../components/shared/InfoBox.vue")['default']>

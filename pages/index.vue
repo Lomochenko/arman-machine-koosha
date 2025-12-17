@@ -131,7 +131,7 @@
                     </div>
 
                     <!-- Marquee -->
-                    <div class="wrapper">
+                    <div class="wrapper" dir="ltr">
 
                         <div class="c-col-12 has-anim fadeUp">
 
@@ -846,7 +846,7 @@
                     </div>
                     <!-- clients logo marquee -->
                     <!-- testimonials -->
-                    <div class="wrapper-full">
+                    <div class="wrapper-full" dir="ltr">
 
                         <div class="c-col-8 sm-12 col-center">
 
@@ -1030,7 +1030,7 @@
                     </div>
                     <!-- testimonials -->
                     <!-- our team -->
-                    <div class="wrapper" id="team">
+                    <div class="wrapper" id="team" dir="ltr">
 
 
                         <div class="c-col-3 sm-12">

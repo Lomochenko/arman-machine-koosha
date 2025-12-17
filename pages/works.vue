@@ -3,12 +3,12 @@
 
         <div class="section">
 
-            <div class="wrapper">
+            <div dir="ltr" class="wrapper">
 
                 <div class="c-col-12 has-anim fadeUp">
 
                     <!-- Marquee -->
-                    <div class="nayla-marquee right-to-left" data-duration="10" data-seperator="remove">
+                    <div class="nayla-marquee right-to-left" data-duration="10" data-seperator="arrow_outward">
 
                         <p class="big-title">Our Latest Projects </p>
 
@@ -31,7 +31,7 @@
                         <div class="grid-controls">
 
                             <!-- Filters -->
-                            <div class="portfolio-filters horizontal">
+                            <div dir="ltr" class="portfolio-filters horizontal">
 
                                 <span class="grid-filter">FILTER:</span>
 
@@ -285,7 +285,7 @@
 
         <div class="section">
 
-            <div class="wrapper">
+            <div dir="ltr" class="wrapper">
 
                 <div class="c-col-12 cursor-icon">
 

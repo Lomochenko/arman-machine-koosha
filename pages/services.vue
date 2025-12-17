@@ -67,7 +67,7 @@
                         <div class="c-col-12 align-bottom has-anim slideUp">
 
                             <!-- Nayla Marquee -->
-                            <div class="nayla-marquee right-to-left" data-duration="7" data-seperator=" ">
+                            <div dir="ltr" class="nayla-marquee right-to-left" data-duration="7" data-seperator=" ">
 
                                 <p class="big-title">How can we help you?</p>
 
