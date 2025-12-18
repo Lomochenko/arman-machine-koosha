@@ -27,7 +27,7 @@
       <!--/ Page Transitions -->
 
       <!-- Mouse Cursor -->
-      <div id="mouseCursor" class="dot"></div>
+      <div dir="ltr" id="mouseCursor" class="dot"></div>
       <!--/ Mouse Cursor -->
 
       <!-- Page -->

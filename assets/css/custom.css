@@ -160,8 +160,23 @@ html[dir="rtl"] body {
 /* ===== ELEMENTS THAT MUST ALWAYS BE LTR ===== */
 
 /* 1. MOUSE CURSOR - Always LTR positioning */
+/* The cursor uses position:fixed + GSAP transforms (x, y) for positioning.
+   In RTL mode, we must ensure the cursor is completely isolated from RTL effects. */
 html[dir="rtl"] #mouseCursor {
   direction: ltr !important;
+  /* Reset any RTL transforms that might affect positioning */
+  left: 0 !important;
+  right: auto !important;
+  /* Ensure transform-origin is consistent */
+  transform-origin: center center !important;
+  /* Ensure text direction doesn't affect layout */
+  unicode-bidi: isolate !important;
+}
+
+/* Ensure child elements of cursor are also LTR */
+html[dir="rtl"] #mouseCursor * {
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
 }
 
 /* 2. FULLSCREEN MENU (NAVIGATION) - Always LTR layout */
@@ -261,7 +276,13 @@ html[dir="rtl"] .page-loader-percentage {
   direction: rtl !important;
   /* Keep position on left side (same as English) */
   right: 75px !important;
-  left: auto !important;
+  bottom: 75px !important;
+}
+@media only screen and (max-width: 450px) {
+    .page-loader-percentage {
+        right: 30px;
+        bottom: 30px;
+    }
 }
 
 html[dir="rtl"] .page-loader-count {
