@@ -147,7 +147,6 @@ html:not(.loading) #page {
   visibility: visible;
   transition: opacity 0.3s ease-in;
 }
-
 /* ============================================
    RTL (Right-to-Left) Support for Persian
    HOME PAGE ONLY - Surgical, section-specific rules
@@ -158,6 +157,139 @@ html[dir="rtl"] body {
   direction: rtl;
 }
 
+/* ===== ELEMENTS THAT MUST ALWAYS BE LTR ===== */
+
+/* 1. MOUSE CURSOR - Always LTR positioning */
+html[dir="rtl"] #mouseCursor {
+  direction: ltr !important;
+}
+
+/* 2. FULLSCREEN MENU (NAVIGATION) - Always LTR layout */
+html[dir="rtl"] #site-navigation.fullscreen_menu {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+html[dir="rtl"] #site-navigation.fullscreen_menu .fullscreen-menu-wrapper {
+  direction: ltr !important;
+}
+
+html[dir="rtl"] #site-navigation.fullscreen_menu .wrapper {
+  direction: ltr !important;
+}
+
+html[dir="rtl"] #site-navigation.fullscreen_menu ul.menu {
+  direction: ltr !important;
+  text-align: right !important;
+}
+
+
+html[dir="rtl"] #site-navigation.fullscreen_menu ul.menu.main-menu {
+  direction: ltr !important;
+  text-align: right !important;
+}
+html[dir="rtl"] .fullscreen_menu ul.menu.main-menu li::before {
+  content: none !important;
+}
+html[dir="rtl"] .header-wrapper .fa-align-left {
+  justify-content: left !important;
+}
+
+html[dir="rtl"] #site-navigation.fullscreen_menu ul.menu.main-menu li {
+  direction: ltr !important;
+  text-align: right !important;
+}
+
+html[dir="rtl"] #site-navigation.fullscreen_menu .c-col-3,
+html[dir="rtl"] #site-navigation.fullscreen_menu .c-col-6,
+html[dir="rtl"] #site-navigation.fullscreen_menu [class*="c-col-"] {
+  float: left !important;
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+html[dir="rtl"] #site-navigation.fullscreen_menu .fullscreen-menu-wrap-bottom {
+  direction: ltr !important;
+}
+
+html[dir="rtl"] #site-navigation.fullscreen_menu .nayla-button {
+  direction: ltr !important;
+}
+
+/* 3. FOOTER - Always LTR layout */
+html[dir="rtl"] #footer.site-footer {
+  direction: ltr !important;
+}
+
+html[dir="rtl"] #footer .footer-wrapper {
+  direction: ltr !important;
+}
+
+html[dir="rtl"] #footer .wrapper {
+  direction: ltr !important;
+}
+
+html[dir="rtl"] #footer [class*="c-col-"] {
+  float: left !important;
+  direction: ltr !important;
+}
+
+html[dir="rtl"] #footer .text-wrapper {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+html[dir="rtl"] #footer .align-right {
+  text-align: right !important;
+}
+
+html[dir="rtl"] #footer ul.menu {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+html[dir="rtl"] #footer .nayla-icon {
+  direction: ltr !important;
+}
+
+/* 4. PAGE LOADER - Counter stays LTR, Persian text right-aligned */
+html[dir="rtl"] .page-loader {
+  direction: rtl !important;
+}
+
+html[dir="rtl"] .page-loader-percentage {
+  direction: rtl !important;
+  /* Keep position on left side (same as English) */
+  right: 75px !important;
+  left: auto !important;
+}
+
+html[dir="rtl"] .page-loader-count {
+  direction: ltr !important;
+}
+
+/* 5. PAGE TRANSITION - Caption text right-aligned for Persian */
+html[dir="rtl"] .nayla-page-transition {
+  direction: ltr !important;
+}
+
+html[dir="rtl"] .nayla-page-transition .page-transition-caption {
+  /* Persian text "لطفا صبر کنید" should be right-aligned */
+  direction: rtl !important;
+  text-align: right !important;
+  left: auto !important;
+  right: 75px !important;
+  transform: translate(0, -50%) !important;
+  font-size: 1.20rem !important;
+}
+
+/* Mobile responsive for page transition caption in RTL */
+@media screen and (max-width: 1024px) {
+  html[dir="rtl"] .nayla-page-transition .page-transition-caption {
+    right: 30px !important;
+  }
+}
+
 /* ===== HEADER COMPONENT ===== */
 /* Header layout stays the same - no position changes */
 html[dir="rtl"] .site-header .site-navigation ul {
@@ -166,15 +298,6 @@ html[dir="rtl"] .site-header .site-navigation ul {
 
 html[dir="rtl"] .site-navigation li {
   float: right;
-}
-
-/* ===== FULLSCREEN MENU (MOBILE NAVIGATION) ===== */
-html[dir="rtl"] .menu-overlay {
-  text-align: right;
-}
-
-html[dir="rtl"] .fullscreen-menu {
-  text-align: right;
 }
 
 /* ===== HERO SECTION ===== */
@@ -259,15 +382,18 @@ html[dir="rtl"] .nayla-card .card-description {
 /* ===== TESTIMONIALS SECTION ===== */
 /* Right-align text content */
 html[dir="rtl"] .testimonials-section .text-wrapper {
-  text-align: right;
+  text-align: right !important;
 }
 
 html[dir="rtl"] .testimonial-item {
-  text-align: right;
+  text-align: right !important;
 }
 
 html[dir="rtl"] .testimonial-author {
-  text-align: right;
+  text-align: right !important;
+}
+html[dir="rtl"] .testimonial-title {
+  margin-right: 1rem !important;
 }
 
 /* ===== "OUR TEAM" SECTION ===== */
@@ -292,32 +418,18 @@ html[dir="rtl"] .team-section .c-col-6:last-child {
 }
 
 /* ===== FOOTER ===== */
-/* Keep structure, right-align text */
-html[dir="rtl"] .site-footer {
-  direction: rtl;
-}
-
-html[dir="rtl"] .site-footer .text-wrapper {
-  text-align: right;
-}
-
-html[dir="rtl"] .site-footer .footer-links {
-  text-align: right;
-}
-
-html[dir="rtl"] .site-footer .footer-links li {
-  float: right;
-  margin-left: 20px;
-  margin-right: 0;
-}
+/* Footer is forced to LTR in the "ELEMENTS THAT MUST ALWAYS BE LTR" section above */
 
 /* ===== UTILITY CLASSES ===== */
-/* Override align-right/align-left for RTL */
-html[dir="rtl"] .align-right {
+/* Override align-right/align-left for RTL (exclude footer and menu) */
+html[dir="rtl"] .align-right:not(#footer .align-right):not(#site-navigation .align-right) {
   text-align: left !important;
 }
+html[dir="rtl"] .follow-us {
+  text-align: right !important;
+}
 
-html[dir="rtl"] .align-left {
+html[dir="rtl"] .align-left:not(#footer .align-left):not(#site-navigation .align-left) {
   text-align: right !important;
 }
 
@@ -326,18 +438,19 @@ html[dir="rtl"] .align-center {
   text-align: center !important;
 }
 
-/* RTL Grid System - Float columns to the right */
-html[dir="rtl"] .wrapper > [class*="c-col-"] {
+/* RTL Grid System - Float columns to the right (exclude footer, menu, and cursor) */
+html[dir="rtl"] .wrapper:not(#footer .wrapper):not(#site-navigation .wrapper) > [class*="c-col-"] {
   float: right;
 }
 
-/* RTL Icons - Flip horizontal icons */
-html[dir="rtl"] .material-icons {
-  transform: scaleX(-1);
+
+html[dir="rtl"] .grid-project-description,.grid-project-meta>div {
+  text-align: right !important;
+  float: right !important;
 }
 
-/* RTL Buttons - Keep button text in correct direction */
-html[dir="rtl"] .nayla-button {
+/* RTL Buttons - Keep button text in correct direction (exclude menu) */
+html[dir="rtl"] .nayla-button:not(#site-navigation .nayla-button):not(#footer .nayla-button) {
   direction: rtl;
 }
 
@@ -347,13 +460,6 @@ html[dir="rtl"] textarea,
 html[dir="rtl"] select {
   text-align: right;
   direction: rtl;
-}
-
-/* ===== PRESERVE ANIMATIONS ===== */
-/* Ensure GSAP animations work correctly in RTL */
-html[dir="rtl"] .has-anim {
-  /* Don't force direction on animated elements */
-  /* Let GSAP handle the animation direction */
 }
 
 /* ===== LANGUAGE SWITCHER ===== */

@@ -8,9 +8,9 @@
                         <div class="c-col-12 has-anim fadeUp">
 
                             <!-- Marquee -->
-                            <div class="nayla-marquee right-to-left" data-duration="10" data-seperator="remove">
+                            <div class="nayla-marquee right-to-left" data-duration="10" data-seperator="">
 
-                                <p class="big-title">About Our Company </p>
+                                <p class="big-title">About Our Company-</p>
 
                             </div>
                             <!--/ Marquee -->
@@ -383,7 +383,7 @@
 
                 </div>
 
-                <div dir="ltr" class="section anim-bg light" style="background: #043561; margin-top: 10em;">
+                <div class="section anim-bg light" style="background: #043561; margin-top: 10em;">
                     <!-- our team -->
                     <div class="wrapper">
 

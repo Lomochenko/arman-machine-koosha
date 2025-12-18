@@ -33,26 +33,15 @@
 
         </div>
 
-        <div class="c-col-3 sm-12">
-
+        <div class="c-col-4 sm-12">
           <!-- Text -->
-          <div class="text-wrapper align-right  sm-align-left">
+          <div class="text-wrapper">
 
-            <p>Follow Us</p>
+            <p>FOLLOW</p>
+            <p><a href="#">INSTAGRAM</a> <a href="#">BEHANCE</a></p>
 
           </div>
           <!--/ Text -->
-
-          <!-- Menu -->
-          <ul class="menu text-h6 align-right  sm-align-left">
-
-            <li><a href="#.">Telegram</a></li>
-            <li><a href="#.">Instagram</a></li>
-            <li><a href="#.">WhatsApp</a></li>
-
-          </ul>
-          <!--/ Menu -->
-
         </div>
 
       </div>
@@ -102,9 +91,15 @@
           <!-- Menu -->
           <ul class="menu">
 
-            <li><NuxtLink to="/services">Services</NuxtLink></li>
-            <li><NuxtLink to="/contact">Contact</NuxtLink></li>
-            <li><NuxtLink to="/about">About</NuxtLink></li>
+            <li>
+              <NuxtLink to="/services">Services</NuxtLink>
+            </li>
+            <li>
+              <NuxtLink to="/contact">Contact</NuxtLink>
+            </li>
+            <li>
+              <NuxtLink to="/about">About</NuxtLink>
+            </li>
 
           </ul>
           <!--/ Menu -->
@@ -114,7 +109,8 @@
 
 
         <div class="c-col-2 sm-4">
-          <div class="nayla-icon align-right" @click="scrollToTop" style="--fontSize: 75px;--wgt: 300; cursor: pointer;">
+          <div class="nayla-icon align-right" @click="scrollToTop"
+            style="--fontSize: 75px;--wgt: 300; cursor: pointer;">
             <span class="material-icons">arrow_upward</span>
           </div>
         </div>
@@ -142,4 +138,3 @@ const scrollToTop = () => {
 <style scoped>
 /* Styles are imported from CSS files in nuxt.config.ts */
 </style>
-

@@ -9,7 +9,7 @@
 
                         <div class="c-col-12"></div>
 
-                        <div class="c-col-12 self-center">
+                        <div dir="ltr" class="c-col-12 self-center">
 
                             <!-- Text -->
                             <div class="text-wrapper align-center no-margin">
@@ -135,9 +135,9 @@
 
                         <div class="c-col-12 has-anim fadeUp">
 
-                            <div class="nayla-marquee right-to-left" data-duration="10" data-seperator="remove">
+                            <div class="nayla-marquee right-to-left" data-duration="10" data-seperator="">
 
-                                <p class="big-title">OUR SERVICES</p>
+                                <p class="big-title">OUR SERVICES <span> </span></p>
 
                             </div>
 
@@ -846,7 +846,7 @@
                     </div>
                     <!-- clients logo marquee -->
                     <!-- testimonials -->
-                    <div class="wrapper-full" dir="ltr">
+                    <div class="wrapper-full">
 
                         <div class="c-col-8 sm-12 col-center">
 
@@ -1030,7 +1030,7 @@
                     </div>
                     <!-- testimonials -->
                     <!-- our team -->
-                    <div class="wrapper" id="team" dir="ltr">
+                    <div class="wrapper" id="team">
 
 
                         <div class="c-col-3 sm-12">

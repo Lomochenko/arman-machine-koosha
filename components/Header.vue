@@ -48,7 +48,7 @@
 
       </div>
 
-      <div class="c-col-4 sm-6 align-right">
+      <div class="c-col-4 sm-6 align-right fa-align-left">
 
         <!-- Language Switcher Button -->
         <div class="nayla-button fill button-sm">
@@ -73,21 +73,6 @@
     <div id="site-navigation" class="fullscreen_menu fullscreen">
 
       <div class="wrapper fullscreen-menu-wrapper">
-
-        <div class="c-col-3 hide-mobile self-center">
-
-          <!-- Menu -->
-          <ul class="menu">
-
-            <li><a href="#.">Commercial Department</a></li>
-            <li><a href="#.">Production Department</a></li>
-            <li><a href="#.">Repair Department</a></li>
-
-          </ul>
-          <!--/ Menu -->
-
-        </div>
-
         <div class="c-col-3 hide-mobile self-center">
 
           <!-- Menu -->
@@ -101,8 +86,26 @@
           <!--/ Menu -->
 
         </div>
+        <div class="c-col-5 hide-mobile self-center">
 
-        <div class="c-col-6 sm-12">
+          <!-- Menu -->
+          <ul class="menu main-menu little-menu">
+            <li>
+              <NuxtLink to="/services" class="menu-link">Commercial Department</NuxtLink>
+            </li>
+            <li>
+              <NuxtLink to="/works" class="menu-link">Production Department</NuxtLink>
+            </li>
+            <li>
+              <NuxtLink to="/services" class="menu-link">Repair Department</NuxtLink>
+            </li>
+
+          </ul>
+          <!--/ Menu -->
+
+        </div>
+
+        <div class="c-col-4 sm-12">
 
           <!-- Main Menu -->
           <ul class="menu main-menu">
@@ -120,11 +123,17 @@
           <!--/ Main Menu -->
 
           <!-- Mobile Department Links (visible only on mobile) -->
-          <ul class="menu show-mobile mobile-departments">
+          <ul class="menu main-menu little-menu show-mobile mobile-departments">
 
-            <li><a href="#.">Commercial Department</a></li>
-            <li><a href="#.">Production Department</a></li>
-            <li><a href="#.">Repair Department</a></li>
+            <li>
+              <NuxtLink to="/services" class="menu-link">Commercial Department</NuxtLink>
+            </li>
+            <li>
+              <NuxtLink to="/works" class="menu-link">Production Department</NuxtLink>
+            </li>
+            <li>
+              <NuxtLink to="/services" class="menu-link">Repair Department</NuxtLink>
+            </li>
 
           </ul>
           <!--/ Mobile Department Links -->

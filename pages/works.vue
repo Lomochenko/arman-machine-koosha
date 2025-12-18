@@ -8,9 +8,9 @@
                 <div class="c-col-12 has-anim fadeUp">
 
                     <!-- Marquee -->
-                    <div class="nayla-marquee right-to-left" data-duration="10" data-seperator="arrow_outward">
+                    <div class="nayla-marquee right-to-left" data-duration="10" data-seperator="">
 
-                        <p class="big-title">Our Latest Projects </p>
+                        <p class="big-title">Our Latest Projects <span> </span></p>
 
                     </div>
                     <!--/ Marquee -->
@@ -19,7 +19,7 @@
 
             </div>
 
-            <div class="wrapper">
+            <div class="wrapper" dir="ltr">
 
                 <div class="c-col-12">
 
@@ -72,7 +72,6 @@
                                         <div class="grid-project-meta">
                                             <div class="grid-project-title">Life's Stories</div>
                                             <div class="grid-project-category" style="visibility: hidden">Photography</div>
-                                            <div class="grid-project-year">2023</div>
                                         </div>
                                         <!--/Meta -->
 
@@ -109,7 +108,6 @@
                                         <div class="grid-project-meta">
                                             <div class="grid-project-title">En - Vogue</div>
                                             <div class="grid-project-category" style="visibility: hidden">Photography</div>
-                                            <div class="grid-project-year">2020</div>
                                         </div>
                                         <!--/Meta -->
 
@@ -146,7 +144,6 @@
                                         <div class="grid-project-meta">
                                             <div class="grid-project-title">NYC Street Life</div>
                                             <div class="grid-project-category" style="visibility: hidden">Photography</div>
-                                            <div class="grid-project-year">2021</div>
                                         </div>
                                         <!--/Meta -->
 
@@ -183,7 +180,6 @@
                                         <div class="grid-project-meta">
                                             <div class="grid-project-title">Spirits of Illusion</div>
                                             <div class="grid-project-category" style="visibility: hidden">Photography</div>
-                                            <div class="grid-project-year">2018</div>
                                         </div>
                                         <!--/Meta -->
 
@@ -220,7 +216,6 @@
                                         <div class="grid-project-meta">
                                             <div class="grid-project-title">Architexture</div>
                                             <div class="grid-project-category" style="visibility: hidden">Photography</div>
-                                            <div class="grid-project-year">2016</div>
                                         </div>
                                         <!--/Meta -->
 
@@ -257,7 +252,6 @@
                                         <div class="grid-project-meta">
                                             <div class="grid-project-title">Beach Brown</div>
                                             <div class="grid-project-category" style="visibility: hidden">Photography</div>
-                                            <div class="grid-project-year">2021</div>
                                         </div>
                                         <!--/Meta -->
 
@@ -290,9 +284,9 @@
                 <div class="c-col-12 cursor-icon">
 
                     <!-- Marquee -->
-                    <div class="nayla-marquee right-to-left" data-duration="7" data-seperator="arrow_outward">
+                    <div class="nayla-marquee right-to-left" data-duration="7" data-seperator="">
 
-                        <NuxtLink to="/contact" class="md-title">Start a project</NuxtLink>
+                        <NuxtLink to="/contact" class="md-title">Start a project <span> </span></NuxtLink>
 
                     </div>
                     <!--/ Marquee -->

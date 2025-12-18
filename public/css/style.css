@@ -987,6 +987,9 @@ p {
     letter-spacing: -0.06em;
     --mobileFontSize: 40px;
 }
+.nayla-marquee span{
+    letter-spacing: 0 !important;
+}
 
 .md-title {
     font-size: 150px;
@@ -2394,6 +2397,9 @@ div[data-elementor-type="sub-menu-type"] {
     text-transform: none;
     letter-spacing: 0;
     padding-bottom: 0.5em
+}
+#site-navigation.fullscreen_menu ul.little-menu li{
+font-size: 1.5rem !important;
 }
 
 #site-navigation.fullscreen_menu ul.menu.main-menu .sub-menu.small li.sub-menu-title {
