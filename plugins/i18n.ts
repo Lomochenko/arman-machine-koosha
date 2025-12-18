@@ -5,13 +5,13 @@ import fa from '../locales/fa.json'
 
 export default defineNuxtPlugin(({ vueApp }) => {
   try {
-    // Get stored locale from localStorage or default to 'en'
-    const storedLocale = typeof window !== 'undefined' ? localStorage.getItem('locale') || 'en' : 'en'
+    // Get stored locale from localStorage or default to 'fa'
+    const storedLocale = typeof window !== 'undefined' ? localStorage.getItem('locale') || 'fa' : 'fa'
 
     const i18n = createI18n({
       legacy: false,
       locale: storedLocale,
-      fallbackLocale: 'en',
+      fallbackLocale: 'fa',
       messages: {
         en,
         fa
@@ -35,8 +35,8 @@ export default defineNuxtPlugin(({ vueApp }) => {
     // Fallback: create minimal i18n instance
     const fallbackI18n = createI18n({
       legacy: false,
-      locale: 'en',
-      fallbackLocale: 'en',
+      locale: 'fa',
+      fallbackLocale: 'fa',
       messages: { en: {}, fa: {} }
     })
     vueApp.use(fallbackI18n)

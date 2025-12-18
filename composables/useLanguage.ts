@@ -19,8 +19,8 @@ export const useLanguage = () => {
       // Get current locale
       const currentLocale = locale.value
 
-      // Toggle between 'en' and 'fa'
-      const newLocale = currentLocale === 'en' ? 'fa' : 'en'
+      // Toggle between 'fa' and 'en'
+      const newLocale = currentLocale === 'fa' ? 'en' : 'fa'
 
       // Access GSAP from window
       const gsap = (window as any).gsap
