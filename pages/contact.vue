@@ -14,8 +14,8 @@
                             <div class="single-image contact-hero-image" style="--height: 50vh">
 
                                 <NuxtImg
-                                    alt="Single Image"
-                                    src="/img/img/photog_contact.jpg"
+                                    :alt="$t('contact.heroImageAlt')"
+                                    :src="$t('contact.heroImage')"
                                     format="webp"
                                     quality="80"
                                     loading="lazy"

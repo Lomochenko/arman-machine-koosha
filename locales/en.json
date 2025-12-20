@@ -309,7 +309,7 @@
     ]
   },
   "about": {
-    "marqueeTitle": "About Our Company",
+    "marqueeTitle": "About Our Company-",
     "heroImage": "/img/img/agency_2.jpg",
     "heroImageAlt": "About Arman Machine Koosha - Company overview",
     "intro": [
@@ -318,6 +318,171 @@
       "From branding and visual identity to immersive digital experiences, our comprehensive range of services is tailored to meet your unique needs."
     ],
     "passionStatement": "Our passion for learning and evolving allows us to deliver fresh, dynamic, and impactful work.",
+    "carouselImages": [
+      {
+        "id": 1,
+        "src": "/img/img/agency_1.jpg",
+        "alt": "Agency workspace 1"
+      },
+      {
+        "id": 2,
+        "src": "/img/img/agency_2.jpg",
+        "alt": "Agency workspace 2"
+      },
+      {
+        "id": 3,
+        "src": "/img/img/agency_3.jpg",
+        "alt": "Agency workspace 3"
+      },
+      {
+        "id": 4,
+        "src": "/img/img/agency_4.jpg",
+        "alt": "Agency workspace 4"
+      },
+      {
+        "id": 5,
+        "src": "/img/img/agency_5.jpg",
+        "alt": "Agency workspace 5"
+      },
+      {
+        "id": 6,
+        "src": "/img/img/agency_6.jpg",
+        "alt": "Agency workspace 6"
+      }
+    ],
+    "team": {
+      "title": "Our Team",
+      "description": "From brainstorming ideas to executing seamless projects, we leverage our collective expertise and individual strengths to achieve remarkable outcomes.",
+      "members": [
+        {
+          "id": 1,
+          "name": "Emma Johnson",
+          "role": "Marketing Manager",
+          "image": "/img/img/team_member_1.jpg",
+          "imageAlt": "Emma Johnson - Marketing Manager"
+        },
+        {
+          "id": 2,
+          "name": "Ethan Davis",
+          "role": "Senior Software Engineer",
+          "image": "/img/img/team_member_2.jpg",
+          "imageAlt": "Ethan Davis - Senior Software Engineer"
+        },
+        {
+          "id": 3,
+          "name": "Sophia Williams",
+          "role": "Project Coordinator",
+          "image": "/img/img/team_member_3.jpg",
+          "imageAlt": "Sophia Williams - Project Coordinator"
+        },
+        {
+          "id": 4,
+          "name": "Noah Thompson",
+          "role": "Sales Director",
+          "image": "/img/img/team_member_4.jpg",
+          "imageAlt": "Noah Thompson - Sales Director"
+        },
+        {
+          "id": 5,
+          "name": "Lucas Martinez",
+          "role": "Operations Manager",
+          "image": "/img/img/team_member_5.jpg",
+          "imageAlt": "Lucas Martinez - Operations Manager"
+        },
+        {
+          "id": 6,
+          "name": "Olivia Brown",
+          "role": "Graphic Designer",
+          "image": "/img/img/team_member_6.jpg",
+          "imageAlt": "Olivia Brown - Graphic Designer"
+        },
+        {
+          "id": 7,
+          "name": "Mia Anderson",
+          "role": "Financial Analyst",
+          "image": "/img/img/team_member_7.jpg",
+          "imageAlt": "Mia Anderson - Financial Analyst"
+        },
+        {
+          "id": 8,
+          "name": "Alexander Wilson",
+          "role": "Research Scientist",
+          "image": "/img/img/team_member_8.jpg",
+          "imageAlt": "Alexander Wilson - Research Scientist"
+        }
+      ]
+    },
+    "testimonials": {
+      "sectionTitle": "What they said?",
+      "navigation": {
+        "prev": "PREV",
+        "next": "NEXT"
+      },
+      "items": [
+        {
+          "id": 1,
+          "content": "Sarah's expertise in color theory, typography, and layout has resulted in a website that not only looks aesthetically pleasing but also effectively communicates our brand message. Working with Sarah was an absolute pleasure, as she maintained open lines of communication, incorporated our feedback seamlessly, and delivered the project on time.",
+          "name": "John Smith",
+          "role": "Chief Financial Officer – Route",
+          "avatar": "/img/img/test_avatar_1.jpg",
+          "avatarAlt": "John Smith testimonial"
+        },
+        {
+          "id": 2,
+          "content": "I am thrilled to provide this testimonial for James Thompson, the talented photographer behind our editorial photography project. James's artistic eye, technical proficiency, and ability to capture the essence of our subject matter have exceeded our expectations. His keen attention to detail and composition have resulted in stunning images that truly tell a story.",
+          "name": "Sophia Rodriguez",
+          "role": "CMO – Lumina Designs",
+          "avatar": "/img/img/test_avatar_2.jpg",
+          "avatarAlt": "Sophia Rodriguez testimonial"
+        },
+        {
+          "id": 3,
+          "content": "From the initial concept development to the final execution, Emily's ability to understand our brand values and target audience was evident throughout the entire process. She masterfully crafted a visually compelling and cohesive brand identity that perfectly reflects our company's mission and vision. Emily's expertise in color psychology, typography, and graphic design resulted in a brand that stands out in a crowded marketplace.",
+          "name": "Isabella Adams",
+          "role": "Creative Director – InfiniTech",
+          "avatar": "/img/img/test_avatar_3.jpg",
+          "avatarAlt": "Isabella Adams testimonial"
+        }
+      ]
+    },
+    "awards": {
+      "title": "Recognizing Outstanding Accomplishments: Our Distinguished Awards",
+      "headers": {
+        "project": "PROJECT",
+        "honors": "HONORS",
+        "year": "YEAR"
+      },
+      "items": [
+        {
+          "id": 1,
+          "project": "Pastel Ladies",
+          "honor": "Featured Branding Awards",
+          "year": "2019"
+        },
+        {
+          "id": 2,
+          "project": "UXUnleashed",
+          "honor": "Site of the day.",
+          "year": "2022"
+        },
+        {
+          "id": 3,
+          "project": "Vibrant Horizons",
+          "honor": "Photo of the year.",
+          "year": "2022"
+        },
+        {
+          "id": 4,
+          "project": "Spirits of #Illusion",
+          "honor": "Studio of the Month",
+          "year": "2018"
+        }
+      ]
+    },
+    "cta": {
+      "text": "When you choose Arman Machine Koosha, you're choosing a partner who is as passionate about your success as you are.",
+      "button": "START A PROJECT"
+    },
     "services": [
       {
         "id": "webDesign",
@@ -356,19 +521,21 @@
     "description": "Comprehensive services tailored to your needs",
     "heroText": "With a steadfast commitment to delivering exceptional solutions, we strive to exceed your expectations and help you achieve your goals.",
     "heroSubtext": "Unlock new horizons and pave the way for your success.",
+    "scrollButton": "Scroll to Discover",
+    "marqueeTitle": "Repair Department",
+    "heroImage": "/img/img/ag_exp_vert_3.jpg",
+    "heroImageAlt": "Single Image",
     "whyChooseUs": {
       "title": "Why choose us?",
       "description": "At Nayla™, we understand that choosing the right partner is crucial for your success. Here's why you should choose us:",
       "mainHeading": "From Strategy to Execution, We Have You Covered",
       "mainDescription": "From strategic planning to flawless execution, we combine innovation and expertise to address your unique needs and drive remarkable outcomes. Our dedicated team of professionals is passionate about delivering excellence and exceeding expectations.",
-      "heroImage": "/img/img/ag_exp_vert_3.jpg",
-      "heroImageAlt": "Services - Industrial solutions",
       "mainImage": "/img/img/agency_mag.jpg",
-      "mainImageAlt": "Strategy and execution services",
+      "mainImageAlt": "Single Image",
       "officeImages": [
         {
           "id": 1,
-          "src": "/img/img/office_1.jpg",
+          "src": "/ /img/office_1.jpg",
           "alt": "Office environment 1"
         },
         {
@@ -376,7 +543,13 @@
           "src": "/img/img/office_3.jpg",
           "alt": "Office environment 2"
         }
-      ]
+      ],
+      "bottomText": "Unlock new opportunities and elevate your organization to new heights of success."
+    },
+    "enablingSuccess": {
+      "heading": "Enabling Your Success",
+      "subheading": "How we help you?",
+      "description": "From the initial stages of understanding your requirements to the final implementation, we guide you every step of the way. With deep industry knowledge and a collaborative approach, we empower you to overcome challenges and seize opportunities."
     }
   },
   "works": {

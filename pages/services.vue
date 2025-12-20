@@ -10,9 +10,7 @@
                     <!-- Text -->
                     <div class="text-wrapper">
 
-                        <p class="text-h4 has-anim-text linesUp">With a steadfast commitment to delivering <a
-                                href="#.">exceptional</a> solutions, we strive to exceed your expectations and
-                            help you achieve your goals.</p>
+                        <p class="text-h4 has-anim-text linesUp">{{ $t('services.heroText') }}</p>
 
                     </div>
                     <!--/ Text -->
@@ -24,7 +22,7 @@
                     <!-- Nayla Button -->
                     <div class="nayla-button underline icon-right" data-icon="arrow_downward">
 
-                        <a href="#">Scroll to Discover</a>
+                        <a href="#">{{ $t('services.scrollButton') }}</a>
 
                     </div>
                     <!--/Nayla Button -->
@@ -40,7 +38,7 @@
                     <!-- Single Image -->
                     <div class="single-image has-anim-image slideUp imgScale">
 
-                        <NuxtImg alt="Single Image" src="/img/img/ag_exp_vert_3.jpg" format="webp" quality="80"
+                        <NuxtImg :alt="$t('services.heroImageAlt')" :src="$t('services.heroImage')" format="webp" quality="80"
                             loading="lazy" placeholder sizes="xs:100vw sm:100vw md:33vw lg:25vw xl:300px"
                             :modifiers="{ fit: 'cover' }" />
 
@@ -50,7 +48,7 @@
                     <!-- Text -->
                     <div class="text-wrapper">
 
-                        <p class="text-h6">Unlock new horizons and pave the way for your success.</p>
+                        <p class="text-h6">{{ $t('services.heroSubtext') }}</p>
 
                     </div>
                     <!--/ Text -->
@@ -62,7 +60,7 @@
                         <!-- Nayla Marquee -->
                         <div class="nayla-marquee right-to-left" data-duration="7" data-seperator="">
 
-                            <p class="big-title">Repair Department <span> </span></p>
+                            <p class="big-title">{{ $t('services.marqueeTitle') }} <span> </span></p>
 
                         </div>
                         <!--/Nayla Marquee -->
@@ -86,7 +84,7 @@
                     <!-- Nayla Heading -->
                     <div class="nayla-heading icon-left icon-fill" data-icon="fiber_manual_record">
 
-                        <p>Why choose us?</p>
+                        <p>{{ $t('services.whyChooseUs.title') }}</p>
 
                     </div>
                     <!--/Nayla Heading -->
@@ -98,8 +96,7 @@
                     <!-- Text -->
                     <div class="text-wrapper">
 
-                        <p class="text-h4">At Nayla™, we understand that choosing the right partner is crucial
-                            for your success. Here's why you should choose us:</p>
+                        <p class="text-h4">{{ $t('services.whyChooseUs.description') }}</p>
 
                     </div>
                     <!--/ Text -->
@@ -115,7 +112,7 @@
                     <!-- Single Image -->
                     <div class="single-image has-anim-image slideUp imgScale">
 
-                        <NuxtImg alt="Single Image" src="/img/img/agency_mag.jpg" format="webp" quality="80"
+                        <NuxtImg :alt="$t('services.whyChooseUs.mainImageAlt')" :src="$t('services.whyChooseUs.mainImage')" format="webp" quality="80"
                             loading="lazy" placeholder sizes="xs:100vw sm:100vw md:50vw lg:33vw xl:400px"
                             :modifiers="{ fit: 'cover' }" />
 
@@ -134,8 +131,7 @@
                     <!-- Text -->
                     <div class="text-wrapper">
 
-                        <p class="text-h1 has-anim-text linesMask" data-scrub=true>From Strategy to Execution,
-                            We Have <br>You Covered</p>
+                        <p class="text-h1 has-anim-text linesMask" data-scrub=true>{{ $t('services.whyChooseUs.mainHeading') }}</p>
 
                     </div>
                     <!--/Text -->
@@ -151,10 +147,7 @@
                     <!-- Text -->
                     <div class="text-wrapper">
 
-                        <p class="text-h6">From strategic planning to flawless execution, we combine innovation
-                            and expertise to address your unique needs and drive remarkable outcomes. Our
-                            dedicated team of professionals is passionate about delivering excellence and
-                            exceeding expectations.</p>
+                        <p class="text-h6">{{ $t('services.whyChooseUs.mainDescription') }}</p>
 
                     </div>
                     <!--/Text -->
@@ -215,7 +208,7 @@
                     <!-- Text -->
                     <div class="text-wrapper">
 
-                        <p>Unlock new opportunities and elevate your organization to new heights of success.</p>
+                        <p>{{ $t('services.whyChooseUs.bottomText') }}</p>
 
                     </div>
                     <!--/Text -->
@@ -237,7 +230,7 @@
 
                         <div class="nayla-heading icon-left icon-fill" data-icon="fiber_manual_record">
 
-                            <p>Enabling Your Success</p>
+                            <p>{{ $t('services.enablingSuccess.heading') }}</p>
 
                         </div>
 
@@ -254,7 +247,7 @@
                         <!-- Text -->
                         <div class="text-wrapper">
 
-                            <p class="text-h3">How we help you?</p>
+                            <p class="text-h3">{{ $t('services.enablingSuccess.subheading') }}</p>
 
                         </div>
                         <!--/Text -->
@@ -262,10 +255,7 @@
                         <!-- Text -->
                         <div class="text-wrapper">
 
-                            <p class="text-h6">From the initial stages of understanding your requirements to the
-                                final implementation, we guide you every step of the way. With deep industry
-                                knowledge and a collaborative approach, we empower you to overcome challenges
-                                and seize opportunities. </p>
+                            <p class="text-h6">{{ $t('services.enablingSuccess.description') }}</p>
 
                         </div>
                         <!--/Text -->
