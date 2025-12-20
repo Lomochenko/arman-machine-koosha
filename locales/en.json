@@ -76,7 +76,7 @@
         "description": "We thrive on pushing boundaries and embracing innovation. Our team is constantly exploring new technologies, ideas, and strategies to provide you with cutting-edge solutions that give you a competitive edge.",
         "image": "/img/img/ag_exp_vert_5.jpg",
         "imageAlt": "Production Department - Industrial machinery and equipment",
-        "link": "/services"
+        "link": "products"
       },
       {
         "id": "commercial",
@@ -84,7 +84,7 @@
         "description": "At our agency, we understand that building a strong brand identity is key to achieving success in today's competitive market. That's why we offer a comprehensive brand strategy service that helps businesses.",
         "image": "/img/img/ag_exp_vert_2.jpg",
         "imageAlt": "Commercial Department - Business solutions and consulting",
-        "link": "/works"
+        "link": "commercial"
       },
       {
         "id": "repair",
@@ -92,7 +92,7 @@
         "description": "We specialize in designing intuitive and engaging user experiences that prioritize usability and functionality. Our user interface design process focuses on creating intuitive interfaces that are both aesthetically pleasing and easy to use.",
         "image": "/img/img/ag_exp_vert_3.jpg",
         "imageAlt": "Repair Department - Maintenance and repair services",
-        "link": "/services"
+        "link": "repair"
       }
     ],
     "commitmentCards": [

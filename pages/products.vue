@@ -150,10 +150,10 @@ import GalleryLightbox from '../components/shared/GalleryLightbox.vue'
 
 // SEO Configuration
 useSEO({
-    title: 'Works',
+    title: 'Products',
     description: 'Explore our latest projects and portfolio. Showcasing innovative design, web development, photography, and creative work.',
     image: '/img/img/agency_mag.jpg',
-    keywords: 'portfolio, projects, works, design, web design, photography, branding, Arman Machine Koosha',
+    keywords: 'portfolio, projects, products, design, web design, photography, branding, Arman Machine Koosha',
 });
 
 // Gallery state

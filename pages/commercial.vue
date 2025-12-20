@@ -258,12 +258,12 @@
 
 <script setup lang="ts">
 import { useSEO } from '../composables/useSEO'
-// SEO Configuration
+
 useSEO({
-    title: 'Services',
-    description: 'Discover our exceptional services including brand strategy, web design, development, and creative solutions to help you achieve your goals.',
+    title: 'Commercial Department',
+    description: 'Discover our commercial department services including brand strategy, business solutions, and consulting to help you achieve your goals.',
     image: '/img/ag_exp_vert_3.jpg',
-    keywords: 'services, brand strategy, web design, development, creative solutions, Arman Machine Koosha',
+    keywords: 'commercial, business solutions, consulting, brand strategy, Arman Machine Koosha',
 });
 </script>
 

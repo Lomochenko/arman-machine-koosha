@@ -91,13 +91,13 @@
           <!-- Menu -->
           <ul class="menu little-menu">
             <li>
-              <NuxtLink to="/services" class="menu-link has-anim slideUp">{{ $t('navigation.commercialDept') }}</NuxtLink>
+              <NuxtLink :to="getLocalizedPath('commercial')" class="menu-link has-anim slideUp">{{ $t('navigation.commercialDept') }}</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/works" class="menu-link has-anim slideUp">{{ $t('navigation.productionDept') }}</NuxtLink>
+              <NuxtLink :to="getLocalizedPath('products')" class="menu-link has-anim slideUp">{{ $t('navigation.productionDept') }}</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/services" class="menu-link has-anim slideUp">{{ $t('navigation.repairDept') }}</NuxtLink>
+              <NuxtLink :to="getLocalizedPath('repair')" class="menu-link has-anim slideUp">{{ $t('navigation.repairDept') }}</NuxtLink>
             </li>
 
           </ul>
@@ -111,13 +111,13 @@
           <ul class="menu little-menu">
 
             <li>
-              <NuxtLink to="/" class="menu-link has-anim slideUp">{{ $t('navigation.home') }}</NuxtLink>
+              <NuxtLink :to="getLocalizedPath('home')" class="menu-link has-anim slideUp">{{ $t('navigation.home') }}</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/about" class="menu-link has-anim slideUp">{{ $t('navigation.about') }}</NuxtLink>
+              <NuxtLink :to="getLocalizedPath('about')" class="menu-link has-anim slideUp">{{ $t('navigation.about') }}</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/contact" class="menu-link has-anim slideUp">{{ $t('navigation.contact') }}</NuxtLink>
+              <NuxtLink :to="getLocalizedPath('contact')" class="menu-link has-anim slideUp">{{ $t('navigation.contact') }}</NuxtLink>
             </li>
           </ul>
           <!--/ Main Menu -->
@@ -126,13 +126,13 @@
           <ul class="menu little-menu show-mobile mobile-departments">
 
             <li>
-              <NuxtLink to="/services" class="menu-link has-anim slideUp">{{ $t('navigation.commercialDept') }}</NuxtLink>
+              <NuxtLink :to="getLocalizedPath('commercial')" class="menu-link has-anim slideUp">{{ $t('navigation.commercialDept') }}</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/works" class="menu-link has-anim slideUp">{{ $t('navigation.productionDept') }}</NuxtLink>
+              <NuxtLink :to="getLocalizedPath('products')" class="menu-link has-anim slideUp">{{ $t('navigation.productionDept') }}</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/services" class="menu-link has-anim slideUp">{{ $t('navigation.repairDept') }}</NuxtLink>
+              <NuxtLink :to="getLocalizedPath('repair')" class="menu-link has-anim slideUp">{{ $t('navigation.repairDept') }}</NuxtLink>
             </li>
 
           </ul>
@@ -182,9 +182,11 @@
 
 <script setup lang="ts">
 import { useLanguage } from '../composables/useLanguage'
+import { useLocalizedRoute } from '../composables/useLocalizedRoute'
 import { onMounted } from 'vue'
 
 const { switchLanguage, initializeDirection, getCurrentLanguage } = useLanguage()
+const { getLocalizedPath } = useLocalizedRoute()
 
 onMounted(() => {
   initializeDirection()

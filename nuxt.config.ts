@@ -114,15 +114,21 @@ export default defineNuxtConfig({
     url: 'https://armanmachinekoosha.com',
   },
 
-  sitemap: {
+    sitemap: {
     hostname: 'https://armanmachinekoosha.com',
     gzip: true,
     routes: [
       '/',
-      '/works',
       '/about',
-      '/services',
-      '/contact'
+      '/درباره-ما',
+      '/commercial',
+      '/بازرگانی',
+      '/repair',
+      '/تعمیرات',
+      '/products',
+      '/محصولات',
+      '/contact',
+      '/تماس-با-ما'
     ],
     defaults: {
       changefreq: 'weekly',
@@ -152,7 +158,7 @@ export default defineNuxtConfig({
     // Prerender static pages for better initial load
     prerender: {
       crawlLinks: true,
-      routes: ['/sitemap.xml', '/robots.txt', '/', '/works', '/about', '/services', '/contact'],
+      routes: ['/sitemap.xml', '/robots.txt', '/', '/about', '/commercial', '/repair', '/products', '/contact'],
     },
 
     // Configure caching headers for optimal performance
@@ -166,9 +172,10 @@ export default defineNuxtConfig({
 
       // Cache pages for 1 hour with revalidation
       '/': { headers: { 'cache-control': 'public, max-age=3600, must-revalidate' } },
-      '/works': { headers: { 'cache-control': 'public, max-age=3600, must-revalidate' } },
       '/about': { headers: { 'cache-control': 'public, max-age=3600, must-revalidate' } },
-      '/services': { headers: { 'cache-control': 'public, max-age=3600, must-revalidate' } },
+      '/commercial': { headers: { 'cache-control': 'public, max-age=3600, must-revalidate' } },
+      '/repair': { headers: { 'cache-control': 'public, max-age=3600, must-revalidate' } },
+      '/products': { headers: { 'cache-control': 'public, max-age=3600, must-revalidate' } },
       '/contact': { headers: { 'cache-control': 'public, max-age=3600, must-revalidate' } },
     },
   },

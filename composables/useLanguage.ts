@@ -4,9 +4,12 @@
  */
 
 import { useI18n } from 'vue-i18n'
+import { useRouter, useRoute } from 'vue-router'
 
 export const useLanguage = () => {
   const { locale } = useI18n()
+  const router = useRouter()
+  const route = useRoute()
   
   /**
    * Switch language with transition animation
@@ -60,6 +63,13 @@ export const useLanguage = () => {
           locale.value = newLocale
           updateDirection(newLocale)
           localStorage.setItem('locale', newLocale)
+
+          // Navigate to localized route
+          const currentPath = route.path
+          const targetPath = getTargetPath(currentPath, newLocale)
+          if (targetPath !== currentPath) {
+            router.push(targetPath)
+          }
 
           // Start transition OUT after a brief pause
           setTimeout(() => {
@@ -184,6 +194,29 @@ export const useLanguage = () => {
     }
   }
   
+  /**
+   * Get target path for language switch
+   */
+  const getTargetPath = (currentPath: string, targetLocale: string): string => {
+    const routeMap: Record<string, { en: string; fa: string }> = {
+      '/': { en: '/', fa: '/' },
+      '/about': { en: '/about', fa: '/درباره-ما' },
+      '/درباره-ما': { en: '/about', fa: '/درباره-ما' },
+      '/commercial': { en: '/commercial', fa: '/بازرگانی' },
+      '/بازرگانی': { en: '/commercial', fa: '/بازرگانی' },
+      '/repair': { en: '/repair', fa: '/تعمیرات' },
+      '/تعمیرات': { en: '/repair', fa: '/تعمیرات' },
+      '/products': { en: '/products', fa: '/محصولات' },
+      '/محصولات': { en: '/products', fa: '/محصولات' },
+      '/contact': { en: '/contact', fa: '/تماس-با-ما' },
+      '/تماس-با-ما': { en: '/contact', fa: '/تماس-با-ما' },
+    }
+
+    const route = routeMap[currentPath]
+    if (!route) return currentPath
+    return targetLocale === 'fa' ? route.fa : route.en
+  }
+
   /**
    * Get language button text (shows the language you'll switch TO, not current)
    * When page is in English → Button shows "FA" (clicking switches to Persian)
