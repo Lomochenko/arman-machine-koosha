@@ -309,7 +309,6 @@
     ]
   },
   "about": {
-    "marqueeTitle": "About Our Company-",
     "heroImage": "/img/img/agency_2.jpg",
     "heroImageAlt": "About Arman Machine Koosha - Company overview",
     "intro": [
@@ -413,7 +412,6 @@
       ]
     },
     "testimonials": {
-      "sectionTitle": "What they said?",
       "navigation": {
         "prev": "PREV",
         "next": "NEXT"

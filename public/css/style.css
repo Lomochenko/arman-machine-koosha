@@ -9581,13 +9581,13 @@ ul.nayla-awards-list li:hover::before {
     opacity: 1;
 }
 
-ul.nayla-awards-list li:hover {
+/* ul.nayla-awards-list li:hover {
     color: var(--mainBackground);
 }
 
 ul.nayla-awards-list li:hover {
     color: var(--mainBackground);
-}
+} */
 
 
 

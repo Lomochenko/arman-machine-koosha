@@ -10,7 +10,7 @@
                             <!-- Marquee -->
                             <div class="nayla-marquee right-to-left" data-duration="10" data-seperator="">
 
-                                <p class="big-title">{{ $t('about.marqueeTitle') }}</p>
+                                <p class="big-title">About Our Company</p>
 
                             </div>
                             <!--/ Marquee -->
@@ -275,75 +275,56 @@
                     <!-- our team -->
 
 
-                    <div class="wrapper">
+                   <!-- testimonials -->
+                    <div class="wrapper-full">
 
-                        <div class="c-col-4 sm-12">
+                        <div class="c-col-8 sm-12 col-center">
 
-                            <!-- Text -->
-                            <div class="text-wrapper">
-
-                                <p>{{ $t('about.testimonials.sectionTitle') }}</p>
-
-                            </div>
-                            <!--/Text -->
-
-                        </div>
-
-                        <div class="c-col-8 sm-12">
-
-                            <!-- Nayla Testimonials -->
+                            <!-- Testimonials -->
                             <div class="nayla-testimonials">
 
                                 <!-- Testimonials Nav -->
                                 <div class="testimonials-nav">
 
-                                    <!-- Testimonials Fraction -->
-                                    <div class="testimonials-fraction">
-
-                                        <span class="test_current">01</span>
-                                        <span class="test_total"></span>
-
-                                    </div>
-                                    <!--/Testimonials Fraction -->
-
-                                    <!-- Testimonials Navigation -->
+                                    <!-- Navigation -->
                                     <div class="testimonials-navigation">
 
-                                        <span class="test-prev">{{ $t('about.testimonials.navigation.prev') }}</span>
-                                        <span class="test-next">{{ $t('about.testimonials.navigation.next') }}</span>
+                                        <span class="test-prev fs125">{{ $t('home.testimonials.previous') }}</span>
+                                        <span class="test-next fs125">{{ $t('home.testimonials.next') }}</span>
 
                                     </div>
-                                    <!--/Testimonials Navigation -->
+                                    <!--/ Navigation -->
 
                                 </div>
-                                <!--/Testimonials Nav -->
+                                <!--/ Testimonials Nav -->
 
                                 <!-- Testimonials Wrapper -->
                                 <div class="testimonials-wrapper">
 
                                     <!-- Testimonial -->
                                     <div 
-                                        v-for="testimonial in $tm('about.testimonials.items')" 
+                                        v-for="testimonial in $tm('home.testimonials.items')" 
                                         :key="testimonial.id" 
                                         class="testimonial"
                                     >
 
-                                        <!-- Testimonials Content -->
+                                        <!-- Content -->
                                         <div class="testimonial-content text-h4">
 
-                                            {{ testimonial.content }}
-                                        </div>
-                                        <!--/Testmonial Content -->
+                                            {{ testimonial.description }}
 
-                                        <!-- Testimonial Meta -->
+                                        </div>
+                                        <!--/ Content -->
+
+                                        <!-- Meta -->
                                         <div class="testimonial-meta">
 
-                                            <!-- Testimonial Avatar -->
+                                            <!-- Avatar -->
                                             <div class="testimonial-avatar">
 
                                                 <NuxtImg
-                                                    :src="testimonial.avatar"
                                                     :alt="testimonial.avatarAlt"
+                                                    :src="testimonial.avatar"
                                                     format="webp"
                                                     quality="80"
                                                     loading="lazy"
@@ -353,33 +334,33 @@
                                                 />
 
                                             </div>
-                                            <!--/Testimonial Avatar -->
+                                            <!--/ Avatar -->
 
-                                            <!-- Testimonial Title -->
-                                            <div class="testimonial-title">
+                                            <!-- Title -->
+                                            <div class="testimonial-title fs125">
 
                                                 {{ testimonial.name }}
-                                                <br>
-                                                {{ testimonial.role }}
+                                                <br>{{ testimonial.role }}
 
                                             </div>
-                                            <!--/Testimonial Title -->
+                                            <!--/ Title -->
 
                                         </div>
-                                        <!--/Testimonial Meta -->
+                                        <!--/ Meta -->
 
                                     </div>
-                                    <!--/Testimonial -->
+                                    <!--/ Testimonial -->
 
                                 </div>
-                                <!--/Testimonials Wrapper -->
+                                <!--/ Testimonials Wrapper -->
 
                             </div>
-                            <!--/Nayla Testimonials -->
+                            <!--/ Testimonials -->
 
                         </div>
 
                     </div>
+                    <!-- testimonials -->
 
                 </div>
 
@@ -410,7 +391,7 @@
                             <div class="nayla-awards">
 
                                 <!-- Awards Detects -->
-                                <div class="nayla-awards-head detect-pov">
+                                <div class="nayla-awards-head detect-pov fs11">
 
                                     <div class="nah-col wordsUp">{{ $t('about.awards.headers.project') }}</div>
                                     <div class="nah-col wordsUp">{{ $t('about.awards.headers.honors') }}</div>
@@ -427,7 +408,7 @@
                                         style="text-transform: uppercase">
 
                                         <!-- Awards Item -->
-                                        <li v-for="award in $tm('about.awards.items')" :key="award.id">
+                                        <li class="fs11" v-for="award in $tm('about.awards.items')" :key="award.id">
                                             <span class="awards-col">{{ award.project }}</span>
                                             <span class="awards-col">{{ award.honor }}</span>
                                             <span class="awards-col">{{ award.year }}</span>

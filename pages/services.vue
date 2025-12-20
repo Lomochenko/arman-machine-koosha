@@ -20,7 +20,7 @@
                     <!--/Empty Space -->
 
                     <!-- Nayla Button -->
-                    <div class="nayla-button underline icon-right" data-icon="arrow_downward">
+                    <div class="nayla-button underline icon-right fs125" data-icon="arrow_downward">
 
                         <a href="#">{{ $t('services.scrollButton') }}</a>
 
@@ -84,7 +84,7 @@
                     <!-- Nayla Heading -->
                     <div class="nayla-heading icon-left icon-fill" data-icon="fiber_manual_record">
 
-                        <p>{{ $t('services.whyChooseUs.title') }}</p>
+                        <p class="text-h5">{{ $t('services.whyChooseUs.title') }}</p>
 
                     </div>
                     <!--/Nayla Heading -->
@@ -222,24 +222,7 @@
         <div class="section">
 
             <div class="wrapper">
-
-                <div class="c-col-8 sm-12">
-
-                    <!-- Nayla Heading -->
-                    <div class="nayla-heading">
-
-                        <div class="nayla-heading icon-left icon-fill" data-icon="fiber_manual_record">
-
-                            <p>{{ $t('services.enablingSuccess.heading') }}</p>
-
-                        </div>
-
-                    </div>
-                    <!--/Nayla Heading -->
-
-                </div>
-
-                <div class="c-col-4 sm-12">
+                <div class="c-col-10 sm-12">
 
                     <!-- Nayla Heading -->
                     <div class="nayla-heading">

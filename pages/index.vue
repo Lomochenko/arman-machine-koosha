@@ -81,7 +81,7 @@
                             <!-- Text -->
                             <div class="text-wrapper">
 
-                                <h6 class="has-anim-text linesMask" data-scrub=true>
+                                <h6 class="has-anim-text linesMask fs125" data-scrub=true>
                                     {{ $t('home.founder') }}
                                 </h6>
 
@@ -116,7 +116,7 @@
                             <!-- Text -->
                             <div class="text-wrapper">
 
-                                <h6 class="has-anim-text linesMask" data-scrub=true>
+                                <h6 class="has-anim-text linesMask fs125" data-scrub=true>
                                     {{ $t('home.foundedDate') }}
                                 </h6>
 
@@ -162,7 +162,7 @@
 
                                         <p class="text-h3 has-anim-text wordsUp" data-scrub=true>{{ dept.title }}</p>
 
-                                        <p style="color: #696969">{{ dept.description }}</p>
+                                        <p class="fs125" style="color: #696969">{{ dept.description }}</p>
 
                                     </div>
                                     <!--/ Text -->
@@ -266,7 +266,7 @@
 
                                         <p class="text-h5">{{ card.title }}</p>
 
-                                        <p style="color: #696969">{{ card.description }}</p>
+                                        <p class="fs125" style="color: #bababa">{{ card.description }}</p>
 
                                     </div>
                                     <!--/ Text -->
