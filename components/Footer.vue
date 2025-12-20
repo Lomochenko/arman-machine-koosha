@@ -64,12 +64,12 @@
           <!-- Text -->
           <div class="text-wrapper">
 
-            <p><a href="#.">
+            <p><a href="https://neshan.org/maps/iframe/places/_bvJ2nyxsdY9#c35.883-50.818-19z-0p/35.88268129825633/50.817438355785725">
                 {{ $t('footer.address') }}
               </a>
             </p>
             <iframe :title="$t('footer.mapTitle')" class="w-100"
-              src="https://neshan.org/maps/iframe/places/bdf0d6c8cb3bd0b5fb38b840a9230af7#c35.700-51.338-20z-0p/35.699739/51.338097"
+              src="https://neshan.org/maps/iframe/places/_bvJ2nyxsdY9#c35.883-50.818-19z-0p/35.88268129825633/50.817438355785725"
               allowFullScreen loading="lazy"></iframe>
 
           </div>

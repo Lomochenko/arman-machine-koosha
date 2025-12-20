@@ -13,8 +13,8 @@
           <!--  Site Logo -->
           <nuxt-link to="/" class="site-logo">
 
-            <NuxtImg :alt="$t('header.logoAlt') + ' (Dark)'" class="dark-logo" src="/img/site-logo.png" loading="eager" format="webp" />
-            <NuxtImg :alt="$t('header.logoAlt') + ' (Light)'" class="light-logo" src="/img/site-logo-light.png" loading="eager"
+            <NuxtImg :alt="$t('header.logoAlt') + ' (Dark)'" class="dark-logo" src="/img/img/logo-modified.png" loading="eager" format="webp" />
+            <NuxtImg :alt="$t('header.logoAlt') + ' (Light)'" class="light-logo" src="/img/img/logo-modified.png" loading="eager"
               format="webp" />
 
           </nuxt-link>
@@ -23,9 +23,9 @@
           <!--  Sticky Logo -->
           <nuxt-link to="/" class="sticky-logo">
 
-            <NuxtImg :alt="'Sticky ' + $t('header.logoAlt') + ' (Dark)'" class="sticky-dark-logo" src="/img/sticky_logo.png" loading="eager"
+            <NuxtImg :alt="'Sticky ' + $t('header.logoAlt') + ' (Dark)'" class="sticky-dark-logo" src="/img/img/logo-modified.png" loading="eager"
               format="webp" />
-            <NuxtImg :alt="'Sticky ' + $t('header.logoAlt') + ' (Light)'" class="sticky-light-logo" src="/img/sticky_logo_light.png"
+            <NuxtImg :alt="'Sticky ' + $t('header.logoAlt') + ' (Light)'" class="sticky-light-logo" src="/img/img/logo-modified.png"
               loading="eager" format="webp" />
 
           </nuxt-link>

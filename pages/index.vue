@@ -97,7 +97,7 @@
 
                                 <NuxtImg
                                     alt="Single Image"
-                                    src="/img/img/agency_mag.jpg"
+                                    src="/img/img/logo.jpg"
                                     format="webp"
                                     quality="80"
                                     loading="lazy"
@@ -473,85 +473,7 @@
 
                     </div>
                     <!-- testimonials -->
-                    <!-- our team -->
-                    <div class="wrapper" id="team">
-
-
-                        <div class="c-col-3 sm-12">
-
-                            <!-- Text -->
-                            <div class="text-wrapper pinned" data-pin="#pin1">
-
-                                <p class="text-h2 has-anim-text wordsUp" data-scrub=true>{{ $t('home.team.title') }}</p>
-
-                                <p class="text-h6">{{ $t('home.team.description') }}</p>
-
-                            </div>
-                            <!--/ Text -->
-
-                        </div>
-
-                        <!-- Empty Column (For Spacing) -->
-                        <div class="c-col-1 hide-mobile"></div>
-                        <!--/ Empty Column (For Spacing) -->
-
-                        <div 
-                            v-for="(column, colIndex) in [
-                                $tm('home.team.members').slice(0, 3),
-                                $tm('home.team.members').slice(3, 6)
-                            ]" 
-                            :key="colIndex"
-                            class="c-col-4 sm-12"
-                            :class="{ 'has-parallax': colIndex === 1 }"
-                            :data-parallax-speed="colIndex === 1 ? 15 : undefined"
-                            :id="colIndex === 0 ? 'pin1' : undefined"
-                        >
-
-                            <!-- Nayla Team Member -->
-                            <div 
-                                v-for="member in column" 
-                                :key="member.id" 
-                                class="nayla-team-member"
-                            >
-
-                                <!-- Image -->
-                                <div class="team-member-image">
-
-                                    <NuxtImg
-                                        :alt="member.imageAlt"
-                                        :src="member.image"
-                                        format="webp"
-                                        quality="80"
-                                        loading="lazy"
-                                        placeholder
-                                        sizes="xs:100vw sm:100vw md:50vw lg:25vw xl:300px"
-                                        :modifiers="{ fit: 'cover' }"
-                                    />
-
-                                </div>
-                                <!--/ Image -->
-
-                                <!-- Card -->
-                                <div class="team-member-card">
-
-                                    <!-- Name -->
-                                    <div class="team-member-name text-h6">{{ member.name }}</div>
-                                    <!--/ Name -->
-
-                                    <!-- Title -->
-                                    <div class="team-member-title text-h6">{{ member.role }}</div>
-                                    <!--/ Title -->
-
-                                </div>
-                                <!--/ Card -->
-
-                            </div>
-                            <!--/ Nayla Team Member -->
-
-                        </div>
-
-                    </div>
-                    <!-- our team -->
+                    
 
                 </div>
 

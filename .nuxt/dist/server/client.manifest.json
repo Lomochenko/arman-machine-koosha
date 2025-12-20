@@ -7,12 +7,12 @@
     "module": true,
     "resourceType": "script"
   },
-  "C:/Users/Asus/Desktop/arman-machine-koosha/node_modules/nuxt/dist/app/entry.js": {
+  "D:/code/work/arman-machine-koosha/node_modules/nuxt/dist/app/entry.js": {
     "resourceType": "script",
     "module": true,
     "prefetch": true,
     "preload": true,
     "isEntry": true,
-    "file": "C:/Users/Asus/Desktop/arman-machine-koosha/node_modules/nuxt/dist/app/entry.js"
+    "file": "D:/code/work/arman-machine-koosha/node_modules/nuxt/dist/app/entry.js"
   }
 }

@@ -6,9 +6,9 @@ declare module '@nuxt/schema' {
      */
     ["image"]: typeof import("@nuxt/image").default extends NuxtModule<infer O> ? O : Record<string, any>
     /**
-     * Configuration for `C:/Users/Asus/Desktop/arman-machine-koosha/node_modules/nuxt-site-config/dist/module`
+     * Configuration for `D:/code/work/arman-machine-koosha/node_modules/nuxt-site-config/dist/module`
      */
-    ["site"]: typeof import("C:/Users/Asus/Desktop/arman-machine-koosha/node_modules/nuxt-site-config/dist/module").default extends NuxtModule<infer O> ? O : Record<string, any>
+    ["site"]: typeof import("D:/code/work/arman-machine-koosha/node_modules/nuxt-site-config/dist/module").default extends NuxtModule<infer O> ? O : Record<string, any>
     /**
      * Configuration for `@nuxtjs/sitemap`
      */
@@ -24,9 +24,9 @@ declare module '@nuxt/schema' {
      */
     ["image"]?: typeof import("@nuxt/image").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
     /**
-     * Configuration for `C:/Users/Asus/Desktop/arman-machine-koosha/node_modules/nuxt-site-config/dist/module`
+     * Configuration for `D:/code/work/arman-machine-koosha/node_modules/nuxt-site-config/dist/module`
      */
-    ["site"]?: typeof import("C:/Users/Asus/Desktop/arman-machine-koosha/node_modules/nuxt-site-config/dist/module").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
+    ["site"]?: typeof import("D:/code/work/arman-machine-koosha/node_modules/nuxt-site-config/dist/module").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
     /**
      * Configuration for `@nuxtjs/sitemap`
      */
@@ -35,7 +35,7 @@ declare module '@nuxt/schema' {
      * Configuration for `@nuxt/telemetry`
      */
     ["telemetry"]?: typeof import("@nuxt/telemetry").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
-    modules?: (undefined | null | false | NuxtModule<any> | string | [NuxtModule | string, Record<string, any>] | ["@nuxt/image", Exclude<NuxtConfig["image"], boolean>] | ["C:/Users/Asus/Desktop/arman-machine-koosha/node_modules/nuxt-site-config/dist/module", Exclude<NuxtConfig["site"], boolean>] | ["@nuxtjs/sitemap", Exclude<NuxtConfig["sitemap"], boolean>] | ["@nuxt/telemetry", Exclude<NuxtConfig["telemetry"], boolean>])[],
+    modules?: (undefined | null | false | NuxtModule<any> | string | [NuxtModule | string, Record<string, any>] | ["@nuxt/image", Exclude<NuxtConfig["image"], boolean>] | ["D:/code/work/arman-machine-koosha/node_modules/nuxt-site-config/dist/module", Exclude<NuxtConfig["site"], boolean>] | ["@nuxtjs/sitemap", Exclude<NuxtConfig["sitemap"], boolean>] | ["@nuxt/telemetry", Exclude<NuxtConfig["telemetry"], boolean>])[],
   }
 }
 declare module 'nuxt/schema' {
@@ -46,10 +46,10 @@ declare module 'nuxt/schema' {
      */
     ["image"]: typeof import("@nuxt/image").default extends NuxtModule<infer O> ? O : Record<string, any>
     /**
-     * Configuration for `C:/Users/Asus/Desktop/arman-machine-koosha/node_modules/nuxt-site-config/dist/module`
-     * @see https://www.npmjs.com/package/C:/Users/Asus/Desktop/arman-machine-koosha/node_modules/nuxt-site-config/dist/module
+     * Configuration for `D:/code/work/arman-machine-koosha/node_modules/nuxt-site-config/dist/module`
+     * @see https://www.npmjs.com/package/D:/code/work/arman-machine-koosha/node_modules/nuxt-site-config/dist/module
      */
-    ["site"]: typeof import("C:/Users/Asus/Desktop/arman-machine-koosha/node_modules/nuxt-site-config/dist/module").default extends NuxtModule<infer O> ? O : Record<string, any>
+    ["site"]: typeof import("D:/code/work/arman-machine-koosha/node_modules/nuxt-site-config/dist/module").default extends NuxtModule<infer O> ? O : Record<string, any>
     /**
      * Configuration for `@nuxtjs/sitemap`
      * @see https://www.npmjs.com/package/@nuxtjs/sitemap
@@ -68,10 +68,10 @@ declare module 'nuxt/schema' {
      */
     ["image"]?: typeof import("@nuxt/image").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
     /**
-     * Configuration for `C:/Users/Asus/Desktop/arman-machine-koosha/node_modules/nuxt-site-config/dist/module`
-     * @see https://www.npmjs.com/package/C:/Users/Asus/Desktop/arman-machine-koosha/node_modules/nuxt-site-config/dist/module
+     * Configuration for `D:/code/work/arman-machine-koosha/node_modules/nuxt-site-config/dist/module`
+     * @see https://www.npmjs.com/package/D:/code/work/arman-machine-koosha/node_modules/nuxt-site-config/dist/module
      */
-    ["site"]?: typeof import("C:/Users/Asus/Desktop/arman-machine-koosha/node_modules/nuxt-site-config/dist/module").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
+    ["site"]?: typeof import("D:/code/work/arman-machine-koosha/node_modules/nuxt-site-config/dist/module").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
     /**
      * Configuration for `@nuxtjs/sitemap`
      * @see https://www.npmjs.com/package/@nuxtjs/sitemap
@@ -82,7 +82,7 @@ declare module 'nuxt/schema' {
      * @see https://www.npmjs.com/package/@nuxt/telemetry
      */
     ["telemetry"]?: typeof import("@nuxt/telemetry").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
-    modules?: (undefined | null | false | NuxtModule<any> | string | [NuxtModule | string, Record<string, any>] | ["@nuxt/image", Exclude<NuxtConfig["image"], boolean>] | ["C:/Users/Asus/Desktop/arman-machine-koosha/node_modules/nuxt-site-config/dist/module", Exclude<NuxtConfig["site"], boolean>] | ["@nuxtjs/sitemap", Exclude<NuxtConfig["sitemap"], boolean>] | ["@nuxt/telemetry", Exclude<NuxtConfig["telemetry"], boolean>])[],
+    modules?: (undefined | null | false | NuxtModule<any> | string | [NuxtModule | string, Record<string, any>] | ["@nuxt/image", Exclude<NuxtConfig["image"], boolean>] | ["D:/code/work/arman-machine-koosha/node_modules/nuxt-site-config/dist/module", Exclude<NuxtConfig["site"], boolean>] | ["@nuxtjs/sitemap", Exclude<NuxtConfig["sitemap"], boolean>] | ["@nuxt/telemetry", Exclude<NuxtConfig["telemetry"], boolean>])[],
   }
   interface RuntimeConfig {
    app: {
