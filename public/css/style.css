@@ -2401,15 +2401,19 @@ div[data-elementor-type="sub-menu-type"] {
 #site-navigation.fullscreen_menu ul.little-menu li{
 font-size: 1.5rem !important;
 }
-.fs125{
-font-size: 1.25rem !important;
-}
 .fs_75{
     font-size: 0.75rem !important;
 }
 .fs1{
     font-size: 1rem !important;
 }
+.fs11{
+    font-size: 1.1rem !important;
+}
+.fs125{
+font-size: 1.25rem !important;
+}
+
 .fs150{
     font-size: 1.5rem !important;
 }

@@ -1,7 +1,35 @@
 {
+  "seo": {
+    "home": {
+      "title": "Arman Machine Koosha - Industrial Machinery Solutions",
+      "description": "Leading provider of industrial machinery solutions since 1999. Specializing in production, commercial, and repair services.",
+      "keywords": "industrial machinery, production equipment, commercial machinery, repair services, Arman Machine Koosha"
+    },
+    "about": {
+      "title": "About Us - Arman Machine Koosha",
+      "description": "Learn about Arman Machine Koosha's journey in providing exceptional industrial machinery solutions and services.",
+      "keywords": "about us, company history, industrial solutions, machinery expertise"
+    },
+    "services": {
+      "title": "Our Services - Arman Machine Koosha",
+      "description": "Comprehensive industrial machinery services including production, commercial, and repair departments.",
+      "keywords": "machinery services, production department, commercial department, repair services"
+    },
+    "works": {
+      "title": "Our Projects - Arman Machine Koosha",
+      "description": "Explore our latest projects and portfolio showcasing innovative industrial solutions.",
+      "keywords": "portfolio, projects, works, industrial solutions"
+    },
+    "contact": {
+      "title": "Contact Us - Arman Machine Koosha",
+      "description": "Get in touch with Arman Machine Koosha. Start your project with us today.",
+      "keywords": "contact, get in touch, start project"
+    }
+  },
   "header": {
     "tagline": "#1 in our industry.",
-    "startProject": "START A PROJECT"
+    "startProject": "START A PROJECT",
+    "logoAlt": "Arman Machine Koosha Logo"
   },
   "navigation": {
     "home": "Home",
@@ -18,33 +46,19 @@
     "instagram": "Instagram",
     "whatsapp": "WhatsApp",
     "facebook": "Facebook",
-    "behance": "Behance"
+    "behance": "Behance",
+    "follow": "FOLLOW"
   },
   "buttons": {
     "callUs": "Call Us",
-    "works": "Works"
+    "works": "Works",
+    "scrollToDiscover": "Scroll to Discover",
+    "viewProject": "View Project"
   },
   "hero": {
     "title": "Arman Machine Koosha.",
     "ctaCallUs": "Call Us",
     "ctaWorks": "Works"
-  },
-  "about": {
-    "marqueeTitle": "About Our Company",
-    "intro1": "At Nayla™, we are driven by a deep-rooted desire to redefine what is possible in the realms of design. Our talented professionals bring together diverse skill sets, bold ideas, and a keen eye for detail to craft captivating experiences that leave a lasting impact.",
-    "intro2": "We believe that creativity has the power to inspire, connect, and transform, and we channel this belief into every project we undertake.",
-    "intro3": "From branding and visual identity to immersive digital experiences, our comprehensive range of services is tailored to meet your unique needs.",
-    "passionStatement": "Our passion for learning and evolving allows us to deliver fresh, dynamic, and impactful work.",
-    "webDesign": "Web Design",
-    "webDesignDesc": "Our web design and development services focus on creating custom, responsive websites that are both visually stunning and user-friendly. From the initial wireframe to the final launch, we collaborate with clients to ensure their website reflects their brand and business needs.",
-    "brandGuidelines": "Brand Guidelines",
-    "brandGuidelinesDesc": "At our agency, we understand that building a strong brand identity is key to achieving success in today's competitive market. That's why we offer a comprehensive brand strategy service that helps businesses establish a strong foundation for their brand. We start by conducting thorough research to understand your target audience, competition, and industry trends.",
-    "visualIdentity": "Visual Identity",
-    "visualIdentityDesc": "Then, we work closely with you to develop a brand positioning statement, messaging platform, and visual identity that sets you apart from the competition. From logo design to brand guidelines, we ensure every touchpoint communicates the right message to your audience, creating a lasting impression and building trust in your brand. With over 10+ years of experience in brand strategy and identity design, we have helped numerous businesses achieve their branding goals and stand out in their respective industries.",
-    "cmsIntegration": "CMS Integration",
-    "cmsIntegrationDesc": "Our content marketing services focus on creating high-quality, engaging content that resonates with your target audience. From blog posts to social media content, we help businesses establish themselves as thought leaders in their industry and build strong relationships with their target audience.",
-    "ecommerce": "E-Commerce",
-    "ecommerceDesc": "We help businesses build and maintain strong relationships with their customers through comprehensive email marketing strategies. From email list building to automated campaigns, we help businesses deliver targeted messages that drive engagement and conversions."
   },
   "home": {
     "since": "since-1999",
@@ -52,59 +66,461 @@
     "founder": "Ali Akbar Raisi",
     "foundedDate": "24TH MAY, 1999",
     "servicesTitle": "OUR SERVICES",
-    "productionDept": "Production Department",
-    "productionDesc": "We thrive on pushing boundaries and embracing innovation. Our team is constantly exploring new technologies, ideas, and strategies to provide you with cutting-edge solutions that give you a competitive edge.",
-    "commercialDept": "Commercial Department",
-    "commercialDesc": "At our agency, we understand that building a strong brand identity is key to achieving success in today's competitive market. That's why we offer a comprehensive brand strategy service that helps businesses.",
-    "repairDept": "Repair Department",
-    "repairDesc": "We specialize in designing intuitive and engaging user experiences that prioritize usability and functionality. Our user interface design process focuses on creating intuitive interfaces that are both aesthetically pleasing and easy to use.",
+    "ourClients": "Our CLIENTS",
     "commitmentStatement": "Together, we will challenge conventions, break barriers, and redefine what is possible.",
     "commitmentStatement2": "mosi gaylord of the world.",
-    "commitmentCardTitle1": "Innovation and Creativity",
-    "commitmentCardDesc1": "Our team is constantly exploring new technologies,ideas, and strategies to provide you with cutting-edge solutions that give you a competitive edge.",
-    "commitmentCardTitle2": "Commitment To Quality",
-    "commitmentCardDesc2": "Your satisfaction is our ultimate goal. We go above and beyond to ensure that our clients are happy with the results. Our commitment to providing exceptional.",
-    "commitmentCardTitle3": "Tailored Solutions",
-    "commitmentCardDesc3": "We believe in understanding your unique needs and customizing our solutions accordingly. Our approach is highly flexible, ensuring.",
-    "testimonialPrevious": "PREV",
-    "testimonialNext": "NEXT",
-    "testimonialUserName1": "John Smith",
-    "testimonialUserName2": "Sophia Rodriguez",
-    "testimonialUserName3": "Isabella Adams",
-    "testimonialUserRole1": "John Smith",
-    "testimonialUserRole2": "Sophia Rodriguez",
-    "testimonialUserRole3": "Isabella Adams",
-    "testimonialDesc1": "I am thrilled to provide this testimonial for James Thompson, the talented photographer behind our editorial photography project. James's artistic eye, technical proficiency, and ability to capture the essence of our subject matter have exceeded our expectations. His keen attention to detail and composition have resulted in stunning images that truly tell a story.",
-    "testimonialDesc2": "I am thrilled to provide this testimonial for James Thompson, the talented photographer behind our editorial photography project. James's artistic eye, technical proficiency, and ability to capture the essence of our subject matter have exceeded our expectations. His keen attention to detail and composition have resulted in stunning images that truly tell a story.",
-    "testimonialDesc3": "I am thrilled to provide this testimonial for James Thompson, the talented photographer behind our editorial photography project. James's artistic eye, technical proficiency, and ability to capture the essence of our subject matter have exceeded our expectations. His keen attention to detail and composition have resulted in stunning images that truly tell a story.",
-    "teamTitle": "our team",
-    "teamDesc": "Our team is the heart and soul of our agency. We are a diverse group of creatives, strategists, and technologists who come together to deliver exceptional results for our clients.",
-    "teamUserName1": "Alice Johnson",
-    "teamUserRole1": "Creative Director",
-    "teamUserName2": "Bob Brown",
-    "teamUserRole2": "UI/UX Designer",
-    "teamUserName3": "Charlie Davis",
-    "teamUserRole3": "Web Developer",
-    "teamUserName4": "David Wilson",
-    "teamUserRole4": "Content Strategist",
-    "teamUserName5": "Eva Martinez",
-    "teamUserRole5": "Graphic Designer",
-    "teamUserName6": "Frank Anderson",
-    "teamUserRole6": "Financial Analyst"
+    "departments": [
+      {
+        "id": "production",
+        "title": "Production Department",
+        "description": "We thrive on pushing boundaries and embracing innovation. Our team is constantly exploring new technologies, ideas, and strategies to provide you with cutting-edge solutions that give you a competitive edge.",
+        "image": "/img/img/ag_exp_vert_5.jpg",
+        "imageAlt": "Production Department - Industrial machinery and equipment",
+        "link": "/services"
+      },
+      {
+        "id": "commercial",
+        "title": "Commercial Department",
+        "description": "At our agency, we understand that building a strong brand identity is key to achieving success in today's competitive market. That's why we offer a comprehensive brand strategy service that helps businesses.",
+        "image": "/img/img/ag_exp_vert_2.jpg",
+        "imageAlt": "Commercial Department - Business solutions and consulting",
+        "link": "/works"
+      },
+      {
+        "id": "repair",
+        "title": "Repair Department",
+        "description": "We specialize in designing intuitive and engaging user experiences that prioritize usability and functionality. Our user interface design process focuses on creating intuitive interfaces that are both aesthetically pleasing and easy to use.",
+        "image": "/img/img/ag_exp_vert_3.jpg",
+        "imageAlt": "Repair Department - Maintenance and repair services",
+        "link": "/services"
+      }
+    ],
+    "commitmentCards": [
+      {
+        "id": 1,
+        "icon": "light_mode",
+        "title": "Innovation and Creativity",
+        "description": "Our team is constantly exploring new technologies,ideas, and strategies to provide you with cutting-edge solutions that give you a competitive edge."
+      },
+      {
+        "id": 2,
+        "icon": "verified",
+        "title": "Commitment To Quality",
+        "description": "Your satisfaction is our ultimate goal. We go above and beyond to ensure that our clients are happy with the results. Our commitment to providing exceptional."
+      },
+      {
+        "id": 3,
+        "icon": "emoji_objects",
+        "title": "Tailored Solutions",
+        "description": "We believe in understanding your unique needs and customizing our solutions accordingly. Our approach is highly flexible, ensuring."
+      }
+    ],
+    "testimonials": {
+      "previous": "PREV",
+      "next": "NEXT",
+      "items": [
+        {
+          "id": 1,
+          "name": "John Smith",
+          "role": "John Smith",
+          "description": "I am thrilled to provide this testimonial for James Thompson, the talented photographer behind our editorial photography project. James's artistic eye, technical proficiency, and ability to capture the essence of our subject matter have exceeded our expectations. His keen attention to detail and composition have resulted in stunning images that truly tell a story.",
+          "avatar": "/img/img/test_avatar_1.jpg",
+          "avatarAlt": "John Smith - Client testimonial"
+        },
+        {
+          "id": 2,
+          "name": "Sophia Rodriguez",
+          "role": "Sophia Rodriguez",
+          "description": "I am thrilled to provide this testimonial for James Thompson, the talented photographer behind our editorial photography project. James's artistic eye, technical proficiency, and ability to capture the essence of our subject matter have exceeded our expectations. His keen attention to detail and composition have resulted in stunning images that truly tell a story.",
+          "avatar": "/img/img/test_avatar_2.jpg",
+          "avatarAlt": "Sophia Rodriguez - Client testimonial"
+        },
+        {
+          "id": 3,
+          "name": "Isabella Adams",
+          "role": "Isabella Adams",
+          "description": "I am thrilled to provide this testimonial for James Thompson, the talented photographer behind our editorial photography project. James's artistic eye, technical proficiency, and ability to capture the essence of our subject matter have exceeded our expectations. His keen attention to detail and composition have resulted in stunning images that truly tell a story.",
+          "avatar": "/img/img/test_avatar_3.jpg",
+          "avatarAlt": "Isabella Adams - Client testimonial"
+        }
+      ]
+    },
+    "team": {
+      "title": "our team",
+      "description": "Our team is the heart and soul of our agency. We are a diverse group of creatives, strategists, and technologists who come together to deliver exceptional results for our clients.",
+      "members": [
+        {
+          "id": 1,
+          "name": "Alice Johnson",
+          "role": "Creative Director",
+          "image": "/img/img/team_member_1.jpg",
+          "imageAlt": "Alice Johnson - Creative Director"
+        },
+        {
+          "id": 2,
+          "name": "Bob Brown",
+          "role": "UI/UX Designer",
+          "image": "/img/img/team_member_2.jpg",
+          "imageAlt": "Bob Brown - UI/UX Designer"
+        },
+        {
+          "id": 3,
+          "name": "Charlie Davis",
+          "role": "Web Developer",
+          "image": "/img/img/team_member_3.jpg",
+          "imageAlt": "Charlie Davis - Web Developer"
+        },
+        {
+          "id": 4,
+          "name": "David Wilson",
+          "role": "Content Strategist",
+          "image": "/img/img/team_member_4.jpg",
+          "imageAlt": "David Wilson - Content Strategist"
+        },
+        {
+          "id": 5,
+          "name": "Eva Martinez",
+          "role": "Graphic Designer",
+          "image": "/img/img/team_member_5.jpg",
+          "imageAlt": "Eva Martinez - Graphic Designer"
+        },
+        {
+          "id": 6,
+          "name": "Frank Anderson",
+          "role": "Financial Analyst",
+          "image": "/img/img/team_member_6.jpg",
+          "imageAlt": "Frank Anderson - Financial Analyst"
+        }
+      ]
+    },
+    "clients": [
+      {
+        "id": 1,
+        "name": "Client 1",
+        "logo": "/img/img/client_1_dark.png",
+        "logoAlt": "Client 1 Logo",
+        "url": "#"
+      },
+      {
+        "id": 2,
+        "name": "Client 2",
+        "logo": "/img/img/client_2_dark.png",
+        "logoAlt": "Client 2 Logo",
+        "url": "#"
+      },
+      {
+        "id": 3,
+        "name": "Client 3",
+        "logo": "/img/img/client_3_dark.png",
+        "logoAlt": "Client 3 Logo",
+        "url": "#"
+      },
+      {
+        "id": 4,
+        "name": "Client 4",
+        "logo": "/img/img/client_4_dark.png",
+        "logoAlt": "Client 4 Logo",
+        "url": "#"
+      },
+      {
+        "id": 5,
+        "name": "Client 5",
+        "logo": "/img/img/client_5_dark.png",
+        "logoAlt": "Client 5 Logo",
+        "url": "#"
+      },
+      {
+        "id": 6,
+        "name": "Client 6",
+        "logo": "/img/img/client_6_dark.png",
+        "logoAlt": "Client 6 Logo",
+        "url": "#"
+      },
+      {
+        "id": 7,
+        "name": "Client 7",
+        "logo": "/img/img/client_7_dark.png",
+        "logoAlt": "Client 7 Logo",
+        "url": "#"
+      },
+      {
+        "id": 8,
+        "name": "Client 8",
+        "logo": "/img/img/client_8_dark.png",
+        "logoAlt": "Client 8 Logo",
+        "url": "#"
+      },
+      {
+        "id": 9,
+        "name": "Client 9",
+        "logo": "/img/img/client_9_dark.png",
+        "logoAlt": "Client 9 Logo",
+        "url": "#"
+      },
+      {
+        "id": 10,
+        "name": "Client 10",
+        "logo": "/img/img/client_10_dark.png",
+        "logoAlt": "Client 10 Logo",
+        "url": "#"
+      },
+      {
+        "id": 11,
+        "name": "Client 11",
+        "logo": "/img/img/client_11_dark.png",
+        "logoAlt": "Client 11 Logo",
+        "url": "#"
+      },
+      {
+        "id": 12,
+        "name": "Client 12",
+        "logo": "/img/img/client_12_dark.png",
+        "logoAlt": "Client 12 Logo",
+        "url": "#"
+      },
+      {
+        "id": 13,
+        "name": "Client 13",
+        "logo": "/img/img/client_13_dark.png",
+        "logoAlt": "Client 13 Logo",
+        "url": "#"
+      },
+      {
+        "id": 14,
+        "name": "Client 14",
+        "logo": "/img/img/client_14_dark.png",
+        "logoAlt": "Client 14 Logo",
+        "url": "#"
+      },
+      {
+        "id": 15,
+        "name": "Client 15",
+        "logo": "/img/img/client_15_dark.png",
+        "logoAlt": "Client 15 Logo",
+        "url": "#"
+      },
+      {
+        "id": 16,
+        "name": "Client 16",
+        "logo": "/img/img/client_16_dark.png",
+        "logoAlt": "Client 16 Logo",
+        "url": "#"
+      }
+    ]
   },
-  "footer": {
-    "collaborate": "Let's collaborate!",
-    "address": "42 West Street, Tehran",
-    "experience": "Experience.",
-    "projects": "Projects."
+  "about": {
+    "marqueeTitle": "About Our Company",
+    "heroImage": "/img/img/agency_2.jpg",
+    "heroImageAlt": "About Arman Machine Koosha - Company overview",
+    "intro": [
+      "At Nayla™, we are driven by a deep-rooted desire to redefine what is possible in the realms of design. Our talented professionals bring together diverse skill sets, bold ideas, and a keen eye for detail to craft captivating experiences that leave a lasting impact.",
+      "We believe that creativity has the power to inspire, connect, and transform, and we channel this belief into every project we undertake.",
+      "From branding and visual identity to immersive digital experiences, our comprehensive range of services is tailored to meet your unique needs."
+    ],
+    "passionStatement": "Our passion for learning and evolving allows us to deliver fresh, dynamic, and impactful work.",
+    "services": [
+      {
+        "id": "webDesign",
+        "title": "Web Design",
+        "description": "Our web design and development services focus on creating custom, responsive websites that are both visually stunning and user-friendly. From the initial wireframe to the final launch, we collaborate with clients to ensure their website reflects their brand and business needs."
+      },
+      {
+        "id": "brandGuidelines",
+        "title": "Brand Guidelines",
+        "description": "At our agency, we understand that building a strong brand identity is key to achieving success in today's competitive market. That's why we offer a comprehensive brand strategy service that helps businesses establish a strong foundation for their brand. We start by conducting thorough research to understand your target audience, competition, and industry trends."
+      },
+      {
+        "id": "visualIdentity",
+        "title": "Visual Identity",
+        "description": "Then, we work closely with you to develop a brand positioning statement, messaging platform, and visual identity that sets you apart from the competition. From logo design to brand guidelines, we ensure every touchpoint communicates the right message to your audience, creating a lasting impression and building trust in your brand. With over 10+ years of experience in brand strategy and identity design, we have helped numerous businesses achieve their branding goals and stand out in their respective industries."
+      },
+      {
+        "id": "cmsIntegration",
+        "title": "CMS Integration",
+        "description": "Our content marketing services focus on creating high-quality, engaging content that resonates with your target audience. From blog posts to social media content, we help businesses establish themselves as thought leaders in their industry and build strong relationships with their target audience."
+      },
+      {
+        "id": "ecommerce",
+        "title": "E-Commerce",
+        "description": "We help businesses build and maintain strong relationships with their customers through comprehensive email marketing strategies. From email list building to automated campaigns, we help businesses deliver targeted messages that drive engagement and conversions."
+      },
+      {
+        "id": "socialMedia",
+        "title": "Social Media",
+        "description": "Our social media marketing services help businesses build and maintain a strong online presence by developing a comprehensive social media strategy that aligns with their business goals. From content creation to community management, we help brands engage with their target audience on social media."
+      }
+    ]
   },
   "services": {
     "title": "Our Services",
-    "description": "Comprehensive services tailored to your needs"
+    "description": "Comprehensive services tailored to your needs",
+    "heroText": "With a steadfast commitment to delivering exceptional solutions, we strive to exceed your expectations and help you achieve your goals.",
+    "heroSubtext": "Unlock new horizons and pave the way for your success.",
+    "whyChooseUs": {
+      "title": "Why choose us?",
+      "description": "At Nayla™, we understand that choosing the right partner is crucial for your success. Here's why you should choose us:",
+      "mainHeading": "From Strategy to Execution, We Have You Covered",
+      "mainDescription": "From strategic planning to flawless execution, we combine innovation and expertise to address your unique needs and drive remarkable outcomes. Our dedicated team of professionals is passionate about delivering excellence and exceeding expectations.",
+      "heroImage": "/img/img/ag_exp_vert_3.jpg",
+      "heroImageAlt": "Services - Industrial solutions",
+      "mainImage": "/img/img/agency_mag.jpg",
+      "mainImageAlt": "Strategy and execution services",
+      "officeImages": [
+        {
+          "id": 1,
+          "src": "/img/img/office_1.jpg",
+          "alt": "Office environment 1"
+        },
+        {
+          "id": 2,
+          "src": "/img/img/office_3.jpg",
+          "alt": "Office environment 2"
+        }
+      ]
+    }
+  },
+  "works": {
+    "marqueeTitle": "Our Latest Projects",
+    "filterLabel": "FILTER:",
+    "filterAll": "All Works",
+    "categories": [
+      {
+        "id": "cat_photography",
+        "name": "Photography"
+      }
+    ],
+    "projects": [
+      {
+        "id": 1,
+        "title": "Life's Stories",
+        "category": "cat_photography",
+        "description": "Moments captured from the streets of urban life, revealing stories through light and shadow with documentary approach.",
+        "featuredImage": "/img/img/projects/lifes-stories_11.jpg",
+        "featuredImageAlt": "Life's Stories Photography Project",
+        "galleryImage": "/img/img/projects/lifes-stories_11.jpg",
+        "galleryImageAlt": "Life's Stories"
+      },
+      {
+        "id": 2,
+        "title": "En - Vogue",
+        "category": "cat_photography",
+        "description": "Fashion forward imagery capturing contemporary style with elegant composition and artistic vision.",
+        "featuredImage": "/img/img/projects/en-vogue_fetured.jpg",
+        "featuredImageAlt": "En-Vogue Photography Project",
+        "galleryImage": "/img/img/projects/en-vogue_6.jpg",
+        "galleryImageAlt": "En-Vogue"
+      },
+      {
+        "id": 3,
+        "title": "NYC Street Life",
+        "category": "cat_photography",
+        "description": "Urban exploration capturing the energy and diversity of New York City streets in candid moments.",
+        "featuredImage": "/img/img/projects/nyc_streetlife-7.jpg",
+        "featuredImageAlt": "NYC Street Life Photography Project",
+        "galleryImage": "/img/img/projects/nyc_streetlife-7.jpg",
+        "galleryImageAlt": "NYC Street Life"
+      },
+      {
+        "id": 4,
+        "title": "Spirits of Illusion",
+        "category": "cat_photography",
+        "description": "Mystical compositions exploring surreal realities and imaginative visual narratives through creative technique.",
+        "featuredImage": "/img/img/projects/spirits-of-illusion_featured.jpg",
+        "featuredImageAlt": "Spirits of Illusion Photography Project",
+        "galleryImage": "/img/img/projects/spirits-of-illusion_featured.jpg",
+        "galleryImageAlt": "Spirits of Illusion"
+      },
+      {
+        "id": 5,
+        "title": "Architexture",
+        "category": "cat_photography",
+        "description": "Architectural photography revealing geometric beauty and structural elegance in the built environment.",
+        "featuredImage": "/img/img/projects/architexture_1.jpg",
+        "featuredImageAlt": "Architexture Photography Project",
+        "galleryImage": "/img/img/projects/architexture_1.jpg",
+        "galleryImageAlt": "Architexture"
+      },
+      {
+        "id": 6,
+        "title": "Beach Brown",
+        "category": "cat_photography",
+        "description": "Coastal landscapes capturing serene beauty of natural seascapes and sandy textures by seaside.",
+        "featuredImage": "/img/img/projects/beach-brown_8.jpg",
+        "featuredImageAlt": "Beach Brown Photography Project",
+        "galleryImage": "/img/img/projects/beach-brown_8.jpg",
+        "galleryImageAlt": "Beach Brown"
+      }
+    ],
+    "ctaMarquee": "Start a project"
   },
   "contact": {
     "title": "Get in touch!",
-    "email": "EMAIL",
-    "phone": "PHONE"
+    "heroImage": "/img/img/photog_contact.jpg",
+    "heroImageAlt": "Contact us - Get in touch",
+    "email": {
+      "label": "EMAIL",
+      "value": "info@armanmachinekoosha.com"
+    },
+    "phone": {
+      "label": "PHONE",
+      "value": "+44 (145) 485 25 69"
+    },
+    "address": {
+      "label": "ADRESS",
+      "value": "1458 FARAH BOLUVEARD\nLOS ANGELES, 145874, USA"
+    },
+    "follow": "FOLLOW",
+    "socialLinks": [
+      {
+        "id": "instagram",
+        "name": "INSTAGRAM",
+        "url": "#"
+      },
+      {
+        "id": "behance",
+        "name": "BEHANCE",
+        "url": "#"
+      }
+    ]
+  },
+  "footer": {
+    "emblemAlt": "Arman Machine Koosha Emblem",
+    "collaborate": "Let's collaborate!",
+    "phone": "0912-1110011",
+    "address": "42 West Street, Tehran",
+    "mapTitle": "company address",
+    "experience": "Experience.",
+    "projects": "Projects.",
+    "experienceYears": 22,
+    "projectsDelivered": 84,
+    "links": [
+      {
+        "id": "services",
+        "name": "Services",
+        "url": "/services"
+      },
+      {
+        "id": "contact",
+        "name": "Contact",
+        "url": "/contact"
+      },
+      {
+        "id": "about",
+        "name": "About",
+        "url": "/about"
+      }
+    ],
+    "socialLinks": [
+      {
+        "id": "instagram",
+        "name": "INSTAGRAM",
+        "url": "/instagram"
+      },
+      {
+        "id": "telegram",
+        "name": "TELEGRAM",
+        "url": "#"
+      }
+    ]
   }
 }

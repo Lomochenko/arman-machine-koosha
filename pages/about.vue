@@ -10,7 +10,7 @@
                             <!-- Marquee -->
                             <div class="nayla-marquee right-to-left" data-duration="10" data-seperator="">
 
-                                <p class="big-title">{{ $t('about.marqueeTitle') }}-</p>
+                                <p class="big-title">About Our Company-</p>
 
                             </div>
                             <!--/ Marquee -->
@@ -27,8 +27,8 @@
                             <div class="single-image">
 
                                 <NuxtImg
-                                    alt="Single Image"
-                                    src="/img/img/agency_2.jpg"
+                                    :alt="$t('about.heroImageAlt')"
+                                    :src="$t('about.heroImage')"
                                     format="webp"
                                     quality="80"
                                     loading="lazy"
@@ -45,25 +45,13 @@
                         <div class="c-col-10 sm-12">
 
                             <!-- Text -->
-                            <div class="text-wrapper">
+                            <div 
+                                v-for="(paragraph, index) in $tm('about.intro')" 
+                                :key="index" 
+                                class="text-wrapper"
+                            >
 
-                                <p class="text-h5">{{ $t('about.intro1') }}</p>
-
-                            </div>
-                            <!--/ Text -->
-
-                            <!-- Text -->
-                            <div class="text-wrapper">
-
-                                <p class="text-h5">{{ $t('about.intro2') }}</p>
-
-                            </div>
-                            <!--/ Text -->
-
-                            <!-- Text -->
-                            <div class="text-wrapper">
-
-                                <p class="text-h5">{{ $t('about.intro3') }}</p>
+                                <p class="text-h5">{{ paragraph }}</p>
 
                             </div>
                             <!--/ Text -->
@@ -99,86 +87,17 @@
                                 <ul class="accordion-wrap">
 
                                     <!-- Item -->
-                                    <li class="accordion-item">
+                                    <li 
+                                        v-for="service in $tm('about.services')" 
+                                        :key="service.id" 
+                                        class="accordion-item"
+                                    >
 
-                                        <div class="accordion-title text-h2">{{ $t('about.webDesign') }}</div>
-
-                                        <div class="accordion-content">
-
-                                            <p class="text-h5">{{ $t('about.webDesignDesc') }}</p>
-
-                                        </div>
-
-                                    </li>
-                                    <!--/ Item -->
-                                    <!-- Item -->
-                                    <li class="accordion-item">
-
-                                        <div class="accordion-title text-h2">{{ $t('about.brandGuidelines') }}</div>
+                                        <div class="accordion-title text-h2">{{ service.title }}</div>
 
                                         <div class="accordion-content">
 
-                                            <p class="text-h6">{{ $t('about.brandGuidelinesDesc') }}</p>
-
-                                        </div>
-
-                                    </li>
-                                    <!--/ Item -->
-
-                                    <!-- Item -->
-                                    <li class="accordion-item">
-
-                                        <div class="accordion-title text-h2">{{ $t('about.visualIdentity') }}</div>
-
-                                        <div class="accordion-content">
-
-                                            <p class="text-h6">{{ $t('about.visualIdentityDesc') }}</p>
-
-                                        </div>
-
-                                    </li>
-                                    <!--/ Item -->
-
-                                    <!-- Item -->
-                                    <li class='accordion-item'>
-
-                                        <div class="accordion-title text-h2">{{ $t('about.cmsIntegration') }}</div>
-
-                                        <div class="accordion-content">
-
-                                            <p class="text-h6">{{ $t('about.cmsIntegrationDesc') }}</p>
-
-                                        </div>
-
-                                    </li>
-                                    <!--/ Item -->
-
-                                    <!-- Item -->
-                                    <li class='accordion-item'>
-
-                                        <div class="accordion-title text-h2">{{ $t('about.ecommerce') }}</div>
-
-                                        <div class="accordion-content">
-
-                                            <p class="text-h6">{{ $t('about.ecommerceDesc') }}</p>
-
-                                        </div>
-
-                                    </li>
-                                    <!--/ Item -->
-
-                                    <!-- Item -->
-                                    <li class='accordion-item'>
-
-                                        <div class="accordion-title text-h2">Social Media</div>
-
-                                        <div class="accordion-content">
-
-                                            <p class="text-h6">Our social media marketing services help businesses build
-                                                and maintain a strong online presence by developing a comprehensive
-                                                social media strategy that aligns with their business goals. From
-                                                content creation to community management, we help brands engage with
-                                                their target audience on social media.</p>
+                                            <p class="text-h6">{{ service.description }}</p>
 
                                         </div>
 

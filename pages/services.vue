@@ -173,9 +173,16 @@
                     <!-- Single Image -->
                     <div class="single-image">
 
-                        <NuxtImg alt="Single Image" src="/img/img/office_1.jpg" format="webp" quality="80"
-                            loading="lazy" placeholder sizes="xs:100vw sm:100vw md:50vw lg:50vw xl:600px"
-                            :modifiers="{ fit: 'cover' }" />
+                        <NuxtImg 
+                            :alt="$tm('services.whyChooseUs.officeImages')[0].alt" 
+                            :src="$tm('services.whyChooseUs.officeImages')[0].src" 
+                            format="webp" 
+                            quality="80"
+                            loading="lazy" 
+                            placeholder 
+                            sizes="xs:100vw sm:100vw md:50vw lg:50vw xl:600px"
+                            :modifiers="{ fit: 'cover' }" 
+                        />
 
                     </div>
                     <!--/Single Image -->
@@ -191,9 +198,16 @@
                     <!-- Single Image -->
                     <div class="single-image">
 
-                        <NuxtImg alt="Single Image" src="/img/img/office_3.jpg" format="webp" quality="80"
-                            loading="lazy" placeholder sizes="xs:100vw sm:100vw md:50vw lg:33vw xl:400px"
-                            :modifiers="{ fit: 'cover' }" />
+                        <NuxtImg 
+                            :alt="$tm('services.whyChooseUs.officeImages')[1].alt" 
+                            :src="$tm('services.whyChooseUs.officeImages')[1].src" 
+                            format="webp" 
+                            quality="80"
+                            loading="lazy" 
+                            placeholder 
+                            sizes="xs:100vw sm:100vw md:50vw lg:33vw xl:400px"
+                            :modifiers="{ fit: 'cover' }" 
+                        />
 
                     </div>
                     <!--/Single Image -->

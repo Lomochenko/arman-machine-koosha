@@ -13,8 +13,8 @@
           <!--  Site Logo -->
           <nuxt-link to="/" class="site-logo">
 
-            <NuxtImg alt="Site Logo (Dark)" class="dark-logo" src="/img/site-logo.png" loading="eager" format="webp" />
-            <NuxtImg alt="Site Logo (Light)" class="light-logo" src="/img/site-logo-light.png" loading="eager"
+            <NuxtImg :alt="$t('header.logoAlt') + ' (Dark)'" class="dark-logo" src="/img/site-logo.png" loading="eager" format="webp" />
+            <NuxtImg :alt="$t('header.logoAlt') + ' (Light)'" class="light-logo" src="/img/site-logo-light.png" loading="eager"
               format="webp" />
 
           </nuxt-link>
@@ -23,9 +23,9 @@
           <!--  Sticky Logo -->
           <nuxt-link to="/" class="sticky-logo">
 
-            <NuxtImg alt="Sticky Logo (Dark)" class="sticky-dark-logo" src="/img/sticky_logo.png" loading="eager"
+            <NuxtImg :alt="'Sticky ' + $t('header.logoAlt') + ' (Dark)'" class="sticky-dark-logo" src="/img/sticky_logo.png" loading="eager"
               format="webp" />
-            <NuxtImg alt="Sticky Logo (Light)" class="sticky-light-logo" src="/img/sticky_logo_light.png"
+            <NuxtImg :alt="'Sticky ' + $t('header.logoAlt') + ' (Light)'" class="sticky-light-logo" src="/img/sticky_logo_light.png"
               loading="eager" format="webp" />
 
           </nuxt-link>
@@ -78,9 +78,9 @@
           <!-- Menu -->
           <ul class="menu">
 
-            <li><NuxtLink class="menu-link has-anim slideUp" to="#" >Telegram</NuxtLink></li>
-            <li><NuxtLink class="menu-link has-anim slideUp" to="#">Instagram</NuxtLink></li>
-            <li><NuxtLink class="menu-link has-anim slideUp" to="#">WhatsApp</NuxtLink></li>
+            <li><NuxtLink class="menu-link has-anim slideUp" to="#" >{{ $t('social.telegram') }}</NuxtLink></li>
+            <li><NuxtLink class="menu-link has-anim slideUp" to="#">{{ $t('social.instagram') }}</NuxtLink></li>
+            <li><NuxtLink class="menu-link has-anim slideUp" to="#">{{ $t('social.whatsapp') }}</NuxtLink></li>
 
           </ul>
           <!--/ Menu -->

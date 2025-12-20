@@ -33,7 +33,7 @@
                             <!-- Text -->
                             <div class="text-wrapper">
 
-                                <p class="text-h1">Get in <br>touch!</p>
+                                <p class="text-h1">{{ $t('contact.title') }}</p>
 
                             </div>
                             <!--/ Text -->
@@ -45,8 +45,8 @@
                             <!-- Text -->
                             <div class="text-wrapper">
 
-                                <p>EMAIL</p>
-                                <p><a href="#"><span class="__cf_email__" data-cfemail="145c5158585b544451405c515951473a575b59">[email&#160;protected]</span></a></p>
+                                <p class="fs125">{{ $t('contact.email.label') }}</p>
+                                <p><a :href="'mailto:' + $t('contact.email.value')"><span class="__cf_email__">{{ $t('contact.email.value') }}</span></a></p>
 
                             </div>
                             <!--/ Text -->
@@ -58,8 +58,8 @@
                             <!-- Text -->
                             <div class="text-wrapper">
 
-                                <p>PHONE</p>
-                                <p><a href="#">+44 (145) 485 25 69</a></p>
+                                <p class="fs125">{{ $t('contact.phone.label') }}</p>
+                                <p><a :href="'tel:' + $t('contact.phone.value')">{{ $t('contact.phone.value') }}</a></p>
 
                             </div>
                             <!--/ Text -->
@@ -71,10 +71,8 @@
                             <!-- Text -->
                             <div class="text-wrapper">
 
-                                <p>ADRESS</p>
-                                <p>1458 FARAH BOLUVEARD
-                                    <br>LOS ANGELES, 145874, USA
-                                </p>
+                                <p class="fs125">{{ $t('contact.address.label') }}</p>
+                                <p v-html="$t('contact.address.value').replace(/\n/g, '<br>')"></p>
 
                             </div>
                             <!--/ Text -->
@@ -84,8 +82,17 @@
                             <!-- Text -->
                             <div class="text-wrapper">
 
-                                <p>FOLLOW</p>
-                                <p><a href="#">INSTAGRAM</a> <a href="#">BEHANCE</a></p>
+                                <p>{{ $t('contact.follow') }}</p>
+                                <p>
+                                    <a 
+                                        v-for="link in $tm('contact.socialLinks')" 
+                                        :key="link.id" 
+                                        :href="link.url"
+                                        style="margin-right: .5em;"
+                                    >
+                                        {{ link.name }}
+                                    </a>
+                                </p>
 
                             </div>
                             <!--/ Text -->
