@@ -29,7 +29,7 @@
                             <div class="nayla-button underline icon-right scroll-button fs125" data-scroll-to="#sec1"
                                 data-icon="arrow_outward">
 
-                                <NuxtLink to="/contact">{{ $t('hero.ctaCallUs') }}</NuxtLink>
+                                <NuxtLink :to="getLocalizedPath('contact')">{{ $t('hero.ctaCallUs') }}</NuxtLink>
 
                             </div>
                             <!--/ Button -->
@@ -41,7 +41,7 @@
                             <!-- Button -->
                             <div class="nayla-button underline icon-right fs125" data-icon="arrow_downward">
 
-                                <NuxtLink to="/works">{{ $t('hero.ctaWorks') }}</NuxtLink>
+                                <NuxtLink :to="getLocalizedPath('products')">{{ $t('hero.ctaWorks') }}</NuxtLink>
 
                             </div>
                             <!--/ Button -->
@@ -93,7 +93,7 @@
                         <div class="c-col-8 sm-12">
 
                             <!-- Single Image -->
-                            <NuxtLink to="/about" class="single-image">
+                            <NuxtLink :to="getLocalizedPath('about')" class="single-image">
 
                                 <NuxtImg
                                     alt="Single Image"
@@ -150,7 +150,7 @@
                             :key="dept.id" 
                             class="wrapper"
                         >
-                            <NuxtLink :to="dept.link">
+                            <NuxtLink :to="getLocalizedPath(dept.link)">
                                 <!-- Empty Column (For Spacing) - only for middle item -->
                                 <div v-if="index === 1" class="c-col-4 hide-mobile"></div>
                                 <!--/ Empty Column (For Spacing) -->
@@ -483,6 +483,10 @@
 
 <script setup lang="ts">
 import { useSEO } from '../composables/useSEO'
+import { useLocalizedRoute } from '../composables/useLocalizedRoute'
+
+const { getLocalizedPath } = useLocalizedRoute()
+
 // SEO Configuration
 useSEO({
   title: 'Home',

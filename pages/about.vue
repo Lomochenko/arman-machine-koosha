@@ -445,7 +445,7 @@
                             <!--/ Text -->
 
                             <!-- Nayla Button -->
-                            <div class="nayla-button underline icon-right" data-icon="arrow_outward">
+                            <div class="nayla-button underline icon-right fs150" data-icon="arrow_outward">
 
                                 <NuxtLink to="/contact">{{ $t('about.cta.button') }}</NuxtLink>
 

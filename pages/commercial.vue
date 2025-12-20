@@ -60,7 +60,7 @@
                         <!-- Nayla Marquee -->
                         <div class="nayla-marquee right-to-left" data-duration="7" data-seperator="">
 
-                            <p class="big-title">{{ $t('services.marqueeTitle') }} <span> </span></p>
+                            <p class="big-title">Commercial Department .</p>
 
                         </div>
                         <!--/Nayla Marquee -->
@@ -82,7 +82,7 @@
                 <div class="c-col-6 sm-12">
 
                     <!-- Nayla Heading -->
-                    <div class="nayla-heading icon-left icon-fill" data-icon="fiber_manual_record">
+                    <div class="nayla-heading icon-left icon-fill">
 
                         <p class="text-h5">{{ $t('services.whyChooseUs.title') }}</p>
 
@@ -258,12 +258,12 @@
 
 <script setup lang="ts">
 import { useSEO } from '../composables/useSEO'
-// SEO Configuration
+
 useSEO({
-    title: 'Services',
-    description: 'Discover our exceptional services including brand strategy, web design, development, and creative solutions to help you achieve your goals.',
+    title: 'Commercial Department',
+    description: 'Discover our commercial department services including brand strategy, business solutions, and consulting to help you achieve your goals.',
     image: '/img/ag_exp_vert_3.jpg',
-    keywords: 'services, brand strategy, web design, development, creative solutions, Arman Machine Koosha',
+    keywords: 'commercial, business solutions, consulting, brand strategy, Arman Machine Koosha',
 });
 </script>
 

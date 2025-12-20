@@ -100,8 +100,14 @@
           <!-- Menu -->
           <ul class="menu">
 
-            <li v-for="link in $tm('footer.links')" :key="link.id" class="fs150" style="padding-bottom: .5em !important;">
-              <NuxtLink :to="link.url">{{ link.name }}</NuxtLink>
+            <li class="fs150" style="padding-bottom: .5em !important;">
+              <NuxtLink :to="getLocalizedPath('commercial')">{{ $t('navigation.commercialDept') }}</NuxtLink>
+            </li>
+            <li class="fs150" style="padding-bottom: .5em !important;">
+              <NuxtLink :to="getLocalizedPath('contact')">{{ $t('navigation.contact') }}</NuxtLink>
+            </li>
+            <li class="fs150" style="padding-bottom: .5em !important;">
+              <NuxtLink :to="getLocalizedPath('about')">{{ $t('navigation.about') }}</NuxtLink>
             </li>
 
           </ul>
@@ -128,6 +134,10 @@
 </template>
 
 <script setup lang="ts">
+import { useLocalizedRoute } from '../composables/useLocalizedRoute'
+
+const { getLocalizedPath } = useLocalizedRoute()
+
 const scrollToTop = () => {
   if (typeof window !== 'undefined') {
     window.scrollTo({ top: 0, behavior: 'smooth' })
