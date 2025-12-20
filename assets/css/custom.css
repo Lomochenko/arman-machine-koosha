@@ -251,7 +251,7 @@ html[dir="rtl"] #footer [class*="c-col-"] {
 
 html[dir="rtl"] #footer .text-wrapper {
   direction: ltr !important;
-  text-align: left !important;
+  /* text-align: left !important; */
 }
 
 html[dir="rtl"] #footer .align-right {

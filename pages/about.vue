@@ -10,7 +10,7 @@
                             <!-- Marquee -->
                             <div class="nayla-marquee right-to-left" data-duration="10" data-seperator="">
 
-                                <p class="big-title">About Our Company-</p>
+                                <p class="big-title">{{ $t('about.marqueeTitle') }}-</p>
 
                             </div>
                             <!--/ Marquee -->
@@ -47,10 +47,7 @@
                             <!-- Text -->
                             <div class="text-wrapper">
 
-                                <p class="text-h5">At Nayla™, we are driven by a deep-rooted desire to redefine what is
-                                    possible in the realms of design. Our talented professionals bring together diverse
-                                    skill sets, bold ideas, and a keen eye for detail to craft captivating experiences
-                                    that leave a lasting impact.</p>
+                                <p class="text-h5">{{ $t('about.intro1') }}</p>
 
                             </div>
                             <!--/ Text -->
@@ -58,10 +55,7 @@
                             <!-- Text -->
                             <div class="text-wrapper">
 
-                                <p class="text-h5">We believe that creativity has the power to inspire, connect, and
-                                    transform, and we channel this belief into every project we undertake.
-
-                                </p>
+                                <p class="text-h5">{{ $t('about.intro2') }}</p>
 
                             </div>
                             <!--/ Text -->
@@ -69,8 +63,7 @@
                             <!-- Text -->
                             <div class="text-wrapper">
 
-                                <p class="text-h5">From branding and visual identity to immersive digital experiences,
-                                    our comprehensive range of services is tailored to meet your unique needs.</p>
+                                <p class="text-h5">{{ $t('about.intro3') }}</p>
 
                             </div>
                             <!--/ Text -->
@@ -90,8 +83,7 @@
                             <!-- Text -->
                             <div class="text-wrapper">
 
-                                <p class="text-h2 has-anim-text wordsUp" data-scrub=true>Our passion for learning and
-                                    evolving allows us to deliver fresh, dynamic, and impactful work.</p>
+                                <p class="text-h2 has-anim-text wordsUp" data-scrub=true>{{ $t('about.passionStatement') }}</p>
 
                             </div>
                             <!--/Text -->
@@ -109,15 +101,11 @@
                                     <!-- Item -->
                                     <li class="accordion-item">
 
-                                        <div class="accordion-title text-h2">Web Design</div>
+                                        <div class="accordion-title text-h2">{{ $t('about.webDesign') }}</div>
 
                                         <div class="accordion-content">
 
-                                            <p class="text-h5">Our web design and development services focus on creating
-                                                custom, responsive websites that are both visually stunning and
-                                                user-friendly. From the initial wireframe to the final launch, we
-                                                collaborate with clients to ensure their website reflects their brand
-                                                and business needs.</p>
+                                            <p class="text-h5">{{ $t('about.webDesignDesc') }}</p>
 
                                         </div>
 
@@ -126,16 +114,11 @@
                                     <!-- Item -->
                                     <li class="accordion-item">
 
-                                        <div class="accordion-title text-h2">Brand Guidelines</div>
+                                        <div class="accordion-title text-h2">{{ $t('about.brandGuidelines') }}</div>
 
                                         <div class="accordion-content">
 
-                                            <p class="text-h6">At our agency, we understand that building a strong brand
-                                                identity is key to achieving success in today's competitive market.
-                                                That's why we offer a comprehensive brand strategy service that helps
-                                                businesses establish a strong foundation for their brand. We start by
-                                                conducting thorough research to understand your target audience,
-                                                competition, and industry trends.</p>
+                                            <p class="text-h6">{{ $t('about.brandGuidelinesDesc') }}</p>
 
                                         </div>
 
@@ -145,18 +128,11 @@
                                     <!-- Item -->
                                     <li class="accordion-item">
 
-                                        <div class="accordion-title text-h2">Visual Identity</div>
+                                        <div class="accordion-title text-h2">{{ $t('about.visualIdentity') }}</div>
 
                                         <div class="accordion-content">
 
-                                            <p class="text-h6">Then, we work closely with you to develop a brand
-                                                positioning statement, messaging platform, and visual identity that sets
-                                                you apart from the competition. From logo design to brand guidelines, we
-                                                ensure every touchpoint communicates the right message to your audience,
-                                                creating a lasting impression and building trust in your brand. With
-                                                over 10+ years of experience in brand strategy and identity design, we
-                                                have helped numerous businesses achieve their branding goals and stand
-                                                out in their respective industries.</p>
+                                            <p class="text-h6">{{ $t('about.visualIdentityDesc') }}</p>
 
                                         </div>
 
@@ -166,15 +142,11 @@
                                     <!-- Item -->
                                     <li class='accordion-item'>
 
-                                        <div class="accordion-title text-h2">CMS Integration</div>
+                                        <div class="accordion-title text-h2">{{ $t('about.cmsIntegration') }}</div>
 
                                         <div class="accordion-content">
 
-                                            <p class="text-h6">Our content marketing services focus on creating
-                                                high-quality, engaging content that resonates with your target audience.
-                                                From blog posts to social media content, we help businesses establish
-                                                themselves as thought leaders in their industry and build strong
-                                                relationships with their target audience.</p>
+                                            <p class="text-h6">{{ $t('about.cmsIntegrationDesc') }}</p>
 
                                         </div>
 
@@ -184,15 +156,11 @@
                                     <!-- Item -->
                                     <li class='accordion-item'>
 
-                                        <div class="accordion-title text-h2">E-Commerce</div>
+                                        <div class="accordion-title text-h2">{{ $t('about.ecommerce') }}</div>
 
                                         <div class="accordion-content">
 
-                                            <p class="text-h6">We help businesses build and maintain strong
-                                                relationships with their customers through comprehensive email marketing
-                                                strategies. From email list building to automated campaigns, we help
-                                                businesses deliver targeted messages that drive engagement and
-                                                conversions.</p>
+                                            <p class="text-h6">{{ $t('about.ecommerceDesc') }}</p>
 
                                         </div>
 

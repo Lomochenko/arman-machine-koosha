@@ -13,9 +13,9 @@
     -->
     <ClientOnly>
       <!-- Page Loader -->
-      <div class="page-loader columns">
+      <!-- <div class="page-loader columns">
         <div class="page-loader-percentage"></div>
-      </div>
+      </div> -->
       <!--/ Page Loader -->
 
       <!-- Page Transitions -->

@@ -26,10 +26,10 @@
                         <div class="c-col-6 align-bottom" style="margin-bottom: 50px">
 
                             <!-- Button -->
-                            <div class="nayla-button underline icon-right scroll-button" data-scroll-to="#sec1"
+                            <div class="nayla-button underline icon-right scroll-button fs125" data-scroll-to="#sec1"
                                 data-icon="arrow_outward">
 
-                                <NuxtLink to="/contact">Call Us</NuxtLink>
+                                <NuxtLink to="/contact">{{ $t('hero.ctaCallUs') }}</NuxtLink>
 
                             </div>
                             <!--/ Button -->
@@ -39,9 +39,9 @@
                         <div class="c-col-6 align-bottom align-right" style="margin-bottom: 50px">
 
                             <!-- Button -->
-                            <div class="nayla-button underline icon-right" data-icon="arrow_downward">
+                            <div class="nayla-button underline icon-right fs125" data-icon="arrow_downward">
 
-                                <NuxtLink to="/works">Works</NuxtLink>
+                                <NuxtLink to="/works">{{ $t('hero.ctaWorks') }}</NuxtLink>
 
                             </div>
                             <!--/ Button -->
@@ -63,13 +63,10 @@
                             <!-- Text -->
                             <div class="text-wrapper align-center">
 
-                                <p class="text-h5">since-1999</p>
+                                <p class="text-h5">{{ $t('home.since') }}</p>
 
-                                <h5 class="has-anim-text charsFadeOn" data-scrub=true>
-                                    Welcome to our cutting-edge digital agency, where we blend innovation, strategy, and
-                                    creativity to propel your brand to new heights in the digital landscape. We are
-                                    passionate about crafting remarkable digital experiences that captivate audiences,
-                                    drive engagement, and fuel business growth.
+                                <h5 class="has-anim-text wordsFadeOn" data-scrub=true>
+                                    {{ $t('home.welcomeText') }}
                                 </h5>
 
                             </div>
@@ -85,7 +82,7 @@
                             <div class="text-wrapper">
 
                                 <h6 class="has-anim-text linesMask" data-scrub=true>
-                                    Ali Akbar Raisi
+                                    {{ $t('home.founder') }}
                                 </h6>
 
                             </div>
@@ -120,7 +117,7 @@
                             <div class="text-wrapper">
 
                                 <h6 class="has-anim-text linesMask" data-scrub=true>
-                                    24TH MAY, 1999
+                                    {{ $t('home.foundedDate') }}
                                 </h6>
 
                             </div>
@@ -155,13 +152,10 @@
                                     <!-- Text -->
                                     <div class="text-wrapper">
 
-                                        <p class="text-h3 has-anim-text wordsUp" data-scrub=true>Production Department
+                                        <p class="text-h3 has-anim-text wordsUp" data-scrub=true>{{ $t('home.productionDept') }}
                                         </p>
 
-                                        <p style="color: #696969">We thrive on pushing boundaries and embracing
-                                            innovation.
-                                            Our team is constantly exploring new technologies, ideas, and strategies to
-                                            provide you with cutting-edge solutions that give you a competitive edge.
+                                        <p style="color: #696969">{{ $t('home.productionDesc') }}
                                         </p>
 
                                     </div>
@@ -204,14 +198,10 @@
                                     <!-- Text -->
                                     <div class="text-wrapper">
 
-                                        <p class="text-h3 has-anim-text wordsUp" data-scrub=true>Commercial Department
+                                        <p class="text-h3 has-anim-text wordsUp" data-scrub=true>{{ $t('home.commercialDept') }}
                                         </p>
 
-                                        <p style="color: #696969">At our agency, we understand that building a strong
-                                            brand
-                                            identity is key to achieving success in today's competitive market. That's
-                                            why
-                                            we offer a comprehensive brand strategy service that helps businesses.</p>
+                                        <p style="color: #696969">{{ $t('home.commercialDesc') }}</p>
 
                                     </div>
                                     <!--/ Text -->
@@ -248,12 +238,9 @@
                                     <!-- Text -->
                                     <div class="text-wrapper">
 
-                                        <p class="text-h3 has-anim-text wordsUp" data-scrub=true>Repair Department</p>
+                                        <p class="text-h3 has-anim-text wordsUp" data-scrub=true>{{ $t('home.repairDept') }}</p>
 
-                                        <p style="color: #696969">We specialize in designing intuitive and engaging user
-                                            experiences that prioritize usability and functionality. Our user interface
-                                            design process focuses on creating intuitive interfaces that are both
-                                            aesthetically pleasing and easy to use.</p>
+                                        <p style="color: #696969">{{ $t('home.repairDesc') }}</p>
 
                                     </div>
                                     <!--/ Text -->
@@ -294,9 +281,7 @@
                             <!-- Text -->
                             <div class="text-wrapper">
 
-                                <p class="text-h2 has-anim-text wordsUp">Together, we will challenge conventions,
-                                    break barriers, and redefine what is
-                                    possible.</p>
+                                <p class="text-h2 has-anim-text wordsUp">{{ $t('home.commitmentStatement') }}</p>
 
                             </div>
                             <!--/ Text -->
@@ -312,11 +297,7 @@
                             <!-- Text -->
                             <div class="text-wrapper">
 
-                                <p class="text-h6 has-anim-text linesUp">With a steadfast commitment to delivering
-                                    exceptional solutions, we strive to exceed your expectations and help you achieve
-                                    your goals.
-
-                                </p>
+                                <p class="text-h6 has-anim-text linesUp">{{ $t('home.commitmentStatement2') }}</p>
 
                             </div>
                             <!--/ Text -->
@@ -352,11 +333,9 @@
                                     <!-- Text -->
                                     <div class="text-wrapper">
 
-                                        <p class="text-h5">Innovation and <br>Creativity</p>
+                                        <p class="text-h5">{{ $t('home.commitmentCardTitle1') }}</p>
 
-                                        <p style="color: #696969">Our team is constantly exploring new technologies,
-                                            ideas, and strategies to provide you with cutting-edge solutions that give
-                                            you a competitive edge.</p>
+                                        <p style="color: #696969">{{ $t('home.commitmentCardDesc1') }}</p>
 
                                     </div>
                                     <!--/ Text -->
@@ -394,11 +373,9 @@
                                     <!-- Text -->
                                     <div class="text-wrapper">
 
-                                        <p class="text-h5">Commitment to <br>Quality</p>
+                                        <p class="text-h5">{{ $t('home.commitmentCardTitle2') }}</p>
 
-                                        <p style="color: #696969">Your satisfaction is our ultimate goal. We go above
-                                            and beyond to ensure that our clients are happy with the results. Our
-                                            commitment to providing exceptional.</p>
+                                        <p style="color: #696969">{{ $t('home.commitmentCardDesc2') }}</p>
 
                                     </div>
                                     <!--/ Text -->
@@ -436,11 +413,9 @@
                                     <!-- Text -->
                                     <div class="text-wrapper">
 
-                                        <p class="text-h5">Tailored <br>Solutions</p>
+                                        <p class="text-h5">{{ $t('home.commitmentCardTitle3') }}</p>
 
-                                        <p style="color: #696969">We believe in understanding your unique needs and
-                                            customizing our solutions accordingly. Our approach is highly flexible,
-                                            ensuring.</p>
+                                        <p style="color: #696969">{{ $t('home.commitmentCardDesc3') }}</p>
 
                                     </div>
                                     <!--/ Text -->
@@ -859,8 +834,8 @@
                                     <!-- Navigation -->
                                     <div class="testimonials-navigation">
 
-                                        <span class="test-prev">PREV</span>
-                                        <span class="test-next">NEXT</span>
+                                        <span class="test-prev fs125">{{$t('home.testimonialPrevious')}}</span>
+                                        <span class="test-next fs125">{{$t('home.testimonialNext')}}</span>
 
                                     </div>
                                     <!--/ Navigation -->
@@ -877,10 +852,7 @@
                                         <!-- Content -->
                                         <div class="testimonial-content text-h4">
 
-                                            "Sarah's expertise in color theory, typography, and layout has resulted in a
-                                            website that not only looks aesthetically pleasing but also effectively
-                                            communicates our brand message. Working with Sarah was an absolute pleasure,
-                                            as she maintained open lines of
+                                            {{$t('home.testimonialDesc1')}}
 
                                         </div>
                                         <!--/ Content -->
@@ -906,10 +878,10 @@
                                             <!--/ Avatar -->
 
                                             <!-- Title -->
-                                            <div class="testimonial-title">
+                                            <div class="testimonial-title fs125">
 
-                                                John Smith
-                                                <br>Chief Financial Officer – Route
+                                                {{ $t('home.testimonialUserName1') }}
+                                                <br>{{ $t('home.testimonialUserRole1') }}
 
                                             </div>
                                             <!--/ Title -->
@@ -926,11 +898,7 @@
                                         <!-- Content -->
                                         <div class="testimonial-content text-h4">
 
-                                            I am thrilled to provide this testimonial for James Thompson, the talented
-                                            photographer behind our editorial photography project. James's artistic eye,
-                                            technical proficiency, and ability to capture the essence of our subject
-                                            matter have exceeded our expectations. His keen attention to detail and
-                                            composition have resulted
+                                            {{$t('home.testimonialDesc2')}}
 
                                         </div>
                                         <!--/ Content -->
@@ -956,10 +924,10 @@
                                             <!--/ Avatar -->
 
                                             <!-- Title -->
-                                            <div class="testimonial-title">
+                                            <div class="testimonial-title fs125">
 
-                                                Sophia Rodriguez
-                                                <br>CMO – Lumina Designs
+                                                {{ $t('home.testimonialUserName2') }}
+                                                <br>{{ $t('home.testimonialUserRole2') }}
 
                                             </div>
                                             <!--/ Title -->
@@ -976,10 +944,7 @@
                                         <!-- Content -->
                                         <div class="testimonial-content text-h4">
 
-                                            From the initial concept development to the final execution, Emily's ability
-                                            to understand our brand values and target audience was evident throughout
-                                            the entire process. She masterfully crafted a visually compelling and
-                                            cohesive brand identity that perfectly
+                                            {{$t('home.testimonialDesc3')}}
 
                                         </div>
                                         <!--/ Content -->
@@ -1005,10 +970,10 @@
                                             <!--/ Avatar -->
 
                                             <!-- Title -->
-                                            <div class="testimonial-title">
+                                            <div class="testimonial-title fs125">
 
-                                                Isabella Adams
-                                                <br>Creative Director – InfiniTech
+                                                {{ $t('home.testimonialUserName3') }}
+                                                <br>{{ $t('home.testimonialUserRole3') }}
 
                                             </div>
                                             <!--/ Title -->
@@ -1038,10 +1003,9 @@
                             <!-- Text -->
                             <div class="text-wrapper pinned" data-pin="#pin1">
 
-                                <p class="text-h1 has-anim-text charsUp" data-scrub=true>Our <br>Team</p>
+                                <p class="text-h2 has-anim-text wordsUp" data-scrub=true>{{$t('home.teamTitle')}}</p>
 
-                                <p class="text-h6">From brainstorming ideas to executing seamless projects, we leverage
-                                    our collective expertise and individual strengths to achieve remarkable outcomes.
+                                <p class="text-h6">{{$t('home.teamDesc')}}
                                 </p>
 
                             </div>
@@ -1079,11 +1043,11 @@
                                 <div class="team-member-card">
 
                                     <!-- Name -->
-                                    <div class="team-member-name text-h6">Emma Johnson</div>
+                                    <div class="team-member-name text-h6">{{$t('home.teamUserName1')}}</div>
                                     <!--/ Name -->
 
                                     <!-- Title -->
-                                    <div class="team-member-title text-h6">Marketing Manager</div>
+                                    <div class="team-member-title text-h6">{{$t('home.teamUserRole1')}}</div>
                                     <!--/ Title -->
 
                                 </div>
@@ -1116,11 +1080,11 @@
                                 <div class="team-member-card">
 
                                     <!-- Name -->
-                                    <div class="team-member-name text-h6">Ethan Davis</div>
+                                    <div class="team-member-name text-h6">{{$t('home.teamUserName2')}}</div>
                                     <!--/ Name -->
 
                                     <!-- Title -->
-                                    <div class="team-member-title text-h6">Senior Software Engineer</div>
+                                    <div class="team-member-title text-h6">{{$t('home.teamUserRole2')}}</div>
                                     <!--/ Title -->
                                 </div>
                                 <!--/Card -->
@@ -1152,11 +1116,11 @@
                                 <div class="team-member-card">
 
                                     <!-- Name -->
-                                    <div class="team-member-name text-h6">Sophia Williams</div>
+                                    <div class="team-member-name text-h6">{{$t('home.teamUserName3')}}</div>
                                     <!--/ Name -->
 
                                     <!-- Title -->
-                                    <div class="team-member-title text-h6">Project Coordinator</div>
+                                    <div class="team-member-title text-h6">{{$t('home.teamUserRole3')}}</div>
                                     <!--/ Title -->
                                 </div>
                                 <!--/ Card -->
@@ -1191,11 +1155,11 @@
                                 <div class="team-member-card">
 
                                     <!-- Name -->
-                                    <div class="team-member-name text-h6">Lucas Martinez </div>
+                                    <div class="team-member-name text-h6">{{$t('home.teamUserName4')}}</div>
                                     <!--/Name -->
 
                                     <!-- Title -->
-                                    <div class="team-member-title text-h6">Operations Manager </div>
+                                    <div class="team-member-title text-h6">{{$t('home.teamUserRole4')}}</div>
                                     <!--/ Title -->
                                 </div>
                                 <!--/ Card -->
@@ -1227,11 +1191,11 @@
                                 <div class="team-member-card">
 
                                     <!-- Name -->
-                                    <div class="team-member-name text-h6">Olivia Brown</div>
+                                    <div class="team-member-name text-h6">{{$t('home.teamUserName5')}}</div>
                                     <!--/ Name -->
 
                                     <!-- Title -->
-                                    <div class="team-member-title text-h6">Graphic Designer</div>
+                                    <div class="team-member-title text-h6">{{$t('home.teamUserRole5')}}</div>
                                     <!--/ Title -->
                                 </div>
                                 <!--/ Card -->
@@ -1262,11 +1226,11 @@
                                 <div class="team-member-card">
 
                                     <!-- Name -->
-                                    <div class="team-member-name text-h6">Mia Anderson</div>
+                                    <div class="team-member-name text-h6">{{$t('home.teamUserName6')}}</div>
                                     <!--/ Name -->
 
                                     <!-- Title -->
-                                    <div class="team-member-title text-h6">Financial Analyst</div>
+                                    <div class="team-member-title text-h6">{{$t('home.teamUserRole6')}}</div>
                                     <!--/ Title -->
                                 </div>
                                 <!--/ Card -->

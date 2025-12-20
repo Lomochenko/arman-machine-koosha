@@ -39,9 +39,9 @@
       <div class="c-col-4 hide-mobile">
 
         <!--  Text -->
-        <div class="text-wrapper hide-sticky align-center">
+        <div dir="ltr" class="text-wrapper hide-sticky align-center">
 
-          <p>#1 in our industry.</p>
+          <p>{{ $t('header.tagline') }}</p>
 
         </div>
         <!--/ Text -->
@@ -78,9 +78,9 @@
           <!-- Menu -->
           <ul class="menu">
 
-            <li><a href="#">Telegram</a></li>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">WhatsApp</a></li>
+            <li><NuxtLink class="menu-link has-anim slideUp" to="#" >Telegram</NuxtLink></li>
+            <li><NuxtLink class="menu-link has-anim slideUp" to="#">Instagram</NuxtLink></li>
+            <li><NuxtLink class="menu-link has-anim slideUp" to="#">WhatsApp</NuxtLink></li>
 
           </ul>
           <!--/ Menu -->
@@ -89,15 +89,15 @@
         <div class="c-col-5 hide-mobile self-center">
 
           <!-- Menu -->
-          <ul class="menu main-menu little-menu">
+          <ul class="menu little-menu">
             <li>
-              <NuxtLink to="/services" class="menu-link">Commercial Department</NuxtLink>
+              <NuxtLink to="/services" class="menu-link has-anim slideUp">{{ $t('navigation.commercialDept') }}</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/works" class="menu-link">Production Department</NuxtLink>
+              <NuxtLink to="/works" class="menu-link has-anim slideUp">{{ $t('navigation.productionDept') }}</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/services" class="menu-link">Repair Department</NuxtLink>
+              <NuxtLink to="/services" class="menu-link has-anim slideUp">{{ $t('navigation.repairDept') }}</NuxtLink>
             </li>
 
           </ul>
@@ -108,31 +108,31 @@
         <div class="c-col-4 sm-12">
 
           <!-- Main Menu -->
-          <ul class="menu main-menu">
+          <ul class="menu little-menu">
 
             <li>
-              <NuxtLink to="/" class="menu-link">Home</NuxtLink>
+              <NuxtLink to="/" class="menu-link has-anim slideUp">{{ $t('navigation.home') }}</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/about" class="menu-link">About</NuxtLink>
+              <NuxtLink to="/about" class="menu-link has-anim slideUp">{{ $t('navigation.about') }}</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/contact" class="menu-link">Contact</NuxtLink>
+              <NuxtLink to="/contact" class="menu-link has-anim slideUp">{{ $t('navigation.contact') }}</NuxtLink>
             </li>
           </ul>
           <!--/ Main Menu -->
 
           <!-- Mobile Department Links (visible only on mobile) -->
-          <ul class="menu main-menu little-menu show-mobile mobile-departments">
+          <ul class="menu little-menu show-mobile mobile-departments">
 
             <li>
-              <NuxtLink to="/services" class="menu-link">Commercial Department</NuxtLink>
+              <NuxtLink to="/services" class="menu-link has-anim slideUp">{{ $t('navigation.commercialDept') }}</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/works" class="menu-link">Production Department</NuxtLink>
+              <NuxtLink to="/works" class="menu-link has-anim slideUp">{{ $t('navigation.productionDept') }}</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/services" class="menu-link">Repair Department</NuxtLink>
+              <NuxtLink to="/services" class="menu-link has-anim slideUp">{{ $t('navigation.repairDept') }}</NuxtLink>
             </li>
 
           </ul>
@@ -141,9 +141,9 @@
           <!-- Mobile social Links (visible only on mobile) -->
           <ul class="menu show-mobile mobile-departments">
 
-            <li><a href="#">Telegram</a></li>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">WhatsApp</a></li>
+            <li><NuxtLink class="menu-link has-anim slideUp" to="#">{{ $t('social.telegram') }}</NuxtLink></li>
+            <li><NuxtLink class="menu-link has-anim slideUp" to="#">{{ $t('social.instagram') }}</NuxtLink></li>
+            <li><NuxtLink class="menu-link has-anim slideUp" to="#">{{ $t('social.whatsapp') }}</NuxtLink></li>
 
           </ul>
           <!--/ Mobile social Links -->
@@ -162,8 +162,7 @@
             <!-- Button -->
             <div class="nayla-button underline icon-right" data-icon="arrow_outward">
 
-              <a href="tel:+1234567890">START A PROJECT</a>
-
+              <a class="fs125" href="tel:+1234567890">{{ $t('header.startProject') }}</a>
             </div>
             <!--/ Button -->
 

@@ -24,7 +24,7 @@
           <!-- Text Wrapper -->
           <div class="text-wrapper">
 
-            <p class="text-h2">Let's collaborate.
+            <p class="text-h2">{{ $t('footer.collaborate') }}
               <br><a href="tel:+1234567890"><span class="__cf_email__">0912-1110011</span></a>
             </p>
 
@@ -38,7 +38,7 @@
           <div class="text-wrapper">
 
             <p>FOLLOW</p>
-            <p><a href="#">INSTAGRAM</a> <a href="#">BEHANCE</a></p>
+            <p><NuxtLink to="/instagram">INSTAGRAM</NuxtLink> <NuxtLink to="#">TELEGRAM</NuxtLink></p>
 
           </div>
           <!--/ Text -->
@@ -56,7 +56,7 @@
           <div class="text-wrapper">
 
             <p><a href="#.">
-                42 West Street,Apt 110,Jordan Tehran
+                {{ $t('footer.address') }}
               </a>
             </p>
             <iframe title="company address" class="w-100"
@@ -74,7 +74,7 @@
             <span class="ct-text count-end">+{{ experienceYears }}</span>
           </div>
           <div class="text-wrapper">
-            <p>Experience.</p>
+            <p class="fs150">{{ $t('footer.experience') }}</p>
           </div>
         </div>
 
@@ -83,7 +83,7 @@
             <span class="ct-text count-end">+{{ projectsDelivered }}</span>
           </div>
           <div class="text-wrapper">
-            <p>Projects delivered.</p>
+            <p class="fs150">{{ $t('footer.projects') }}</p>
           </div>
         </div>
         <div class="c-col-2 sm-8">

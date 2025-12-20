@@ -1,17 +1,110 @@
 {
-  "nav": {
+  "header": {
+    "tagline": "#1 in our industry.",
+    "startProject": "START A PROJECT"
+  },
+  "navigation": {
     "home": "Home",
-    "works": "Works",
     "about": "About",
+    "contact": "Contact",
     "services": "Services",
-    "contact": "Contact"
+    "works": "Works",
+    "commercialDept": "Commercial Department",
+    "productionDept": "Production Department",
+    "repairDept": "Repair Department"
+  },
+  "social": {
+    "telegram": "Telegram",
+    "instagram": "Instagram",
+    "whatsapp": "WhatsApp",
+    "facebook": "Facebook",
+    "behance": "Behance"
+  },
+  "buttons": {
+    "callUs": "Call Us",
+    "works": "Works"
   },
   "hero": {
-    "title": "Arman Machine Koosha",
-    "subtitle": "Creative Digital Solutions"
+    "title": "Arman Machine Koosha.",
+    "ctaCallUs": "Call Us",
+    "ctaWorks": "Works"
+  },
+  "about": {
+    "marqueeTitle": "About Our Company",
+    "intro1": "At Nayla™, we are driven by a deep-rooted desire to redefine what is possible in the realms of design. Our talented professionals bring together diverse skill sets, bold ideas, and a keen eye for detail to craft captivating experiences that leave a lasting impact.",
+    "intro2": "We believe that creativity has the power to inspire, connect, and transform, and we channel this belief into every project we undertake.",
+    "intro3": "From branding and visual identity to immersive digital experiences, our comprehensive range of services is tailored to meet your unique needs.",
+    "passionStatement": "Our passion for learning and evolving allows us to deliver fresh, dynamic, and impactful work.",
+    "webDesign": "Web Design",
+    "webDesignDesc": "Our web design and development services focus on creating custom, responsive websites that are both visually stunning and user-friendly. From the initial wireframe to the final launch, we collaborate with clients to ensure their website reflects their brand and business needs.",
+    "brandGuidelines": "Brand Guidelines",
+    "brandGuidelinesDesc": "At our agency, we understand that building a strong brand identity is key to achieving success in today's competitive market. That's why we offer a comprehensive brand strategy service that helps businesses establish a strong foundation for their brand. We start by conducting thorough research to understand your target audience, competition, and industry trends.",
+    "visualIdentity": "Visual Identity",
+    "visualIdentityDesc": "Then, we work closely with you to develop a brand positioning statement, messaging platform, and visual identity that sets you apart from the competition. From logo design to brand guidelines, we ensure every touchpoint communicates the right message to your audience, creating a lasting impression and building trust in your brand. With over 10+ years of experience in brand strategy and identity design, we have helped numerous businesses achieve their branding goals and stand out in their respective industries.",
+    "cmsIntegration": "CMS Integration",
+    "cmsIntegrationDesc": "Our content marketing services focus on creating high-quality, engaging content that resonates with your target audience. From blog posts to social media content, we help businesses establish themselves as thought leaders in their industry and build strong relationships with their target audience.",
+    "ecommerce": "E-Commerce",
+    "ecommerceDesc": "We help businesses build and maintain strong relationships with their customers through comprehensive email marketing strategies. From email list building to automated campaigns, we help businesses deliver targeted messages that drive engagement and conversions."
+  },
+  "home": {
+    "since": "since-1999",
+    "welcomeText": "Welcome to our cutting-edge digital agency, where we blend innovation, strategy, and creativity to propel your brand to new heights in the digital landscape. We are passionate about crafting remarkable digital experiences that captivate audiences, drive engagement, and fuel business growth.",
+    "founder": "Ali Akbar Raisi",
+    "foundedDate": "24TH MAY, 1999",
+    "servicesTitle": "OUR SERVICES",
+    "productionDept": "Production Department",
+    "productionDesc": "We thrive on pushing boundaries and embracing innovation. Our team is constantly exploring new technologies, ideas, and strategies to provide you with cutting-edge solutions that give you a competitive edge.",
+    "commercialDept": "Commercial Department",
+    "commercialDesc": "At our agency, we understand that building a strong brand identity is key to achieving success in today's competitive market. That's why we offer a comprehensive brand strategy service that helps businesses.",
+    "repairDept": "Repair Department",
+    "repairDesc": "We specialize in designing intuitive and engaging user experiences that prioritize usability and functionality. Our user interface design process focuses on creating intuitive interfaces that are both aesthetically pleasing and easy to use.",
+    "commitmentStatement": "Together, we will challenge conventions, break barriers, and redefine what is possible.",
+    "commitmentStatement2": "mosi gaylord of the world.",
+    "commitmentCardTitle1": "Innovation and Creativity",
+    "commitmentCardDesc1": "Our team is constantly exploring new technologies,ideas, and strategies to provide you with cutting-edge solutions that give you a competitive edge.",
+    "commitmentCardTitle2": "Commitment To Quality",
+    "commitmentCardDesc2": "Your satisfaction is our ultimate goal. We go above and beyond to ensure that our clients are happy with the results. Our commitment to providing exceptional.",
+    "commitmentCardTitle3": "Tailored Solutions",
+    "commitmentCardDesc3": "We believe in understanding your unique needs and customizing our solutions accordingly. Our approach is highly flexible, ensuring.",
+    "testimonialPrevious": "PREV",
+    "testimonialNext": "NEXT",
+    "testimonialUserName1": "John Smith",
+    "testimonialUserName2": "Sophia Rodriguez",
+    "testimonialUserName3": "Isabella Adams",
+    "testimonialUserRole1": "John Smith",
+    "testimonialUserRole2": "Sophia Rodriguez",
+    "testimonialUserRole3": "Isabella Adams",
+    "testimonialDesc1": "I am thrilled to provide this testimonial for James Thompson, the talented photographer behind our editorial photography project. James's artistic eye, technical proficiency, and ability to capture the essence of our subject matter have exceeded our expectations. His keen attention to detail and composition have resulted in stunning images that truly tell a story.",
+    "testimonialDesc2": "I am thrilled to provide this testimonial for James Thompson, the talented photographer behind our editorial photography project. James's artistic eye, technical proficiency, and ability to capture the essence of our subject matter have exceeded our expectations. His keen attention to detail and composition have resulted in stunning images that truly tell a story.",
+    "testimonialDesc3": "I am thrilled to provide this testimonial for James Thompson, the talented photographer behind our editorial photography project. James's artistic eye, technical proficiency, and ability to capture the essence of our subject matter have exceeded our expectations. His keen attention to detail and composition have resulted in stunning images that truly tell a story.",
+    "teamTitle": "our team",
+    "teamDesc": "Our team is the heart and soul of our agency. We are a diverse group of creatives, strategists, and technologists who come together to deliver exceptional results for our clients.",
+    "teamUserName1": "Alice Johnson",
+    "teamUserRole1": "Creative Director",
+    "teamUserName2": "Bob Brown",
+    "teamUserRole2": "UI/UX Designer",
+    "teamUserName3": "Charlie Davis",
+    "teamUserRole3": "Web Developer",
+    "teamUserName4": "David Wilson",
+    "teamUserRole4": "Content Strategist",
+    "teamUserName5": "Eva Martinez",
+    "teamUserRole5": "Graphic Designer",
+    "teamUserName6": "Frank Anderson",
+    "teamUserRole6": "Financial Analyst"
   },
   "footer": {
-    "copyright": "© 2025 Arman Machine Koosha. All rights reserved."
+    "collaborate": "Let's collaborate!",
+    "address": "42 West Street, Tehran",
+    "experience": "Experience.",
+    "projects": "Projects."
+  },
+  "services": {
+    "title": "Our Services",
+    "description": "Comprehensive services tailored to your needs"
+  },
+  "contact": {
+    "title": "Get in touch!",
+    "email": "EMAIL",
+    "phone": "PHONE"
   }
 }
-
