@@ -60,7 +60,7 @@
                         <!-- Nayla Marquee -->
                         <div class="nayla-marquee right-to-left" data-duration="7" data-seperator="">
 
-                            <p class="big-title">{{ $t('services.marqueeTitle') }} <span> </span></p>
+                            <p class="big-title">Commercial Department .</p>
 
                         </div>
                         <!--/Nayla Marquee -->
@@ -82,7 +82,7 @@
                 <div class="c-col-6 sm-12">
 
                     <!-- Nayla Heading -->
-                    <div class="nayla-heading icon-left icon-fill" data-icon="fiber_manual_record">
+                    <div class="nayla-heading icon-left icon-fill">
 
                         <p class="text-h5">{{ $t('services.whyChooseUs.title') }}</p>
 

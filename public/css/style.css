@@ -11583,7 +11583,7 @@ ul.menu.social-menu li a::after {
 }
 
 .nayla-accordion .accordion-toggle {
-    float: right;
+    /* float: right; */
     font-size: inherit;
     -webkit-transition: opacity .3s ease, margin .5s ease, -webkit-transform .5s cubic-bezier(0.2, 0.7, 0.2, 1);
     transition: opacity .3s ease, margin .5s ease, -webkit-transform .5s cubic-bezier(0.2, 0.7, 0.2, 1);
