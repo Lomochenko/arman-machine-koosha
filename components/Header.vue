@@ -11,11 +11,19 @@
         <div class="site-branding">
 
           <!--  Site Logo -->
-          <nuxt-link to="/" class="site-logo">
+         <nuxt-link to="/" class="site-logo">
 
-            <NuxtImg :alt="$t('header.logoAlt') + ' (Dark)'" class="dark-logo" src="/img/img/logo-modified.png" loading="eager" format="webp" />
-            <NuxtImg :alt="$t('header.logoAlt') + ' (Light)'" class="light-logo" src="/img/img/logo-modified.png" loading="eager"
-              format="webp" />
+            <NuxtImg :alt="$t('header.logoAlt') + ' (Dark)'" class="dark-logo" src="/img/img/logo-modified.png"
+            style="width: 50px; height: 50px;"  
+            loading="eager"
+               format="webp"
+               quality="80"
+              :modifiers="{ fit: 'cover' }" />
+            <NuxtImg :alt="$t('header.logoAlt') + ' (Light)'" class="light-logo" src="/img/img/logo-modified.png"
+              loading="eager"
+              format="webp"
+              quality="80"
+              :modifiers="{ fit: 'cover' }" />
 
           </nuxt-link>
           <!--/  Site Logo -->
