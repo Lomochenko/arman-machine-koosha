@@ -51,7 +51,10 @@ export default defineNuxtConfig({
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap' },
+        // English font: DM Sans (weights: 400, 500, 700)
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap' },
+        // Persian font: Parastoo (weights: 400, 500, 700)
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Parastoo:wght@400;500;700&display=swap' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons&display=swap' },
         { rel: 'shortcut icon', href: '/img/site-favicon.png' },
         { rel: 'apple-touch-icon', href: '/img/site-favicon.png' },
@@ -69,6 +72,7 @@ export default defineNuxtConfig({
     }
   },
   css: [
+    '~/assets/css/fonts.css',
     '~/public/css/plugins.css',
     '~/public/css/style.css',
     '~/assets/css/custom.css',

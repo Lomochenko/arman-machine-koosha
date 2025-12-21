@@ -235,7 +235,7 @@ html {
 body {
     margin: 0;
     background-color: var(--mainBackground);
-    font-family: 'DM Sans', sans-serif;
+    font-family: inherit;
     color: var(--mainColor);
 }
 

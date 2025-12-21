@@ -81,6 +81,8 @@ useHead({
     'data-barba': 'wrapper'
   },
   htmlAttrs: {
+    // Set lang attribute for font switching (fonts.css uses html[lang="fa"] and html[lang="en"])
+    lang: locale.value || 'en',
     // Don't set loading class on SSR - only set it client-side
     // This prevents a flash of loading state
   },
@@ -90,6 +92,9 @@ useHead({
 })
 
 onMounted(async () => {
+  // Ensure lang attribute is set on mount (in case it wasn't set during SSR)
+  document.documentElement.setAttribute('lang', locale.value || 'en')
+
   // Add loading class only on client-side
   document.documentElement.classList.add('loading')
 

@@ -170,11 +170,13 @@ export const useLanguage = () => {
   }
   
   /**
-   * Update HTML direction attribute based on locale
+   * Update HTML direction and language attributes based on locale
    */
   const updateDirection = (localeValue: string) => {
     if (typeof window !== 'undefined') {
       const html = document.documentElement
+      // Set lang attribute for font switching (fonts.css uses html[lang="fa"] and html[lang="en"])
+      html.setAttribute('lang', localeValue)
       if (localeValue === 'fa') {
         html.setAttribute('dir', 'rtl')
         html.classList.add('rtl')

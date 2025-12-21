@@ -24,6 +24,20 @@ export default defineNuxtPlugin(({ vueApp }) => {
 
     vueApp.use(i18n)
 
+    // Set HTML attributes for language and direction
+    // This ensures fonts.css applies the correct font based on html[lang] attribute
+    if (typeof window !== 'undefined') {
+      const html = document.documentElement
+      html.setAttribute('lang', storedLocale)
+      if (storedLocale === 'fa') {
+        html.setAttribute('dir', 'rtl')
+        html.classList.add('rtl')
+      } else {
+        html.setAttribute('dir', 'ltr')
+        html.classList.remove('rtl')
+      }
+    }
+
     // Make i18n globally available
     return {
       provide: {
