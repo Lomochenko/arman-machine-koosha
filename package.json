@@ -1,0 +1,29 @@
+{
+  "name": "amk-nuxt",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev --host 0.0.0.0 --port 3016",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@barba/core": "^2.10.3",
+    "@nuxt/image": "^2.0.0",
+    "@nuxtjs/sitemap": "^7.4.7",
+    "gsap": "^3.12.0",
+    "hamsterjs": "^1.1.3",
+    "imagesloaded": "^5.0.0",
+    "jquery": "^3.7.1",
+    "lenis": "^1.3.11",
+    "nuxt": "^3.9.0",
+    "vue": "^3.4.0",
+    "vue-i18n": "^11.1.12"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "^1.0.0"
+  }
+}

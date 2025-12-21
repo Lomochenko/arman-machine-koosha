@@ -1,0 +1,549 @@
+/**
+ * Custom CSS for Nuxt.js SPA
+ * Fixes content flash during page transitions
+ */
+
+/* ============================================
+   Remove Mobile Tap Highlight
+   ============================================ */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a,
+button,
+.menu-toggle,
+.nayla-button,
+.nayla-icon {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Preserve focus visibility for accessibility */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* ============================================
+   FIX Issue 1: Mobile Loader Percentage & Columns Visible
+   ============================================ */
+@media (max-width: 768px) {
+  .page-loader-percentage {
+    font-size: 60px !important;
+    bottom: 60px !important;
+    z-index: 999999 !important;
+    position: fixed !important;
+    display: block !important;
+    visibility: visible !important;
+  }
+  
+  .page-loader-count {
+    font-size: 60px !important;
+  }
+  
+  .page-loader-count span {
+    font-size: 60px !important;
+  }
+  
+  /* Ensure loader columns are visible on mobile */
+  .page-loader .loader-col {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  .page-loader {
+    display: block !important;
+    visibility: visible !important;
+  }
+}
+
+/* ============================================
+   FIX Issue 6: Hero CTAs Visible on Mobile
+   ============================================ */
+@media (max-width: 768px) {
+  /* Ensure hero section has proper height */
+  .hero-section,
+  .section.fullscreen {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Position CTAs at bottom of viewport */
+  .hero-ctas,
+  .nayla-button-group {
+    position: fixed !important;
+    bottom: 2rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 90% !important;
+    max-width: 400px !important;
+    z-index: 10 !important;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 1rem !important;
+  }
+}
+
+/* Hide main content during loading/transitions to prevent content flash */
+html.loading #page {
+  opacity: 0;
+  visibility: hidden;
+  transition: none;
+}
+
+/* FIX Issue 2: Hide mobile menu during page load and transitions */
+html.loading #site-navigation,
+html.loading .menu-overlay {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Ensure menu is hidden by default */
+#site-navigation {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#site-navigation.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* FIX Issue 5: Prevent blue background flash during transitions */
+.nayla-page-transition {
+  background: transparent !important;
+}
+
+.nayla-page-transition .trans-col {
+  background: #191919 !important;
+}
+
+.nayla-page-transition.running {
+  background: transparent !important;
+}
+
+/* Ensure page loader is always on top */
+.page-loader {
+  z-index: 999999 !important;
+}
+
+/* Ensure page transitions are on top of content but below loader */
+.nayla-page-transition {
+  z-index: 999998 !important;
+}
+
+/* Smooth fade-in when loading completes */
+html:not(.loading) #page {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease-in;
+}
+/* ============================================
+   RTL (Right-to-Left) Support for Persian
+   HOME PAGE ONLY - Surgical, section-specific rules
+   ============================================ */
+
+/* ===== GLOBAL RTL BASE ===== */
+html[dir="rtl"] body {
+  direction: rtl;
+}
+
+/* ===== ELEMENTS THAT MUST ALWAYS BE LTR ===== */
+
+/* 1. MOUSE CURSOR - Always LTR positioning */
+/* The cursor uses position:fixed + GSAP transforms (x, y) for positioning.
+   In RTL mode, we must ensure the cursor is completely isolated from RTL effects. */
+html[dir="rtl"] #mouseCursor {
+  direction: ltr !important;
+  /* Reset any RTL transforms that might affect positioning */
+  left: 0 !important;
+  right: auto !important;
+  /* Ensure transform-origin is consistent */
+  transform-origin: center center !important;
+  /* Ensure text direction doesn't affect layout */
+  unicode-bidi: isolate !important;
+}
+
+/* Ensure child elements of cursor are also LTR */
+html[dir="rtl"] #mouseCursor * {
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+}
+
+/* 2. FULLSCREEN MENU (NAVIGATION) - Always LTR layout */
+html[dir="rtl"] #site-navigation.fullscreen_menu {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+html[dir="rtl"] #site-navigation.fullscreen_menu .fullscreen-menu-wrapper {
+  direction: ltr !important;
+}
+
+html[dir="rtl"] #site-navigation.fullscreen_menu .wrapper {
+  direction: ltr !important;
+}
+
+html[dir="rtl"] #site-navigation.fullscreen_menu ul.menu {
+  direction: ltr !important;
+  text-align: right !important;
+}
+
+
+html[dir="rtl"] #site-navigation.fullscreen_menu ul.menu.main-menu {
+  direction: ltr !important;
+  text-align: right !important;
+}
+html[dir="rtl"] .fullscreen_menu ul.menu.main-menu li::before {
+  content: none !important;
+}
+html[dir="rtl"] .header-wrapper .fa-align-left {
+  justify-content: left !important;
+}
+
+html[dir="rtl"] #site-navigation.fullscreen_menu ul.menu.main-menu li {
+  direction: ltr !important;
+  text-align: right !important;
+}
+html[dir="rtl"] .nayla-accordion .accordion-toggle {
+  position: absolute !important;
+  left: 0 !important;
+}
+html[dir="ltr"] .nayla-accordion .accordion-toggle {
+  position: absolute !important;
+  right: 0 !important;
+}
+
+html[dir="rtl"] #site-navigation.fullscreen_menu .c-col-3,
+html[dir="rtl"] #site-navigation.fullscreen_menu .c-col-6,
+html[dir="rtl"] #site-navigation.fullscreen_menu [class*="c-col-"] {
+  float: left !important;
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+html[dir="rtl"] #site-navigation.fullscreen_menu .fullscreen-menu-wrap-bottom {
+  direction: ltr !important;
+}
+
+html[dir="rtl"] #site-navigation.fullscreen_menu .nayla-button {
+  direction: ltr !important;
+}
+
+/* 3. FOOTER - Always LTR layout */
+html[dir="rtl"] #footer.site-footer {
+  direction: ltr !important;
+}
+
+html[dir="rtl"] #footer .footer-wrapper {
+  direction: ltr !important;
+}
+
+html[dir="rtl"] #footer .wrapper {
+  direction: ltr !important;
+}
+
+html[dir="rtl"] #footer [class*="c-col-"] {
+  float: left !important;
+  direction: ltr !important;
+}
+
+html[dir="rtl"] #footer .text-wrapper {
+  direction: ltr !important;
+  /* text-align: left !important; */
+}
+
+html[dir="rtl"] #footer .align-right {
+  text-align: right !important;
+}
+
+html[dir="rtl"] #footer ul.menu {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+html[dir="rtl"] #footer .nayla-icon {
+  direction: ltr !important;
+}
+
+/* 4. PAGE LOADER - Counter stays LTR, Persian text right-aligned */
+html[dir="rtl"] .page-loader {
+  direction: rtl !important;
+}
+
+html[dir="rtl"] .page-loader-percentage {
+  direction: rtl !important;
+  /* Keep position on left side (same as English) */
+  right: 75px !important;
+  bottom: 75px !important;
+}
+@media only screen and (max-width: 450px) {
+    .page-loader-percentage {
+        right: 30px;
+        bottom: 30px;
+    }
+}
+
+html[dir="rtl"] .page-loader-count {
+  direction: ltr !important;
+}
+
+/* 5. PAGE TRANSITION - Caption text right-aligned for Persian */
+html[dir="rtl"] .nayla-page-transition {
+  direction: ltr !important;
+}
+
+html[dir="rtl"] .nayla-page-transition .page-transition-caption {
+  /* Persian text "لطفا صبر کنید" should be right-aligned */
+  direction: rtl !important;
+  text-align: right !important;
+  left: auto !important;
+  right: 75px !important;
+  transform: translate(0, -50%) !important;
+  font-size: 1.20rem !important;
+}
+
+/* Mobile responsive for page transition caption in RTL */
+@media screen and (max-width: 1024px) {
+  html[dir="rtl"] .nayla-page-transition .page-transition-caption {
+    right: 30px !important;
+  }
+}
+
+/* ===== HEADER COMPONENT ===== */
+/* Header layout stays the same - no position changes */
+html[dir="rtl"] .site-header .site-navigation ul {
+  direction: rtl;
+}
+
+html[dir="rtl"] .site-navigation li {
+  float: right;
+}
+
+/* ===== HERO SECTION ===== */
+/* "ARMAN MACHINE KOOSHA" text - Keep centered (no changes) */
+html[dir="rtl"] .md-title.align-center {
+  text-align: center !important;
+}
+
+/* ===== WORKS/PROJECTS SECTION ===== */
+/* Swap positions (mirror horizontally) and right-align text */
+html[dir="rtl"] .portfolio-grid .grid-item {
+  float: right;
+}
+
+html[dir="rtl"] .portfolio-grid .item-details {
+  text-align: right;
+}
+
+html[dir="rtl"] .portfolio-grid .item-title,
+html[dir="rtl"] .portfolio-grid .item-category {
+  text-align: right;
+}
+
+/* ===== "SINCE 1999" SECTION ===== */
+/* Desktop: Keep centered (no changes) */
+/* Mobile: Right-align specific text */
+@media (max-width: 768px) {
+  html[dir="rtl"] .text-wrapper h6 {
+    text-align: right;
+  }
+}
+
+/* ===== "OUR SERVICES" SECTION ===== */
+/* Keep centered (no changes needed) */
+html[dir="rtl"] .services-section .align-center {
+  text-align: center !important;
+}
+
+/* ===== PARENT CATEGORIES SECTION ===== */
+/* Desktop: No changes */
+/* Mobile: Right-align text */
+@media (max-width: 768px) {
+  html[dir="rtl"] .parent-categories .text-wrapper {
+    text-align: right;
+  }
+}
+
+/* ===== "OUR COMMITMENTS" SECTION ===== */
+/* Swap text block positions and right-align */
+html[dir="rtl"] .commitments-section .text-wrapper {
+  text-align: right;
+}
+
+/* Mirror left/right margins */
+html[dir="rtl"] .commitments-section .c-col-6:first-child {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+html[dir="rtl"] .commitments-section .c-col-6:last-child {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* ===== CARDS SECTION ===== */
+/* Right-align text and move icons to right */
+html[dir="rtl"] .nayla-card {
+  text-align: right;
+}
+
+html[dir="rtl"] .nayla-card .card-icon {
+  float: right;
+  margin-left: 20px;
+  margin-right: 0;
+}
+
+html[dir="rtl"] .nayla-card .card-title,
+html[dir="rtl"] .nayla-card .card-description {
+  text-align: right;
+}
+
+/* ===== TESTIMONIALS SECTION ===== */
+/* Right-align text content */
+html[dir="rtl"] .testimonials-section .text-wrapper {
+  text-align: right !important;
+}
+
+html[dir="rtl"] .testimonial-item {
+  text-align: right !important;
+}
+
+html[dir="rtl"] .testimonial-author {
+  text-align: right !important;
+}
+html[dir="rtl"] .testimonial-title {
+  margin-right: 1rem !important;
+}
+
+/* ===== "OUR TEAM" SECTION ===== */
+/* Swap text and images (mirror horizontally) */
+html[dir="rtl"] .team-section .c-col-6 {
+  float: right;
+}
+
+html[dir="rtl"] .team-section .text-wrapper {
+  text-align: right;
+}
+
+/* Mirror left/right margins */
+html[dir="rtl"] .team-section .c-col-6:first-child {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+html[dir="rtl"] .team-section .c-col-6:last-child {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* ===== FOOTER ===== */
+/* Footer is forced to LTR in the "ELEMENTS THAT MUST ALWAYS BE LTR" section above */
+
+/* ===== UTILITY CLASSES ===== */
+/* Override align-right/align-left for RTL (exclude footer and menu) */
+html[dir="rtl"] .align-right:not(#footer .align-right):not(#site-navigation .align-right) {
+  text-align: left !important;
+}
+html[dir="rtl"] .follow-us {
+  text-align: right !important;
+}
+
+html[dir="rtl"] .align-left:not(#footer .align-left):not(#site-navigation .align-left) {
+  text-align: right !important;
+}
+
+/* Keep centered elements centered */
+html[dir="rtl"] .align-center {
+  text-align: center !important;
+}
+
+/* RTL Grid System - Float columns to the right (exclude footer, menu, and cursor) */
+html[dir="rtl"] .wrapper:not(#footer .wrapper):not(#site-navigation .wrapper) > [class*="c-col-"] {
+  float: right;
+}
+
+
+html[dir="rtl"] .grid-project-description,.grid-project-meta>div {
+  text-align: right !important;
+  float: right !important;
+}
+
+/* RTL Buttons - Keep button text in correct direction (exclude menu) */
+html[dir="rtl"] .nayla-button:not(#site-navigation .nayla-button):not(#footer .nayla-button) {
+  direction: rtl;
+}
+
+/* RTL Forms */
+html[dir="rtl"] input,
+html[dir="rtl"] textarea,
+html[dir="rtl"] select {
+  text-align: right;
+  direction: rtl;
+}
+
+/* ===== LANGUAGE SWITCHER ===== */
+/* Keep language button text in LTR (EN/FA should not flip) */
+html[dir="rtl"] .nayla-button a[href="#"] {
+  direction: ltr;
+  display: inline-block;
+}
+
+/* ============================================
+   Cursor Pointer Utility
+   ============================================ */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* ============================================
+   Footer Counter - CSS-based Fade Animation
+   ============================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Footer counter uses CSS fade animation instead of GSAP */
+.footer-counter .count-end {
+  animation: fadeInUp 1s ease-out forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+/* ============================================
+   Show/Hide Mobile Classes
+   ============================================ */
+@media (min-width: 578px) {
+  .show-mobile {
+    display: none !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .show-mobile {
+    display: block !important;
+  }
+}
+
+/* Mobile Department Links Styling */
+.mobile-departments {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
