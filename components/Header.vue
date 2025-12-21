@@ -31,10 +31,10 @@
           <!--  Sticky Logo -->
           <nuxt-link to="/" class="sticky-logo">
 
-            <NuxtImg :alt="'Sticky ' + $t('header.logoAlt') + ' (Dark)'" class="sticky-dark-logo" src="/img/img/logo-modified.png" loading="eager"
-              format="webp" />
-            <NuxtImg :alt="'Sticky ' + $t('header.logoAlt') + ' (Light)'" class="sticky-light-logo" src="/img/img/logo-modified.png"
-              loading="eager" format="webp" />
+            <NuxtImg :alt="'Sticky ' + $t('header.logoAlt') + ' (Dark)'" class="sticky-dark-logo"
+              src="/img/img/logo-modified.png" loading="eager" format="webp" />
+            <NuxtImg :alt="'Sticky ' + $t('header.logoAlt') + ' (Light)'" class="sticky-light-logo"
+              src="/img/img/logo-modified.png" loading="eager" format="webp" />
 
           </nuxt-link>
           <!--/  Sticky Logo -->
@@ -49,7 +49,7 @@
         <!--  Text -->
         <div dir="ltr" class="text-wrapper hide-sticky align-center">
 
-          <p>{{ $t('header.tagline') }}</p>
+          <p class="fs125">{{ $t('header.tagline') }}</p>
 
         </div>
         <!--/ Text -->
