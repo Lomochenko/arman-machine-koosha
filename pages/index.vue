@@ -8,6 +8,7 @@
                     <div class="wrapper">
 
                         <div class="c-col-12"></div>
+                        <div class="c-col-12"></div>
 
                         <div dir="ltr" class="c-col-12 self-center">
 
