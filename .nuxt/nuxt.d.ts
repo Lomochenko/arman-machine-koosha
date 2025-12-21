@@ -1,5 +1,5 @@
-/// <reference types="@nuxt/image" />
 /// <reference types="@nuxtjs/sitemap" />
+/// <reference types="@nuxt/image" />
 /// <reference types="@nuxt/telemetry" />
 /// <reference path="types/builder-env.d.ts" />
 /// <reference types="nuxt" />

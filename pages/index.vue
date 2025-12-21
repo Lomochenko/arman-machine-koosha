@@ -80,7 +80,7 @@
                         <div class="c-col-2 sm-12 self-center">
 
                             <!-- Text -->
-                            <div class="text-wrapper">
+                            <div class="text-wrapper align-center">
 
                                 <h6 class="has-anim-text linesMask fs125" data-scrub=true>
                                     {{ $t('home.founder') }}
@@ -115,7 +115,7 @@
                         <div class="c-col-2 sm-12 self-center">
 
                             <!-- Text -->
-                            <div class="text-wrapper">
+                            <div class="text-wrapper align-center">
 
                                 <h6 class="has-anim-text linesMask fs125" data-scrub=true>
                                     {{ $t('home.foundedDate') }}

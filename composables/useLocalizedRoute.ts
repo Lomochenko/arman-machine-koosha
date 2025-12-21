@@ -9,11 +9,11 @@ import { useRouter } from 'vue-router'
 // Route mapping: English slug -> Persian slug
 const routeMap: Record<string, { en: string; fa: string }> = {
   home: { en: '/', fa: '/' },
-  about: { en: '/about', fa: '/درباره-ما' },
-  commercial: { en: '/commercial', fa: '/بازرگانی' },
-  repair: { en: '/repair', fa: '/تعمیرات' },
-  products: { en: '/products', fa: '/محصولات' },
-  contact: { en: '/contact', fa: '/تماس-با-ما' },
+  about: { en: '/#', fa: '/#' },
+  commercial: { en: '/#', fa: '/#' },
+  repair: { en: '/#', fa: '/#' },
+  products: { en: '/#', fa: '/#' },
+  contact: { en: '/#', fa: '/#' },
 }
 
 export const useLocalizedRoute = () => {
