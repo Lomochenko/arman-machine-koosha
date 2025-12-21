@@ -318,7 +318,6 @@ html[dir="rtl"] .nayla-page-transition .page-transition-caption {
     right: 30px !important;
   }
 }
-
 /* ===== HEADER COMPONENT ===== */
 /* Header layout stays the same - no position changes */
 html[dir="rtl"] .site-header .site-navigation ul {

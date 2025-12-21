@@ -24,6 +24,12 @@ html:not([lang="fa"]) {
 html[lang="fa"] {
   font-family: 'Parastoo', sans-serif;
 }
+.fontFa{
+  font-family:'Parastoo', sans-serif !important ;
+}
+.fontEn{
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
 
 /* ============================================
    Ensure all elements inherit the correct font

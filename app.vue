@@ -14,7 +14,7 @@
     <ClientOnly>
       <!-- Page Loader -->
       <div class="page-loader columns">
-        <div class="page-loader-percentage"></div>
+        <div class="page-loader-percentage fontEn"></div>
       </div>
       <!--/ Page Loader -->
 

@@ -49,7 +49,7 @@
         <!--  Text -->
         <div dir="ltr" class="text-wrapper hide-sticky align-center">
 
-          <p class="fs125">{{ $t('header.tagline') }}</p>
+          <p class="fs150">{{ $t('header.tagline') }}</p>
 
         </div>
         <!--/ Text -->
@@ -61,7 +61,7 @@
         <!-- Language Switcher Button -->
         <div class="nayla-button fill button-sm">
 
-          <a href="#" @click.prevent="switchLanguage" class="-gray">{{ getCurrentLanguage() }}</a>
+          <a href="#" @click.prevent="switchLanguage" class="-gray fontEn">{{ getCurrentLanguage() }}</a>
 
         </div>
         <!--/ Language Switcher Button -->

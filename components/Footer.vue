@@ -35,12 +35,13 @@
 
         <div class="c-col-4 sm-12">
           <!-- Text -->
-          <div class="text-wrapper">
+          <div class="text-wrapper fontEn">
 
-            <p>{{ $t('social.follow') }}</p>
+            <p class="fs150">{{ $t('social.follow') }}</p>
             <p>
               <NuxtLink 
-                v-for="link in $tm('footer.socialLinks')" 
+                v-for="link in $tm('footer.socialLinks')"
+                class="fs125" 
                 :key="link.id" 
                 :to="link.url"
                 style="margin-right: .5em;"
@@ -64,7 +65,7 @@
           <!-- Text -->
           <div class="text-wrapper">
 
-            <p><a href="https://neshan.org/maps/iframe/places/_bvJ2nyxsdY9#c35.883-50.818-19z-0p/35.88268129825633/50.817438355785725">
+            <p class="fs125"><a href="https://neshan.org/maps/iframe/places/_bvJ2nyxsdY9#c35.883-50.818-19z-0p/35.88268129825633/50.817438355785725">
                 {{ $t('footer.address') }}
               </a>
             </p>
@@ -80,16 +81,16 @@
 
         <div class="c-col-2 sm-6 text-center">
           <div class="nayla-number-counter footer-counter" style="font-size: 75px;">
-            <span class="ct-text count-end">+22</span>
+            <span class="ct-text count-end fontEn">+22</span>
           </div>
           <div class="text-wrapper">
-            <p class="fs150">{{ $t('footer.experience') }}</p>
+            <p class="fs150 fontE">{{ $t('footer.experience') }}</p>
           </div>
         </div>
 
         <div class="c-col-2 sm-6 text-center">
           <div class="nayla-number-counter footer-counter" style="font-size: 75px;">
-            <span class="ct-text count-end">+88</span>
+            <span class="ct-text count-end fontEn">+88</span>
           </div>
           <div class="text-wrapper">
             <p class="fs150">{{ $t('footer.projects') }}</p>

@@ -15,7 +15,7 @@
                             <!-- Text -->
                             <div class="text-wrapper align-center no-margin">
 
-                                <p class="md-title no-margin has-anim-text charsUp" data-duration=1.5>
+                                <p class="md-title no-margin has-anim-text charsUp fontEn" data-duration=1.5>
                                     Arman Machine Koosha.
                                 </p>
 
@@ -135,7 +135,7 @@
 
                             <div class="nayla-marquee right-to-left" data-duration="10" data-seperator="">
 
-                                <p class="big-title">OUR SERVICES <span> </span></p>
+                                <p class="big-title fontEn">OUR SERVICES <span> </span></p>
 
                             </div>
 
@@ -219,7 +219,7 @@
                             <!-- Text -->
                             <div class="text-wrapper">
 
-                                <p class="text-h6 has-anim-text linesUp">{{ $t('home.commitmentStatement2') }}</p>
+                                <p class="text-h6 has-anim-text linesUp fs125">{{ $t('home.commitmentStatement2') }}</p>
 
                             </div>
                             <!--/ Text -->
