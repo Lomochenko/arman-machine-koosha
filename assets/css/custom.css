@@ -148,6 +148,32 @@ html:not(.loading) #page {
   transition: opacity 0.3s ease-in;
 }
 /* ============================================
+   Language-Specific Font Switching
+   ============================================ */
+
+/* English Mode (LTR) - DM Sans */
+html[dir="ltr"],
+html[lang="en"] {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+html[dir="ltr"] body,
+html[lang="en"] body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Persian Mode (RTL) - Parastoo */
+html[dir="rtl"],
+html[lang="fa"] {
+  font-family: 'Parastoo', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+html[dir="rtl"] body,
+html[lang="fa"] body {
+  font-family: 'Parastoo', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ============================================
    RTL (Right-to-Left) Support for Persian
    HOME PAGE ONLY - Surgical, section-specific rules
    ============================================ */
