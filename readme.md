@@ -17,22 +17,6 @@ This repository contains the current frontend application for the ARMAN Machine 
 
 ---
 
-## 🧱 Project Structure
-
-├── assets/
-│ └── css/ # Global styling
-├── components/ # Vue components
-├── composables/ # Reusable logic modules
-├── pages/ # Nuxt pages
-├── plugins/ # Vue/Nuxt plugins
-├── public/ # Static assets (images, fonts, etc.)
-├── middleware/ # Route middleware
-├── server/ # (Empty — reserved for APIs)
-├── nuxt.config.ts # Nuxt configuration
-└── package.json
-
----
-
 ## ⚠️ Current Limitations
 - **No database**
 - **No backend API**
