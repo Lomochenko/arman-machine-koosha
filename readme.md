@@ -13,7 +13,7 @@ This repository contains the current frontend application for the ARMAN Machine 
 - Modular components and composables
 - Multi-language support (locales folder)
 - Static content for company and product information
-- Deployed to liara
+- Deployed to vercel
 
 ---
 
@@ -57,7 +57,7 @@ This repository contains the current frontend application for the ARMAN Machine 
 | DB | PostgreSQL |
 | Frontend | Nuxt 3  |
 | Auth | JWT / OAuth |
-| Deployment | liara, Cloud/VM (API) |
+| Deployment | vercel, Cloud/VM (API) |
 
 ---
 
