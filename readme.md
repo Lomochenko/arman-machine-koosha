@@ -19,7 +19,6 @@ This repository contains the current frontend application for the ARMAN Machine 
 
 ## 🧱 Project Structure
 
-.
 ├── assets/
 │ └── css/ # Global styling
 ├── components/ # Vue components
