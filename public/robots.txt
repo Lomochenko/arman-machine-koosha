@@ -3,5 +3,5 @@ Allow: /
 Disallow: /.nuxt/
 Disallow: /node_modules/
 
-Sitemap: https://amk.ir/sitemap.xml
+Sitemap: https://armanmachinekoosha.ir/sitemap.xml
 
