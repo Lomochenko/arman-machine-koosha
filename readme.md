@@ -13,24 +13,7 @@ This repository contains the current frontend application for the ARMAN Machine 
 - Modular components and composables
 - Multi-language support (locales folder)
 - Static content for company and product information
-- Deployed to Vercel
-
----
-
-## 🧱 Project Structure
-
-.
-├── assets/
-│ └── css/ # Global styling
-├── components/ # Vue components
-├── composables/ # Reusable logic modules
-├── pages/ # Nuxt pages
-├── plugins/ # Vue/Nuxt plugins
-├── public/ # Static assets (images, fonts, etc.)
-├── middleware/ # Route middleware
-├── server/ # (Empty — reserved for APIs)
-├── nuxt.config.ts # Nuxt configuration
-└── package.json
+- Deployed to vercel
 
 ---
 
@@ -45,22 +28,22 @@ This repository contains the current frontend application for the ARMAN Machine 
 ## 🛠️ Roadmap (Planned)
 
 ### 1. Add Django Backend
-- Build a separate Django API (Django REST Framework)
+- Build a separate Django API
 - Define models: products, machines, dashboards, users
 - Serve data to the frontend via REST or GraphQL
 
 ### 2. Real-time Dashboard (Nuxt)
 - Create secured admin dashboard in a separate Nuxt app
-- Manage data from Django (CRUD interfaces)
+- Manage data from Django
 - Support live updates and real-time status
 
 ### 3. Optimization
-- Remove `.nuxt` & build artifacts from the repo (use `.gitignore`)
+- Remove `.nuxt` & build artifacts from the repo
 - Improve responsiveness and performance
 - Enable caching and production optimizations
 
 ### 4. Deployment
-- Deploy backend (e.g., DigitalOcean, Render)
+- Deploy backend
 - Deploy frontend with frontend API proxy
 - Setup CI/CD pipeline
 
@@ -71,10 +54,10 @@ This repository contains the current frontend application for the ARMAN Machine 
 | Layer | Technology |
 |-------|------------|
 | API | Django + Django REST Framework |
-| DB | PostgreSQL (Recommended) |
-| Frontend | Nuxt 3 (Current) |
+| DB | PostgreSQL |
+| Frontend | Nuxt 3  |
 | Auth | JWT / OAuth |
-| Deployment | Vercel (frontend), Cloud/VM (API) |
+| Deployment | vercel, Cloud/VM (API) |
 
 ---
 
@@ -93,15 +76,3 @@ This project is being actively developed. Feel free to open PRs, issues, and dis
 ⭐ License
 This project is released under the MIT License. 
 GitHub
-
----
-
-## **Next Step Offer**
-If you want, I can also provide:
-
-1. **Django Backend Boilerplate** (models, API views, JWT auth)
-2. **Nuxt Dashboard Skeleton** (admin routing, API integration)
-3. **CI/CD & Deployment Plan**
-
-Just tell me which one to generate next.
-::contentReference[oaicite:4]{index=4}
